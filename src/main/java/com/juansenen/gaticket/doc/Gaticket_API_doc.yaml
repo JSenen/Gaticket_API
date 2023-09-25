@@ -29,6 +29,109 @@ paths:
             type: string
       responses:
         '200':
-          description: successful operation
-          content:
-            application/json:
+
+components:
+  schemas:
+    Devices:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          example: 12
+        device_hd:
+          type: integer
+          format: int64
+          example: 250
+        device_ram:
+          type: integer
+          format: int64
+          example: 16
+        device_mac:
+          type: string
+          example: '84:32:34:CB:DF:45'
+        device_serial:
+          type: string
+          example: 'KBC456CD'
+        device_model:
+          type: string
+          example: 'EliteBook'
+        device_datebuy:
+          type: integer
+          format: date
+          example: 12/04/2013
+        device_datestart:
+          type: integer
+          format: date
+          example: 12/06/2014
+    Net:
+      type: object
+      properties:
+        netId:
+          type: integer
+          format: int64
+          example: 4
+        net:
+          type: string
+          example: '10.52.2.12'
+    Departments:
+      type: object
+      properties:
+        departmentId:
+          type: integer
+          format: int64
+          example: 23
+        department_name:
+          type: string
+          example: 'Apoyo Logistico'
+        department_phone:
+          type: string
+          example: '07000148'
+        department_mail:
+          type: string
+          format: email
+          example: 'alogistico@gmail.com'
+        department_city:
+          type: string
+          example: 'Barcelona'
+    Users:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+          example: 45
+        user_mail:
+          type: string
+          format: email
+          example: 'pepito@gmail.com'
+        user_password:
+          type: string
+          format: password
+          example: '1234pepito'
+        user_rol:
+          type: string
+          example: 'user'
+    Incidences:
+      type: object
+      properties:
+        incidenceId:
+          type: integer
+          format: int64
+          example: 56
+        incidence_status:
+          type: boolean
+          example: true
+    Types:
+      type: object
+      properties:
+        typeId:
+          type: integer
+          format: int64
+          example: 43
+        type:
+          type: string
+          example: 'Ordenador sobremesa'
+
+
+
