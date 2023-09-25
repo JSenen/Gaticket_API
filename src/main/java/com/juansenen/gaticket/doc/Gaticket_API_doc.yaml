@@ -13,7 +13,7 @@ tags:
   - name: units
   - name: incidences
 paths:
-  /devices/findByUSerialNumber:
+  /devices/findBySerialNumber:
     get:
       tags:
         - devices
@@ -29,8 +29,36 @@ paths:
             type: string
       responses:
         '200':
+          description: Se devuelve los datos del dispositivo seleccionado por el cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devices'
+              examples:
+                Device1:
+                  $ref: '#/components/examples/Device1'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
 components:
+  # Ejemplos
+  examples:
+    Device1:
+      summary: Ejemplo dispositivo
+      value:
+          deviceId: 23
+          device_hd: 240
+          device_ram: 32
+          device_mac: '05:67:BF:65:AD'
+          device_serial: 'FGH435T'
+          device_model: 'HP ElitePro'
+          device_datebuy: 12/04/2013
+          device_datestart: 03/12/2013
+
   schemas:
     Devices:
       type: object
@@ -132,6 +160,57 @@ components:
         type:
           type: string
           example: 'Ordenador sobremesa'
+    BadRequest:
+      properties:
+        errorCode:
+          type: number
+          format: int32
+          example: 404
+        message:
+          type: string
+          example: Bad Request
+    NotFound:
+      properties:
+        errorCode:
+          type: number
+          format: int32
+          example: 404
+    ErrorResponse:
+      properties:
+        errorCode:
+          type: number
+          format: int32
+          example: 500
+        message:
+          type: string
+          example: Validation error
 
-
+  responses:
+    BadRequest:
+      description: Solicitud realizada por el cliente no pudo ser procesada debido a un error en la solicitud. Esto podría deberse a una solicitud malformada, a la ausencia de información requerida en la solicitud o a una solicitud que no cumple con los requisitos del servidor.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequest'
+          example:
+            errorCode: 400
+            message: 'Bad Request'
+    NotFoundException:
+      description: El servidor no pudo encontrar el recurso solicitado. Es decir, el servidor no puede encontrar la linea  que se está buscando.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFound'
+          example:
+            errorCode: 404
+            message: 'Object not found'
+    InternalServerError:
+      description: se ha producido un error interno en el servidor al procesar la solicitud del cliente
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            errorCode: 500
+            message: "Internal server error"
 
