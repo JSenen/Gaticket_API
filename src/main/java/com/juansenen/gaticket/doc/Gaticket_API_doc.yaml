@@ -13,6 +13,60 @@ tags:
   - name: units
   - name: incidences
 paths:
+  /devices/findAllDevices:
+    get:
+      tags:
+        - devices
+      summary: Get all devices on Data Base
+      description: List of all devices on data base
+      operationId: findAllDevices
+      responses:
+        '200':
+          description: Se devuelve un listado con todos los dispositivos de la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Devices'
+              examples:
+                Line1:
+                  $ref: '#/components/examples/AllDevices'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /devices/findByMac:
+    get:
+      tags:
+        - devices
+      summary: Get device by mac
+      description: Get devices typing his nic mac
+      operationId: findDeviceByMac
+      parameters:
+        - name: mac
+          in: query
+          description: MAC of the device
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Show a device search by the mac of his nic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devices'
+              examples:
+                Device:
+                  $ref: '#/components/examples/Device1'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /devices/findBySerialNumber:
     get:
       tags:
@@ -58,6 +112,26 @@ components:
           device_model: 'HP ElitePro'
           device_datebuy: 12/04/2013
           device_datestart: 03/12/2013
+    AllDevices:
+      summary: Ejemplo array de dispositivos
+      value:
+        - deviceId: 23
+          device_hd: 240
+          device_ram: 32
+          device_mac: '05:67:BF:65:AD'
+          device_serial: 'FGH435T'
+          device_model: 'HP ElitePro'
+          device_datebuy: 12/04/2013
+          device_datestart: 03/12/2013
+        - deviceId: 243
+          device_hd: 500
+          device_ram: 16
+          device_mac: '12:12:BF:65:E5'
+          device_serial: 'CZC6757'
+          device_model: 'Travel Mate'
+          device_datebuy: 01/11/2020
+          device_datestart: 30/09/2023
+
 
   schemas:
     Devices:
