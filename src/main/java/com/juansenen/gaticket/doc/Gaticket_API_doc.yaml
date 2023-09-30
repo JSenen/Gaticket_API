@@ -130,6 +130,32 @@ paths:
           $ref: '#/components/responses/NotFoundException'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    put:
+      parameters:
+        - $ref: '#/components/parameters/sn'
+      tags:
+        - devices
+      summary: Update one device search by serial number
+      operationId: putDevicebySerialNumber
+      requestBody:
+        $ref: '#/components/requestBodies/postDevice'
+      responses:
+        '202':
+          description: Se acepta la modificacion completa y devuelve el cuerpo completo del dispositivo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Accepted'
+              examples:
+                PutDevice:
+                  $ref: '#/components/examples/Device1'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 components:
   # Parametros que se usan mucho
   parameters:
@@ -338,6 +364,12 @@ components:
             message: "Internal server error"
     NoContent:
       description: Solicitud de eliminación se ha procesado correctamente, pero no hay contenido que devolver en la respuesta.
+    Accepted:
+      description: Modificacion aceptada correctamente
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Devices'
 
   requestBodies:
     postDevice:
