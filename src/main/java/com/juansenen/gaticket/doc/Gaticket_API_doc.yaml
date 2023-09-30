@@ -13,7 +13,7 @@ tags:
   - name: units
   - name: incidences
 paths:
-  /devices/findAllDevices:
+  /devices:
     get:
       tags:
         - devices
@@ -36,7 +36,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /devices/findByMac:
+  /devices/findByMac/{mac}:
     get:
       tags:
         - devices
@@ -44,12 +44,7 @@ paths:
       description: Get devices typing his nic mac
       operationId: findDeviceByMac
       parameters:
-        - name: mac
-          in: query
-          description: MAC of the device
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/mac'
       responses:
         '200':
           description: Show a device search by the mac of his nic
@@ -67,7 +62,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /devices/findBySerialNumber:
+  /devices/findBySerialNumber/{sn}:
     get:
       tags:
         - devices
@@ -97,8 +92,62 @@ paths:
           $ref: '#/components/responses/NotFoundException'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /device:
+    post:
+      tags:
+        - devices
+      description: "Add a new device to data base"
+      operationId: addDevice
+      requestBody:
+        $ref: '#/components/requestBodies/postDevice'
+      responses:
+        '201':
+          description: The new device it is add to the database
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Devices'
+                examples:
+                  example1:
+                    $ref: '#/components/examples/Device1'
 
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /device/{sn}:
+    delete:
+      tags:
+        - devices
+      description: Delete a device search by his serial number
+      operationId: deleteDevice
+      parameters:
+        - $ref: '#/components/parameters/sn'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  # Parametros que se usan mucho
+  parameters:
+    sn:
+      name: sn
+      in: path
+      description: Serial Number
+      required: true
+      schema:
+        type: string
+        example: CZC6758B
+    mac:
+      name: mac
+      in: path
+      description: MAC of the device
+      required: true
+      schema:
+        type: string
   # Ejemplos
   examples:
     Device1:
@@ -287,4 +336,15 @@ components:
           example:
             errorCode: 500
             message: "Internal server error"
+    NoContent:
+      description: Solicitud de eliminación se ha procesado correctamente, pero no hay contenido que devolver en la respuesta.
+
+  requestBodies:
+    postDevice:
+      description: Data for a new Device
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Devices'
 
