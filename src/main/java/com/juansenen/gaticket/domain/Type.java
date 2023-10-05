@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** Clase que define los tipos de dispositivos */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

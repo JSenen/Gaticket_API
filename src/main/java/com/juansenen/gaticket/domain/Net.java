@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** Clase que define las distintas IP´s de los dispositivos */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
