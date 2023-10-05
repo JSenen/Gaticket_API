@@ -29,7 +29,5 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Device> devices;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User departmetUser;
+
 }

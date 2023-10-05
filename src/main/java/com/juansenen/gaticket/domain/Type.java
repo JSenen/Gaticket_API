@@ -19,7 +19,7 @@ public class Type {
     @Column(name = "type_type")
     private String type;
 
-    @OneToOne
-    @JoinColumn(name = "type_device_id")
-    private Device device;
+    /** Relacion One To One con Device no es necesario marcarla aqui al
+     * encontrarse desarrollada en clase Device
+     */
 }

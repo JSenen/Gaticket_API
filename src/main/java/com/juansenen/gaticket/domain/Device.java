@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.util.Date;
 
 /** Clase que define los dispositivos */
@@ -40,7 +41,8 @@ public class Device {
     @OneToOne(mappedBy = "device")
     private Net net;
 
-    @OneToOne(mappedBy = "type")
+    @OneToOne
+    @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
     private Type type;
 
     @ManyToOne

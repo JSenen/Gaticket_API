@@ -25,13 +25,15 @@ public class User {
     @Column(name = "user_tip")
     private String userTip;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "rol_id")
     private Rol userRol;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "department_id") // Nombre de la columna que hace referencia a Type
     private Department userDepartment;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "deviceUser")
     private List<Device> userDevices;
 
 }
