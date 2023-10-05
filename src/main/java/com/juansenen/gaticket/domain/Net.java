@@ -18,4 +18,8 @@ public class Net {
     private long netId;
     @Column(name = "net_ip")
     private String netIp;
+
+    @OneToOne
+    @JoinColumn(name = "device_net_id")
+    private Device device;
 }

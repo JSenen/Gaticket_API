@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /** Clase que define los departamentos u oficinas donde se encuentran los dispositivos */
 
 @Data
@@ -23,4 +25,11 @@ public class Department {
     private String departmentPhone;
     @Column(name = "department_city")
     private String departmentCity;
+
+    @OneToMany(mappedBy = "department")
+    private List<Device> devices;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User departmetUser;
 }

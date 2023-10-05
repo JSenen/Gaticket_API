@@ -18,4 +18,8 @@ public class Type {
     private long typeId;
     @Column(name = "type_type")
     private String type;
+
+    @OneToOne
+    @JoinColumn(name = "type_device_id")
+    private Device device;
 }

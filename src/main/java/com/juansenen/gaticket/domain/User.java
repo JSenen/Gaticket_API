@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /** Clase que define los atributos de los usuario */
 @Data
 @AllArgsConstructor
@@ -22,4 +24,14 @@ public class User {
     private String userPassword;
     @Column(name = "user_tip")
     private String userTip;
+
+    @OneToOne(mappedBy = "user")
+    private Rol userRol;
+
+    @OneToOne(mappedBy = "user")
+    private Department userDepartment;
+
+    @OneToMany(mappedBy = "user")
+    private List<Device> userDevices;
+
 }

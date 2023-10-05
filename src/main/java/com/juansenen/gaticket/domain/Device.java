@@ -37,4 +37,18 @@ public class Device {
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date deviceDateStart;
 
+    @OneToOne(mappedBy = "device")
+    private Net net;
+
+    @OneToOne(mappedBy = "type")
+    private Type type;
+
+    @ManyToOne
+    @JoinColumn(name = "department")
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User deviceUser;
+
 }
