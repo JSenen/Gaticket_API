@@ -14,6 +14,7 @@ public class Net {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "net_id")
     private long netId;
     @Column(name = "net_ip")
     private String netIp;

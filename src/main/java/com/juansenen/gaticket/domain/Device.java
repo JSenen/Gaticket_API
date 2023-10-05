@@ -18,6 +18,7 @@ public class Device {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "device_id")
     private long deviceId;
     @Column(name = "device_hd")
     private int deviceHd;
