@@ -36,4 +36,6 @@ public class User {
     @OneToMany(mappedBy = "deviceUser")
     private List<Device> userDevices;
 
+    @OneToMany(mappedBy = "user")
+    private List<Incidences> incidendesUserId;
 }
