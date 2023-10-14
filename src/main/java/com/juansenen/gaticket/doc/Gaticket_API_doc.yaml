@@ -10,8 +10,8 @@ tags:
   - name: devices
   - name: types
   - name: net
-  - name: units
   - name: incidences
+  - name: departments
 paths:
   /users:
     get:
@@ -117,6 +117,109 @@ paths:
           $ref: '#/components/responses/NotFoundException'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /departments:
+    get:
+      tags:
+        - departments
+      summary: Get all departments on data base
+      description: Get all departments on data base
+      operationId: getAllDepartments
+      responses:
+        200:
+          description: Se devuelve listado completo de los departamentos en la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Departments'
+              examples:
+                DepartmentList:
+                  $ref: '#/components/examples/Department1'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - departments
+      summary: Add one department to data base
+      operationId: AddDepartment
+      requestBody:
+        $ref: '#/components/requestBodies/postDepartment'
+      responses:
+        201:
+          description: New department add to data base
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Departments'
+              examples:
+                Department1:
+                  $ref: '#/components/examples/Department1'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        400:
+          $ref: '#/components/responses/BadRequest'
+  /departments/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags:
+        - departments
+      summary: Get department on data base by Id
+      description: Get department on data base by Id
+      operationId: getDepartmentById
+      responses:
+        200:
+          description: Se devuelve departamento buscado por el Id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Departments'
+              examples:
+                DepartmentList:
+                  $ref: '#/components/examples/Department1'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - departments
+      summary: Update a department by Id
+      description: Update a department by Id
+      operationId: updateDepartmentById
+      requestBody:
+        $ref: '#/components/requestBodies/postDepartment'
+      responses:
+        '202':
+          description: Se acepta la modificacion completa y devuelve el cuerpo de la linea completo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Accepted'
+              examples:
+                PutUser1:
+                  $ref: '#/components/examples/Department2'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - departments
+      summary: Erase a department by Id
+      operationId: deleteDepartmentId
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
 
   /devices:
     get:
@@ -289,6 +392,22 @@ components:
         type: string
   # Ejemplos
   examples:
+    Department1:
+      summary: Ejemplo departamento
+      value:
+        departemtId: 1
+        departmentName: Grocery,
+        departmentPhone: 483-754-4078,
+        departmentMail: Jameson.Huel73@yahoo.com,
+        departmentCity: South Augustus
+    Department2:
+      summary: Ejemplo departamento
+      value:
+        departemtId: 1
+        departmentName: Shoes,
+        departmentPhone: 407-995-8626,
+        departmentMail": Una.Dickens56@hotmail.com,
+        departmentCity": Cormierside",
     User1:
       summary: Ejemplo usuario
       value:
@@ -506,6 +625,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Users'
+    postDepartment:
+      description: Datsa from a new department
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Departments'
     postDevice:
       description: Data for a new Device
       required: true
