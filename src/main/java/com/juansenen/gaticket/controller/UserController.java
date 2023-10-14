@@ -1,6 +1,8 @@
 package com.juansenen.gaticket.controller;
 
 import com.juansenen.gaticket.domain.User;
+import com.juansenen.gaticket.exception.ErrorMessage;
+import com.juansenen.gaticket.exception.UserNotFound;
 import com.juansenen.gaticket.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,14 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
 
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    public ResponseEntity<ErrorMessage> lineNoFoundException(UserNotFound unfe){
+        logger.error(unfe.getMessage(), unfe);
+        ErrorMessage errorMessage = new ErrorMessage(404, unfe.getMessage());
+        logger.error("Finish NotFoundException");
+        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
 
 
