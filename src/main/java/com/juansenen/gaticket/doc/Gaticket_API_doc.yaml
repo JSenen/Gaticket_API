@@ -4,7 +4,7 @@ info:
   description: API description in Markdown.
   version: 1.0.0
 servers:
-  - url: ''
+  - url: 'http://localhost:8080/gaticket/'
 tags:
   - name: users
   - name: devices
@@ -13,6 +13,111 @@ tags:
   - name: units
   - name: incidences
 paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: Get all users on Data Base
+      description: List of all users on Data Base
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Se devuelve un listado de todos los usuarios en la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+              examples:
+                User1:
+                  $ref: '#/components/examples/User1'
+    post:
+      tags:
+        - users
+      summary: Add one user to data base
+      description: Add one user
+      operationId: postUser
+      requestBody:
+        $ref: '#/components/requestBodies/postUser'
+      responses:
+        '201':
+          description: The new user it is add to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+              examples:
+                User1:
+                  $ref: '#/components/examples/User1'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags:
+        - users
+      summary: Get user by Id
+      description: Find a user by the id
+      operationId: getUserById
+      responses:
+        '200':
+          description: Se devuelve el usuario buscado por el Id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+              examples:
+                User1:
+                  $ref: '#/components/examples/User1'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - users
+      summary: Update a user by Id
+      description: Update a user by Id
+      operationId: updateUserById
+      requestBody:
+        $ref: '#/components/requestBodies/postUser'
+      responses:
+        '202':
+          description: Se acepta la modificacion completa y devuelve el cuerpo de la linea completo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Accepted'
+              examples:
+                PutUser1:
+                  $ref: '#/components/examples/User2'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - users
+      summary: Delete a user, search by his Id
+      description: Delete a user, search by his Id
+      operationId: deleteUserById
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '404':
+          $ref: '#/components/responses/NotFoundException'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /devices:
     get:
       tags:
@@ -159,6 +264,14 @@ paths:
 components:
   # Parametros que se usan mucho
   parameters:
+    id:
+      name: id
+      in: path
+      description: Id of a entity
+      required: true
+      schema:
+        type: integer
+        example: 2
     sn:
       name: sn
       in: path
@@ -176,6 +289,20 @@ components:
         type: string
   # Ejemplos
   examples:
+    User1:
+      summary: Ejemplo usuario
+      value:
+        userId: 2
+        userMail: pruebas@gmail.com
+        userPassword: 11111
+        userTip: B22222B
+    User2:
+      summary: Ejemplo usuario
+      value:
+        userId: 2
+        userMail: modifcyuser@gmail.com
+        userPassword: 22222
+        userTip: F4567G
     Device1:
       summary: Ejemplo dispositivo
       value:
@@ -372,6 +499,13 @@ components:
             $ref: '#/components/schemas/Devices'
 
   requestBodies:
+    postUser:
+      description: Data from a new user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Users'
     postDevice:
       description: Data for a new Device
       required: true
@@ -379,4 +513,5 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Devices'
+
 
