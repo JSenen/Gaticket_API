@@ -2,16 +2,12 @@ package com.juansenen.gaticket.controller;
 
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +30,18 @@ public class UserController {
     public ResponseEntity<User> addUser(@RequestBody User user){
         User newUser = userService.addOne(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> findOne(@PathVariable("id") long id){
+        User findUser = userService.findById(id);
+        return new ResponseEntity<>(findUser,HttpStatus.OK);
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User> modUser (@PathVariable("id") long id, @RequestBody User user){
+        User modUser = userService.updateUser(id, user);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(modUser);
     }
 
 

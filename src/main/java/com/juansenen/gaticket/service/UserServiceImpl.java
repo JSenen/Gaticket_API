@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 /** Realiza operaciones concretas, como la validación de datos, la llamada al repositorio
  * para acceder a la base de datos y la manipulación de datos.
  *  @see UserServiceImpl
@@ -25,5 +26,19 @@ public class UserServiceImpl implements UserService{
     public User addOne(User user) {
         User newUser = userRepository.save(user);
         return newUser;
+    }
+
+    @Override
+    public User findById(long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public User updateUser(long id, User user) {
+        User modUser = userRepository.findById(id);
+        modUser.setUserMail(user.getUserMail());
+        modUser.setUserPassword(user.getUserPassword());
+        modUser.setUserTip(user.getUserTip());
+        return userRepository.save(modUser);
     }
 }
