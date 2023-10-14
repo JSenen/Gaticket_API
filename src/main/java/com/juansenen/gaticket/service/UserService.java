@@ -1,8 +1,10 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.User;
+import com.juansenen.gaticket.exception.UserNotFound;
 
 import java.util.List;
+
 /** Interface conjunto de métodos que representan las operaciones de alto nivel que se pueden realizar en la aplicación
  * @see UserService
  * @see User */
@@ -12,9 +14,9 @@ public interface UserService {
 
     User addOne(User user);
 
-    User findById(long id);
+    User findById(long id) throws UserNotFound;
 
-    User updateUser(long id, User user);
+    User updateUser(long id, User user) throws UserNotFound;
 
-    void deleteUser(long id);
+    void deleteUser(long id) throws UserNotFound;
 }

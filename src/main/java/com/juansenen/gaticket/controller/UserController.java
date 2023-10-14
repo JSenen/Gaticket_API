@@ -1,7 +1,6 @@
 package com.juansenen.gaticket.controller;
 
 import com.juansenen.gaticket.domain.User;
-import com.juansenen.gaticket.exception.ErrorMessage;
 import com.juansenen.gaticket.exception.UserNotFound;
 import com.juansenen.gaticket.service.UserService;
 import org.slf4j.Logger;
@@ -30,37 +29,37 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user){
+        logger.info("UserController addUser()");
         User newUser = userService.addOne(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> findOne(@PathVariable("id") long id){
+    public ResponseEntity<User> findOne(@PathVariable("id") long id) throws UserNotFound{
+        logger.info("UserController findOne()");
+
         User findUser = userService.findById(id);
+
         return new ResponseEntity<>(findUser,HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<User> modUser (@PathVariable("id") long id, @RequestBody User user){
+    public ResponseEntity<User> modUser (@PathVariable("id") long id, @RequestBody User user) throws UserNotFound{
+        logger.info("UserController modUser()");
         User modUser = userService.updateUser(id, user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(modUser);
     }
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Void> delUser (@PathVariable("id") long id){
-        userService.deleteUser(id);
+        logger.info("UserController delUser()");
+        try {
+            userService.deleteUser(id);
+        } catch (UserNotFound userNotFound) {
+            throw new RuntimeException(userNotFound);
+        }
         return ResponseEntity.noContent().build();
 
     }
-
-    @ExceptionHandler(UserNotFound.class)
-    public ResponseEntity<ErrorMessage> lineNoFoundException(UserNotFound unfe){
-        logger.error(unfe.getMessage(), unfe);
-        ErrorMessage errorMessage = new ErrorMessage(404, unfe.getMessage());
-        logger.error("Finish NotFoundException");
-        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-    }
-
-
 
 }
