@@ -1,7 +1,7 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.User;
-import com.juansenen.gaticket.exception.UserNotFound;
+import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,20 +31,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findById(long id) throws UserNotFound {
+    public User findById(long id) throws EntityNotFound {
         Optional<User> userOptional = userRepository.findById(id);
 
         if (userOptional.isPresent()) {
             return userOptional.get();
         } else {
-            throw new UserNotFound("Usuario no encontrado"); // Lanza la excepción cuando el usuario no se encuentra
+            throw new EntityNotFound("Usuario no encontrado"); // Lanza la excepción cuando el usuario no se encuentra
         }
     }
 
     @Override
-    public User updateUser(long id, User user) throws UserNotFound {
+    public User updateUser(long id, User user) throws EntityNotFound {
         User modUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFound("El usuario no se encuentra"));
+                .orElseThrow(() -> new EntityNotFound("El usuario no se encuentra"));
         modUser.setUserMail(user.getUserMail());
         modUser.setUserPassword(user.getUserPassword());
         modUser.setUserTip(user.getUserTip());
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUser(long id) throws UserNotFound {
+    public void deleteUser(long id) throws EntityNotFound {
         userRepository.deleteById(id);
     }
 }

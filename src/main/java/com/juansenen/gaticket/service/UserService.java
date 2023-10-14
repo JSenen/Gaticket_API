@@ -1,7 +1,7 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.User;
-import com.juansenen.gaticket.exception.UserNotFound;
+import com.juansenen.gaticket.exception.EntityNotFound;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ public interface UserService {
 
     User addOne(User user);
 
-    User findById(long id) throws UserNotFound;
+    User findById(long id) throws EntityNotFound;
 
-    User updateUser(long id, User user) throws UserNotFound;
+    User updateUser(long id, User user) throws EntityNotFound;
 
-    void deleteUser(long id) throws UserNotFound;
+    void deleteUser(long id) throws EntityNotFound;
 }

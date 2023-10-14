@@ -23,6 +23,8 @@ public class Department {
     private String departmentName;
     @Column(name = "department_phone")
     private String departmentPhone;
+    @Column(name = "department_mail")
+    private String departmentMail;
     @Column(name = "department_city")
     private String departmentCity;
 

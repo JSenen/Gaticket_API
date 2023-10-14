@@ -1,7 +1,7 @@
 package com.juansenen.gaticket.controller;
 
 import com.juansenen.gaticket.domain.User;
-import com.juansenen.gaticket.exception.UserNotFound;
+import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> findOne(@PathVariable("id") long id) throws UserNotFound{
+    public ResponseEntity<User> findOne(@PathVariable("id") long id) throws EntityNotFound {
         logger.info("UserController findOne()");
 
         User findUser = userService.findById(id);
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<User> modUser (@PathVariable("id") long id, @RequestBody User user) throws UserNotFound{
+    public ResponseEntity<User> modUser (@PathVariable("id") long id, @RequestBody User user) throws EntityNotFound {
         logger.info("UserController modUser()");
         User modUser = userService.updateUser(id, user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(modUser);
@@ -56,8 +56,8 @@ public class UserController {
         logger.info("UserController delUser()");
         try {
             userService.deleteUser(id);
-        } catch (UserNotFound userNotFound) {
-            throw new RuntimeException(userNotFound);
+        } catch (EntityNotFound entityNotFound) {
+            throw new RuntimeException(entityNotFound);
         }
         return ResponseEntity.noContent().build();
 
