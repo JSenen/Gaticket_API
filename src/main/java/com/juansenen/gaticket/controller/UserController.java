@@ -1,6 +1,7 @@
 package com.juansenen.gaticket.controller;
 
 import com.juansenen.gaticket.domain.User;
+import com.juansenen.gaticket.exception.ErrorMessage;
 import com.juansenen.gaticket.exception.UserNotFound;
 import com.juansenen.gaticket.service.UserService;
 import org.slf4j.Logger;
@@ -60,6 +61,14 @@ public class UserController {
         }
         return ResponseEntity.noContent().build();
 
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorMessage> handleException (Exception exc){
+        logger.error(exc.getMessage(), exc);
+        ErrorMessage errorMessage = new ErrorMessage(500, "Internal Server Error");
+        logger.error("Finish 500 Internal Server error");
+        return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
