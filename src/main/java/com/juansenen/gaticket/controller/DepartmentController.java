@@ -48,7 +48,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/departments/{id}")
-    public ResponseEntity<Department> delDepartment(@PathVariable("id") long id) throws EntityNotFound{
+    public ResponseEntity<Void> delDepartment(@PathVariable("id") long id) throws EntityNotFound{
         logger.info("Inicio delDepartment()");
         try {
             departmentService.deleteDepartment(id);

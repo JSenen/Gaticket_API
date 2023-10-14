@@ -37,6 +37,6 @@ public class User {
     @JoinColumn(name = "department_id") // Nombre de la columna que hace referencia a Type
     private Department userDepartment;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user") // Clave principal
     private List<Incidences> incidendesUserId;
 }

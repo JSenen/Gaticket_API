@@ -18,5 +18,4 @@ public class Rol {
     private long rolId;
     @Column(name = "rol_type")
     private String rolType;
-
 }

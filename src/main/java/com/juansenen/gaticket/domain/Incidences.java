@@ -35,5 +35,5 @@ public class Incidences {
 
     @ManyToOne
     @JoinColumn(name = "user")
-    private User user;
+    private User user; //Clave de la tabla principal
 }
