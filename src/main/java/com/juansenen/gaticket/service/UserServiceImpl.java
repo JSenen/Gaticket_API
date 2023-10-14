@@ -41,4 +41,9 @@ public class UserServiceImpl implements UserService{
         modUser.setUserTip(user.getUserTip());
         return userRepository.save(modUser);
     }
+
+    @Override
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
+    }
 }

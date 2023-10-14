@@ -53,8 +53,5 @@ public class Device {
     @JoinColumn(name = "department")
     private Department department;
 
-    @ManyToOne
-    @JoinColumn(name = "user")
-    private User deviceUser;
 
 }

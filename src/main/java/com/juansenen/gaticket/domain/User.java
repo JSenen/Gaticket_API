@@ -33,9 +33,6 @@ public class User {
     @JoinColumn(name = "department_id") // Nombre de la columna que hace referencia a Type
     private Department userDepartment;
 
-    @OneToMany(mappedBy = "deviceUser")
-    private List<Device> userDevices;
-
     @OneToMany(mappedBy = "user")
     private List<Incidences> incidendesUserId;
 }
