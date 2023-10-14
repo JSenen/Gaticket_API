@@ -1,9 +1,9 @@
 package com.juansenen.gaticket.controller;
 
 import com.juansenen.gaticket.domain.User;
-import com.juansenen.gaticket.exception.ErrorMessage;
 import com.juansenen.gaticket.exception.UserNotFound;
 import com.juansenen.gaticket.service.UserService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> addUser(@RequestBody User user){
+    public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
         logger.info("UserController addUser()");
         User newUser = userService.addOne(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -63,12 +63,12 @@ public class UserController {
 
     }
 
-    @ExceptionHandler(Exception.class)
+   /* @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleException (Exception exc){
         logger.error(exc.getMessage(), exc);
         ErrorMessage errorMessage = new ErrorMessage(500, "Internal Server Error");
         logger.error("Finish 500 Internal Server error");
         return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
 }

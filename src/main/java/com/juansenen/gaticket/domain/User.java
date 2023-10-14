@@ -1,6 +1,7 @@
 package com.juansenen.gaticket.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,13 @@ public class User {
     @Column(name = "user_id")
     private long userId;
     @Column(name = "user_mail")
+    @NotBlank
     private String userMail;
     @Column(name = "user_password")
+    @NotBlank
     private String userPassword;
     @Column(name = "user_tip")
+    @NotBlank
     private String userTip;
 
     @OneToOne
