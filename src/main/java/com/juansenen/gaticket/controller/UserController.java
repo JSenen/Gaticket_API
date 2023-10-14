@@ -3,8 +3,11 @@ package com.juansenen.gaticket.controller;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.slf4j.Logger;
@@ -25,6 +28,12 @@ public class UserController {
     public ResponseEntity<List<User>> getAll(){
         logger.info("UserController getAll()");
         return ResponseEntity.ok(userService.findAll());
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<User> addUser(@RequestBody User user){
+        User newUser = userService.addOne(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
 
