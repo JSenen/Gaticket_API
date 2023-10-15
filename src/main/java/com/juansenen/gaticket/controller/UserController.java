@@ -1,7 +1,9 @@
 package com.juansenen.gaticket.controller;
 
+import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
+import com.juansenen.gaticket.service.DepartmentService;
 import com.juansenen.gaticket.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -21,6 +23,8 @@ public class UserController {
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
+    @Autowired
+    private DepartmentService departmentService;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAll(){
@@ -49,6 +53,11 @@ public class UserController {
         logger.info("UserController modUser()");
         User modUser = userService.updateUser(id, user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(modUser);
+    }
+    @PostMapping("/user/{iduser}/{departmentId}")
+    public ResponseEntity<Department> addDepToUSer (@PathVariable("iduser") long id, @PathVariable("departmentId") long departmentId) throws EntityNotFound {
+        Department departmetUser = userService.addDepart(id,departmentId);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(departmetUser);
     }
 
     @DeleteMapping("/user/{id}")

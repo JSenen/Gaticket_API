@@ -28,9 +28,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public Department findById(long id) throws EntityNotFound {
-        Optional<Department> findDepart = departmentRepository.findById(id);
-        if (findDepart.isPresent()) {
-            return findDepart.get();
+        Department findDepart = departmentRepository.findById(id);
+        if (findDepart != null) {
+            return findDepart;
         } else {
             throw new EntityNotFound("Departamento no encontrado");
         }
@@ -38,8 +38,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public Department updateDepartment(long id, Department department) throws EntityNotFound {
-        Department updateDepart = departmentRepository.findById(id).
-                orElseThrow(()-> new EntityNotFound("Departamento no encontrado"));
+        Department updateDepart = departmentRepository.findById(id);
         updateDepart.setDepartmentName(department.getDepartmentName());
         updateDepart.setDepartmentMail(department.getDepartmentMail());
         updateDepart.setDepartmentPhone(department.getDepartmentPhone());
@@ -49,8 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public void deleteDepartment(long id) throws EntityNotFound{
-        Department eraseDepart = departmentRepository.findById(id).
-                orElseThrow(()->new EntityNotFound("Departamento no encontrado"));
+        Department eraseDepart = departmentRepository.findById(id);
         departmentRepository.deleteById(id);
 
     }

@@ -1,5 +1,6 @@
 package com.juansenen.gaticket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,8 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Device> devices;
 
-    @OneToMany(mappedBy = "userDepartmentId")
+    @OneToMany(mappedBy = "userDepartment")
+    @JsonIgnore
     private List<User> userList;
 
 

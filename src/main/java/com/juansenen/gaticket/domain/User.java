@@ -1,5 +1,6 @@
 package com.juansenen.gaticket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -33,9 +34,10 @@ public class User {
     private String userRol = "usuario";
 
     @ManyToOne
-    @JoinColumn(name = "user_departmentId") // Nombre de la columna que hace referencia
-    private Department userDepartmentId;
+    @JoinColumn(name = "userDepartmentId") // Nombre de la columna que hace referencia
+    private Department userDepartment;
 
     @OneToMany(mappedBy = "user") // Clave principal
+    @JsonIgnore //Evitar serializacion infinita
     private List<Incidences> incidendesUserId;
 }

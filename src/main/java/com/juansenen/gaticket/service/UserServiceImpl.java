@@ -1,7 +1,9 @@
 package com.juansenen.gaticket.service;
 
+import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
+import com.juansenen.gaticket.repository.DepartmentRepository;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
     @Override
     public List<User> findAll() {
         List<User> userList = userRepository.findAll();
@@ -34,11 +38,12 @@ public class UserServiceImpl implements UserService{
     public User findById(long id) throws EntityNotFound {
         Optional<User> userOptional = userRepository.findById(id);
 
-        if (userOptional.isPresent()) {
+        /*if (userOptional.isPresent()) {
             return userOptional.get();
         } else {
             throw new EntityNotFound("Usuario no encontrado"); // Lanza la excepción cuando el usuario no se encuentra
-        }
+        }*/
+        return userOptional.get();
     }
 
     @Override
@@ -63,5 +68,20 @@ public class UserServiceImpl implements UserService{
         modUser.setUserRol(user.getUserRol());
         userRepository.save(modUser);
         return modUser;
+    }
+
+    @Override
+    public Department addDepart(long id, long idDepartment) {
+        Optional<User> userOptional = userRepository.findById(id);
+        Department departmentOptional = departmentRepository.findById(idDepartment);
+        //El usuario y el departamento existen
+
+           //TODO indicar no encontrado
+        User user = userOptional.get();
+        Department department = departmentOptional;
+        //Guardamos en el usuario el departamento
+        user.setUserDepartment(department);
+        userRepository.save(user);
+        return department;
     }
 }

@@ -1,5 +1,6 @@
 package com.juansenen.gaticket.service;
 
+import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 
@@ -21,4 +22,6 @@ public interface UserService {
     void deleteUser(long id) throws EntityNotFound;
 
     User updateRolUser(long id, User user) throws EntityNotFound;
+
+    Department addDepart(long id, long departmentId);
 }
