@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /** Clase que define los tipos de dispositivos */
 @Data
 @AllArgsConstructor
@@ -17,9 +19,8 @@ public class Type {
     @Column(name = "type_id")
     private long typeId;
     @Column(name = "type_type")
-    private String type;
+    private String typeName;
 
-    /** Relacion One To One con Device no es necesario marcarla aqui al
-     * encontrarse desarrollada en clase Device
-     */
+    @OneToMany(mappedBy = "deviceTypeId")
+    private List<Device> deviceList;
 }

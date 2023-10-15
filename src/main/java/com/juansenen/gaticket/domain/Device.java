@@ -1,6 +1,7 @@
 package com.juansenen.gaticket.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,11 +42,12 @@ public class Device {
     @OneToOne(mappedBy = "device")
     private Net net;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
-    private Type type;
+    private Type deviceTypeId;
 
     @OneToMany(mappedBy = "device")
+    @JsonIgnore
     private List<Incidences> incidencesList;
 
 
