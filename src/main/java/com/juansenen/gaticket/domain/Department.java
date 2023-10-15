@@ -31,5 +31,8 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Device> devices;
 
+    @OneToMany(mappedBy = "userDepartmentId")
+    private List<User> userList;
+
 
 }

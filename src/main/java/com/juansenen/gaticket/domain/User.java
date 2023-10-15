@@ -32,9 +32,9 @@ public class User {
     @NotBlank
     private String userRol = "usuario";
 
-    @OneToOne
-    @JoinColumn(name = "department_id") // Nombre de la columna que hace referencia a Type
-    private Department userDepartment;
+    @ManyToOne
+    @JoinColumn(name = "user_departmentId") // Nombre de la columna que hace referencia
+    private Department userDepartmentId;
 
     @OneToMany(mappedBy = "user") // Clave principal
     private List<Incidences> incidendesUserId;
