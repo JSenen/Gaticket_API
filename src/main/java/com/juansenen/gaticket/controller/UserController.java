@@ -63,6 +63,12 @@ public class UserController {
 
     }
 
+    @PatchMapping("/user/{iduser}")
+    public ResponseEntity<User> updateUserRol(@PathVariable("iduser") long id, @RequestBody User user) throws EntityNotFound{
+        User updateUser = userService.updateRolUser(id, user);
+        return ResponseEntity.status((HttpStatus.ACCEPTED)).body(updateUser);
+    }
+
    /* @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleException (Exception exc){
         logger.error(exc.getMessage(), exc);

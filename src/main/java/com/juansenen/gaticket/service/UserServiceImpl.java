@@ -2,7 +2,6 @@ package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
-import com.juansenen.gaticket.repository.RolRepository;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,6 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private RolRepository rolRepository;
     @Override
     public List<User> findAll() {
         List<User> userList = userRepository.findAll();
@@ -57,5 +54,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(long id) throws EntityNotFound {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User updateRolUser(long id, User user) throws EntityNotFound {
+        User modUser = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound("El usuario no se encuentra"));
+        modUser.setUserRol(user.getUserRol());
+        userRepository.save(modUser);
+        return modUser;
     }
 }

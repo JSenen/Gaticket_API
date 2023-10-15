@@ -19,4 +19,6 @@ public interface UserService {
     User updateUser(long id, User user) throws EntityNotFound;
 
     void deleteUser(long id) throws EntityNotFound;
+
+    User updateRolUser(long id, User user) throws EntityNotFound;
 }
