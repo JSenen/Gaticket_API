@@ -415,6 +415,7 @@ components:
         userMail: pruebas@gmail.com
         userPassword: 11111
         userTip: B22222B
+        userRol: usuario
     User2:
       summary: Ejemplo usuario
       value:
@@ -422,6 +423,7 @@ components:
         userMail: modifcyuser@gmail.com
         userPassword: 22222
         userTip: F4567G
+        userRol: usuario
     Device1:
       summary: Ejemplo dispositivo
       value:
@@ -534,7 +536,7 @@ components:
           example: '1234pepito'
         user_rol:
           type: string
-          example: 'user'
+          example: 'usuario'
     Incidences:
       type: object
       properties:
