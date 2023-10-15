@@ -28,10 +28,9 @@ public class User {
     @Column(name = "user_tip")
     @NotBlank
     private String userTip;
-
-    @OneToOne
-    @JoinColumn(name = "rol_id")
-    private Rol userRol;
+    @Column(name = "user_rol")
+    @NotBlank
+    private String userRol = "usuario";
 
     @OneToOne
     @JoinColumn(name = "department_id") // Nombre de la columna que hace referencia a Type

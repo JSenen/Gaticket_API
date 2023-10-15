@@ -29,10 +29,10 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<User> addUser(@RequestBody @Valid User user) throws EntityNotFound {
         logger.info("UserController addUser()");
         User newUser = userService.addOne(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @GetMapping("/users/{id}")

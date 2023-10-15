@@ -12,7 +12,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    User addOne(User user);
+    User addOne(User user) throws EntityNotFound;
 
     User findById(long id) throws EntityNotFound;
 

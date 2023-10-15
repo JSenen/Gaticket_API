@@ -2,6 +2,7 @@ package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
+import com.juansenen.gaticket.repository.RolRepository;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RolRepository rolRepository;
     @Override
     public List<User> findAll() {
         List<User> userList = userRepository.findAll();
@@ -25,7 +28,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User addOne(User user){
+    public User addOne(User user) {
         User newUser = userRepository.save(user);
         return newUser;
     }
