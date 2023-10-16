@@ -39,8 +39,10 @@ public class UserController {
             description = "Get all Users on the data base.",
             tags = { "user"})
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", description = "ad Request", content = { @Content(schema = @Schema()) })
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
     })
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAll(){
@@ -61,6 +63,14 @@ public class UserController {
             summary = "Retrieve a user by his ID number",
             description = "Get a user on the data base by his ID number.",
             tags = { "user"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content) })
     @GetMapping("/users/{id}")
     public ResponseEntity<User> findOne(@Parameter(description = "ID of User search")@PathVariable("id") long id) throws EntityNotFound {
         logger.info("UserController findOne()");
