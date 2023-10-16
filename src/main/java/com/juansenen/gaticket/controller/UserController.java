@@ -5,6 +5,13 @@ import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DepartmentService;
 import com.juansenen.gaticket.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +25,7 @@ import java.util.List;
 /** El controlador responsable de recibir las solicitudes HTTP del cliente, procesarlas y enviar respuestas al cliente.
  * @see UserController */
 @RestController
+@Tag(name = "Users", description = "This controller contains all the endpoints that can manage author user information")
 public class UserController {
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -26,6 +34,14 @@ public class UserController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Operation(
+            summary = "Retrieve all users",
+            description = "Get all Users on the data base.",
+            tags = { "users", "get" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", description = "ad Request", content = { @Content(schema = @Schema()) })
+    })
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAll(){
         logger.info("UserController getAll()");
@@ -40,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> findOne(@PathVariable("id") long id) throws EntityNotFound {
+    public ResponseEntity<User> findOne(@Parameter(description = "ID of User search")@PathVariable("id") long id) throws EntityNotFound {
         logger.info("UserController findOne()");
 
         User findUser = userService.findById(id);
