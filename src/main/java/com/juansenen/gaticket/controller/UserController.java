@@ -25,7 +25,7 @@ import java.util.List;
 /** El controlador responsable de recibir las solicitudes HTTP del cliente, procesarlas y enviar respuestas al cliente.
  * @see UserController */
 @RestController
-@Tag(name = "Users", description = "This controller contains all the endpoints that can manage author user information")
+@Tag(name = "user", description = "This controller contains all the endpoints that can manage author user information")
 public class UserController {
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -37,7 +37,7 @@ public class UserController {
     @Operation(
             summary = "Retrieve all users",
             description = "Get all Users on the data base.",
-            tags = { "users", "get" })
+            tags = { "user"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", description = "ad Request", content = { @Content(schema = @Schema()) })
@@ -47,14 +47,20 @@ public class UserController {
         logger.info("UserController getAll()");
         return ResponseEntity.ok(userService.findAll());
     }
-
+    @Operation(
+            summary = "Add a new user",
+            description = "Add a new user on the data base. By default \"usuario\" is the rol assigned",
+            tags = { "user"})
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody @Valid User user) throws EntityNotFound {
         logger.info("UserController addUser()");
         User newUser = userService.addOne(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
-
+    @Operation(
+            summary = "Retrieve a user by his ID number",
+            description = "Get a user on the data base by his ID number.",
+            tags = { "user"})
     @GetMapping("/users/{id}")
     public ResponseEntity<User> findOne(@Parameter(description = "ID of User search")@PathVariable("id") long id) throws EntityNotFound {
         logger.info("UserController findOne()");
@@ -63,19 +69,29 @@ public class UserController {
 
         return new ResponseEntity<>(findUser,HttpStatus.OK);
     }
-
+    @Operation(
+            summary = "Update a user information",
+            description = "Update the information of a user",
+            tags = { "user"})
     @PutMapping("/user/{id}")
-    public ResponseEntity<User> modUser (@PathVariable("id") long id, @RequestBody User user) throws EntityNotFound {
+    public ResponseEntity<User> modUser (@Parameter(description = "ID of User search") @PathVariable("id") long id, @RequestBody User user) throws EntityNotFound {
         logger.info("UserController modUser()");
         User modUser = userService.updateUser(id, user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(modUser);
     }
+    @Operation(
+            summary = "Add a user on a Department",
+            description = "Add a user search by his ID on a Department by his Id",
+            tags = { "user", "department"})
     @PostMapping("/user/{iduser}/{departmentId}")
-    public ResponseEntity<Department> addDepToUSer (@PathVariable("iduser") long id, @PathVariable("departmentId") long departmentId) throws EntityNotFound {
+    public ResponseEntity<Department> addDepToUSer (@Parameter(description = "ID of User search") @PathVariable("iduser") long id, @Parameter(description = "ID of Department search")@PathVariable("departmentId") long departmentId) throws EntityNotFound {
         Department departmetUser = userService.addDepart(id,departmentId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(departmetUser);
     }
-
+    @Operation(
+            summary = "Delete a user",
+            description = "Add a user search by his ID on a Department by his Id",
+            tags = { "user"})
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Void> delUser (@PathVariable("id") long id){
         logger.info("UserController delUser()");
@@ -87,9 +103,12 @@ public class UserController {
         return ResponseEntity.noContent().build();
 
     }
-
+    @Operation(
+            summary = "Update rol of a user",
+            description = "Update rol of a user search by his Id",
+            tags = { "user"})
     @PatchMapping("/user/{iduser}")
-    public ResponseEntity<User> updateUserRol(@PathVariable("iduser") long id, @RequestBody User user) throws EntityNotFound{
+    public ResponseEntity<User> updateUserRol(@Parameter(description = "ID of User search") @PathVariable("iduser") long id, @RequestBody User user) throws EntityNotFound{
         User updateUser = userService.updateRolUser(id, user);
         return ResponseEntity.status((HttpStatus.ACCEPTED)).body(updateUser);
     }
