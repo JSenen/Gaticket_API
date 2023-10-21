@@ -52,7 +52,7 @@ public class Device {
     @OneToOne(mappedBy = "device")
     private Net net;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
     private Type deviceTypeId;
 

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
@@ -43,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService{
         updateDepart.setDepartmentMail(department.getDepartmentMail());
         updateDepart.setDepartmentPhone(department.getDepartmentPhone());
         updateDepart.setDepartmentCity(department.getDepartmentCity());
-        return updateDepart;
+        return departmentRepository.save(updateDepart);
     }
 
     @Override

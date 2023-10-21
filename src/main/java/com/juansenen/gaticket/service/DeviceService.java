@@ -8,4 +8,7 @@ public interface DeviceService {
     List<Device> findAll();
 
     Device addOne(Device device);
+
+
+
 }
