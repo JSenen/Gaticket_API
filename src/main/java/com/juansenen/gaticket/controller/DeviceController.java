@@ -36,4 +36,11 @@ public class DeviceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newDevice);
     }
 
+    @PostMapping("/department/{idDevice}/{idDepartment}")
+    public ResponseEntity<Device> addDeviceToDepartment (@PathVariable("idDevice") long idDevice,
+                                                         @PathVariable("idDepartment") long idDepartment){
+        Device deviceDepartment = deviceService.addDeviceDepartment(idDevice, idDepartment);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(deviceDepartment);
+    }
+
 }

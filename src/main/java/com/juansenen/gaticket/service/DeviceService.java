@@ -10,5 +10,5 @@ public interface DeviceService {
     Device addOne(Device device);
 
 
-
+    Device addDeviceDepartment(long idDevice, long idDepartment);
 }

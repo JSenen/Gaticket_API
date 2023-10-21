@@ -49,9 +49,6 @@ public class Device {
     @Schema(description = "Device date begin to work or installed", example = "12/02/2019")
     private Date deviceDateStart;
 
-    @OneToOne(mappedBy = "device")
-    private Net net;
-
     @OneToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
     private Type deviceTypeId;
@@ -60,10 +57,14 @@ public class Device {
     @JsonIgnore
     private List<Incidences> incidencesList;
 
-
     @ManyToOne
     @JoinColumn(name = "department")
+    @JsonIgnore
     private Department department;
+
+    @OneToOne
+    @JoinColumn(name = "net_id") // Nombre de la columna que hace referencia a la red
+    private Net net; // Relación OneToOne con una red
 
 
 }

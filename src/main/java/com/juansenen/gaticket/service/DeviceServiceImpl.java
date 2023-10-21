@@ -1,7 +1,8 @@
 package com.juansenen.gaticket.service;
 
+import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;
-import com.juansenen.gaticket.domain.Type;
+import com.juansenen.gaticket.repository.DepartmentRepository;
 import com.juansenen.gaticket.repository.DeviceRepository;
 import com.juansenen.gaticket.repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceRepository deviceRepository;
     @Autowired
     private TypeRepository typeRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
     @Override
     public List<Device> findAll() {
         List<Device> deviceList = deviceRepository.findAll();
@@ -27,6 +30,23 @@ public class DeviceServiceImpl implements DeviceService {
     public Device addOne(Device device) {
         Device newDevice = deviceRepository.save(device);
         return newDevice;
+    }
+
+    @Override
+    public Device addDeviceDepartment(long idDevice, long idDepartment) {
+
+        Optional<Device> deviceOptional = deviceRepository.findById(idDevice);
+        Department departmentOptional = departmentRepository.findById(idDepartment);
+
+        Device updateDevice = deviceOptional.get();
+
+        //Agregamos dispositivo al listado del departamento
+        departmentOptional.getDevices().add(updateDevice);
+        departmentRepository.save(departmentOptional);
+        //Actualizamos el listado
+        updateDevice.setDepartment(departmentOptional);
+
+        return deviceRepository.save(updateDevice);
     }
 
 }

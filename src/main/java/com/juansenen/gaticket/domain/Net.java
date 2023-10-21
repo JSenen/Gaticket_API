@@ -29,7 +29,4 @@ public class Net {
     @Schema(description = "CDIR number", example = "24")
     private String netCdir;
 
-    @OneToOne
-    @JoinColumn(name = "device_net_id")
-    private Device device;
 }
