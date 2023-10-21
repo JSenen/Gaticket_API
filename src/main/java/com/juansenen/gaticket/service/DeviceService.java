@@ -1,6 +1,7 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.Device;
+import com.juansenen.gaticket.exception.EntityNotFound;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface DeviceService {
     Device addDeviceDepartment(long idDevice, long idDepartment);
 
     Device addNetToDevice(long idNet, long idDevice);
+
+    Device getOne(long idDevice) throws EntityNotFound;
 }

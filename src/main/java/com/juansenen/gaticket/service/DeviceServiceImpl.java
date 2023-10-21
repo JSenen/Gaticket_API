@@ -3,6 +3,7 @@ package com.juansenen.gaticket.service;
 import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
+import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
 import com.juansenen.gaticket.repository.DeviceRepository;
 import com.juansenen.gaticket.repository.NetRepository;
@@ -65,6 +66,12 @@ public class DeviceServiceImpl implements DeviceService {
         deviceRepository.save(updatedDevice);
 
         return updatedDevice;
+    }
+
+    @Override
+    public Device getOne(long idDevice) throws EntityNotFound {
+        Device searchDevice = deviceRepository.findById(idDevice).orElseThrow(()-> new EntityNotFound("Entity no found"));
+        return searchDevice;
     }
 
 }
