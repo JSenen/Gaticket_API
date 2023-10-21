@@ -33,6 +33,13 @@ public class IncidenceController {
         return ResponseEntity.ok(incidencesList);
     }
 
+    @GetMapping("/incidences/{idIncidence}")
+    public ResponseEntity<Incidences> getOne(@PathVariable("idIncidence") long idIncidence) throws EntityNotFound {
+        logger.info("/incidences/{idIncidence}");
+        Incidences searchIncidence = incidenceService.findById(idIncidence);
+        return ResponseEntity.ok(searchIncidence);
+    }
+
     @PostMapping("/incidence/{idUser}")
     public ResponseEntity<Incidences> addOne(@PathVariable("idUser") long idUser, @RequestBody Incidences incidence) throws EntityNotFound {
         try {
