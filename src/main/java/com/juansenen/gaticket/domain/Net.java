@@ -28,5 +28,8 @@ public class Net {
     @Column(name = "net_cdir")
     @Schema(description = "CDIR number", example = "24")
     private String netCdir;
+    @Column(name = "net_gateway")
+    @Schema(description = "Gateway number", example = "10.52.2.1")
+    private String netGateWay;
 
 }

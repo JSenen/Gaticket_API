@@ -1,14 +1,13 @@
 package com.juansenen.gaticket.repository;
 
-import com.juansenen.gaticket.domain.Device;
+import com.juansenen.gaticket.domain.Net;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface DeviceRepository extends CrudRepository<Device, Long> {
+public interface NetRepository extends CrudRepository<Net, Long> {
 
-    List<Device> findAll();
-
+    List<Net> findAll();
 }
