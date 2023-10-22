@@ -51,6 +51,7 @@ public class Device {
 
     @OneToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
+    @JsonIgnore
     private Type deviceTypeId;
 
     @OneToMany(mappedBy = "device")

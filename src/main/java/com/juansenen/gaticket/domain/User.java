@@ -42,6 +42,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "userDepartmentId") // Nombre de la columna que hace referencia
+    @JsonIgnore
     private Department userDepartment;
 
     @OneToMany(mappedBy = "user") // Clave principal
