@@ -1,10 +1,11 @@
-package com.juansenen.gaticket.controller;
+package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +36,7 @@ public class DeviceController {
             tags = { "device"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Department.class)) }),
+                    schema = @Schema(implementation = Device.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid",
                     content = @Content),
     })
@@ -45,21 +46,54 @@ public class DeviceController {
         List<Device> deviceList = deviceService.findAll();
         return ResponseEntity.ok(deviceList);
     }
+    @Operation(
+            summary = "Retrieve a device by his id number",
+            description = "Retrieve a device by his id number.",
+            tags = { "device"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Device.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
     @GetMapping("/device/{idDevice}")
-    public ResponseEntity<Device> getDeviceById(@PathVariable("idDevice") long idDevice) throws EntityNotFound {
+    public ResponseEntity<Device> getDeviceById(@Parameter(description = "Id device") @PathVariable("idDevice") long idDevice) throws EntityNotFound {
         Device getDevice = deviceService.getOne(idDevice);
         return ResponseEntity.ok(getDevice);
     }
+    @Operation(
+            summary = "Save a new device",
+            description = "Save a new Device.",
+            tags = { "device"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Device.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",description = "Bad Request",
+                    content = @Content )
+    })
     @PostMapping("/device")
     public ResponseEntity<Device> addOne(@RequestBody Device device){
         logger.info("/device addOne()");
         Device newDevice = deviceService.addOne(device);
         return ResponseEntity.status(HttpStatus.CREATED).body(newDevice);
     }
-
+    @Operation(
+            summary = "Assing a new device to a department",
+            description = "Assing a device to a department.",
+            tags = { "device"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Device.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",description = "Bad Request",
+                    content = @Content )
+    })
     @PostMapping("/department/{idDevice}/{idDepartment}")
-    public ResponseEntity<Device> addDeviceToDepartment (@PathVariable("idDevice") long idDevice,
-                                                         @PathVariable("idDepartment") long idDepartment){
+    public ResponseEntity<Device> addDeviceToDepartment (@Parameter(description = "Id device")@PathVariable("idDevice") long idDevice,
+                                                         @Parameter(description = "Id department")@PathVariable("idDepartment") long idDepartment){
         Device deviceDepartment = deviceService.addDeviceDepartment(idDevice, idDepartment);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(deviceDepartment);
     }
