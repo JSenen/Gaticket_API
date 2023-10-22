@@ -1,4 +1,4 @@
-package com.juansenen.gaticket.controller;
+package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;

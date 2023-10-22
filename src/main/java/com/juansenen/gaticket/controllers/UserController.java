@@ -1,4 +1,4 @@
-package com.juansenen.gaticket.controller;
+package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.User;
@@ -103,7 +103,7 @@ public class UserController {
             description = "Add a user search by his ID on a Department by his Id",
             tags = { "user"})
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<Void> delUser (@PathVariable("id") long id){
+    public ResponseEntity<Void> delUser (@Parameter(description = "Id of user") @PathVariable("id") long id){
         logger.info("UserController delUser()");
         try {
             userService.deleteUser(id);
