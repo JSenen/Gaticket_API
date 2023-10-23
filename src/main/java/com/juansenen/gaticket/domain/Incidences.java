@@ -34,6 +34,9 @@ public class Incidences {
     @Schema(description = "Incidence date fix it", example = "06/11/2023", format = "date")
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date incidenceDateFinish;
+    @Column(name = "incidence_theme")
+    @Schema(description = "Incidence theme", example = "Computer damage")
+    private String incidenceTheme;
 
     @ManyToOne
     @JoinColumn(name = "device")
