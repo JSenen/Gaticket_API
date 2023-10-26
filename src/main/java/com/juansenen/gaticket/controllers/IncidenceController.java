@@ -66,6 +66,23 @@ public class IncidenceController {
         return ResponseEntity.ok(searchIncidence);
     }
     @Operation(
+            summary = "Retrieve a incidence by id User",
+            description = "Retrieve a incidence by id User.",
+            tags = { "incidence","user"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Incidences.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
+    @GetMapping("/incidences/user/{idUser}")
+    public ResponseEntity<List<Incidences>> getAllIncidencesIdUser(@Parameter(description = "ID of the user") @PathVariable("idUser") long idUser) throws EntityNotFound {
+        logger.info("/incidences/user/{idUser} getAllIncidencesIdUser"+idUser);
+        List<Incidences> userIncidences = incidenceService.findByIdUser(idUser);
+        return ResponseEntity.ok(userIncidences);
+
+    }
+    @Operation(
             summary = "Save a incidence by a user",
             description = "Save a incidence by a user.",
             tags = { "incidence","user"})
