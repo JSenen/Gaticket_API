@@ -48,6 +48,11 @@ public class Device {
     @JsonFormat(pattern = "MM/dd/yyyy")
     @Schema(description = "Device date begin to work or installed", example = "12/02/2019")
     private Date deviceDateStart;
+    /*@Lob //Indica campo grande
+    @Basic(fetch = FetchType.LAZY) //Carga la imagen de manera diferida
+    @Column(name = "device_image")
+    @Schema(description = "Device image in byte array format")
+    private byte[] deviceImage;*/ //TODO añadir imagen a tabla externa
 
     @OneToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type

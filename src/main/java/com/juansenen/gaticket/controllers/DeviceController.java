@@ -1,6 +1,5 @@
 package com.juansenen.gaticket.controllers;
 
-import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
@@ -41,10 +40,16 @@ public class DeviceController {
                     content = @Content),
     })
     @GetMapping("/device")
-    public ResponseEntity<List<Device>> getAll(){
+    public ResponseEntity<List<Device>> getAll(@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber){
         logger.info("/device getAll()");
+        //Comprobar si se ha añadido serial number como Request Param
+        if (serialNumber.isEmpty()){
+            logger.info("/device getAll() no serial number");
+            return ResponseEntity.ok(deviceService.findAll());
+        }
+        //Buscar por numero de serie
         List<Device> deviceList = deviceService.findAll();
-        return ResponseEntity.ok(deviceList);
+        return ResponseEntity.ok(deviceService.searchBySerialNumber(serialNumber));
     }
     @Operation(
             summary = "Retrieve a device by his id number",

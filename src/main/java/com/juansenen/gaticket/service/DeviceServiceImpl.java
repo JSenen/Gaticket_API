@@ -74,4 +74,10 @@ public class DeviceServiceImpl implements DeviceService {
         return searchDevice;
     }
 
+    @Override
+    public List<Device> searchBySerialNumber(String serialNumber) {
+        List<Device> devices = deviceRepository.findBySerialNumber(serialNumber);
+        return  devices;
+    }
+
 }

@@ -16,4 +16,6 @@ public interface DeviceService {
     Device addNetToDevice(long idNet, long idDevice);
 
     Device getOne(long idDevice) throws EntityNotFound;
+
+    List<Device> searchBySerialNumber(String serialNumber);
 }
