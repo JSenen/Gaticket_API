@@ -40,7 +40,7 @@ public class DeviceController {
                     content = @Content),
     })
     @GetMapping("/device")
-    public ResponseEntity<List<Device>> getAll(@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber){
+    public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber){
         logger.info("/device getAll()");
         //Comprobar si se ha añadido serial number como Request Param
         if (serialNumber.isEmpty()){
