@@ -24,8 +24,8 @@ public class Incidences {
     @Schema(description = "Description", example = "My computer has began to go slowly. And I can´t see mp4 videos")
     private String incidenceCommit;
     @Column(name = "incidence_status")
-    @Schema(description = "Incidence status", example = "true" )
-    private boolean incidenceStatus;
+    @Schema(description = "Incidence status", example = "Active" )
+    private String incidenceStatus;
     @Column(name = "incidence_date")
     @Schema(description = "Incidence date start", example = "04/11/2023", format = "date")
     @JsonFormat(pattern = "MM/dd/yyyy")
