@@ -16,4 +16,6 @@ public interface DepartmentService {
     Department updateDepartment(long id, Department department) throws EntityNotFound;
 
     void deleteDepartment(long id) throws EntityNotFound;
+
+    Department findByUser(long id) throws EntityNotFound;
 }

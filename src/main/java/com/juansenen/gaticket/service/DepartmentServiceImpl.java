@@ -1,8 +1,10 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.Department;
+import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
+import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Autowired
     DepartmentRepository departmentRepository;
+    @Autowired
+    UserRepository userRepository;
     @Override
     public List<Department> findAll() {
         List<Department> departments = departmentRepository.findAll();
@@ -50,5 +54,12 @@ public class DepartmentServiceImpl implements DepartmentService{
         Department eraseDepart = departmentRepository.findById(id);
         departmentRepository.deleteById(id);
 
+    }
+
+    @Override
+    public Department findByUser(long id) throws EntityNotFound {
+        User userSearch = userRepository.findById(id).orElseThrow(()->new EntityNotFound("User not found"));
+        Department departmentSearch = userSearch.getUserDepartment();
+        return departmentSearch;
     }
 }

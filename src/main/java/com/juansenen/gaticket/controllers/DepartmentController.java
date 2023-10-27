@@ -62,6 +62,24 @@ public class DepartmentController {
         return new ResponseEntity<>(findDep,HttpStatus.OK);
     }
     @Operation(
+            summary = "Retrieve a department by Id user",
+            description = "Get one department knowing id of a user.",
+            tags = { "department","user"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Department.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content),
+    })
+    @GetMapping("/department/{iduser}")
+    public ResponseEntity<Department> findDepartUser(@Parameter(description = "ID of user search") @PathVariable("iduser") long id) throws EntityNotFound {
+        Department findDep = departmentService.findByUser(id);
+        return new ResponseEntity<>(findDep,HttpStatus.OK);
+    }
+
+    @Operation(
             summary = "Save a new department",
             description = "Save one department ",
             tags = { "department"})
