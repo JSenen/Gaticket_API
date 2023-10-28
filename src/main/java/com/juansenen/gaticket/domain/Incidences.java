@@ -39,7 +39,7 @@ public class Incidences {
     private String incidenceTheme;
     @Column(name = "incidence_adminid")
     @Schema(description = "Admin ID who fix incidence", example = "A58656F")
-    private long adminId;
+    private Integer adminId;
 
     @ManyToOne
     @JoinColumn(name = "device")
