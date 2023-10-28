@@ -37,6 +37,9 @@ public class Incidences {
     @Column(name = "incidence_theme")
     @Schema(description = "Incidence theme", example = "Computer damage")
     private String incidenceTheme;
+    @Column(name = "incidence_adminid")
+    @Schema(description = "Admin ID who fix incidence", example = "A58656F")
+    private long adminId;
 
     @ManyToOne
     @JoinColumn(name = "device")
