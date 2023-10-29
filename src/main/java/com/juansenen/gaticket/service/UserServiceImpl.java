@@ -1,6 +1,7 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.Department;
+import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
@@ -83,5 +84,11 @@ public class UserServiceImpl implements UserService{
         user.setUserDepartment(department);
         userRepository.save(user);
         return department;
+    }
+
+    @Override
+    public List<User> searchByTipNumber(String userTip) {
+        List<User> usersList = userRepository.findByUserTip(userTip);
+        return  usersList;
     }
 }

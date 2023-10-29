@@ -24,4 +24,6 @@ public interface UserService {
     User updateRolUser(long id, User user) throws EntityNotFound;
 
     Department addDepart(long id, long departmentId);
+
+    List<User> searchByTipNumber(String userTip);
 }

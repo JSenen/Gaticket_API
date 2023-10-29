@@ -46,9 +46,14 @@ public class UserController {
                     content = @Content),
     })
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAll(){
+    public ResponseEntity<List<User>> getAll(@Parameter(description = "TIP of a user", required = false)@RequestParam(name = "userTip", defaultValue = "", required = false) String userTip){
         logger.info("UserController getAll()");
-        return ResponseEntity.ok(userService.findAll());
+        //Comprobar si se ha añadido tip como Request Param
+        if (userTip.isEmpty()){
+            logger.info("/device getAll() no tip number");
+            return ResponseEntity.ok(userService.findAll());
+        }
+        return ResponseEntity.ok(userService.searchByTipNumber(userTip));
     }
     @Operation(
             summary = "Add a new user",
