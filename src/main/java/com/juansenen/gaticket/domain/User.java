@@ -38,7 +38,7 @@ public class User {
     @Column(name = "user_rol")
     @NotBlank
     @Schema(description = "User rol permision on the API", example = "usuario")
-    private String userRol = "usuario";
+    private String userRol;
 
     @ManyToOne
     @JoinColumn(name = "userDepartmentId") // Nombre de la columna que hace referencia
