@@ -25,5 +25,15 @@ services:
       MYSQL_PASSWORD: mypass
     networks:
       - mynetwork
+
+  apache_php:
+    image: php:apache
+    ports:
+      - "80:80"
+    volumes:
+      - /Applications/MAMP/htdocs/GaticketWeb:/var/www/html/GaticketWeb
+    networks:
+      - mynetwork
+
 networks:
   mynetwork:
