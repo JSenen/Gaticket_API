@@ -5,9 +5,15 @@ services:
     restart: always
     ports:
       - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/gaticketdb
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypass
     depends_on:
       - mysql_db
-    command: sh -c './wait-for mysql_db:3306 -- npm start'
+    networks:
+      - mynetwork
+    command: sh -c './wait-for mysql_db:3306 -- mvn spring-boot:run'
   mysql_db:
     image: "mysql:8.0"
     restart: always
@@ -17,4 +23,7 @@ services:
       MYSQL_DATABASE: gaticketdb
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypass
-      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mynetwork
+networks:
+  mynetwork:
