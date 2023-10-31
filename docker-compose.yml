@@ -1,18 +1,25 @@
 version: "3.7"
 services:
   api_service:
+    # Este servicio se construye a partir de la imagen Docker actual en el directorio de trabajo (indicado por el punto .).
     build: .
+    # Aseguramos reinicio del sistema si se detine
     restart: always
+    # Puertos externo:interno
     ports:
       - 8080:8080
+    # Variables de entorno utilizadas
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/gaticketdb
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypass
+    # Se cargará despues de ....
     depends_on:
       - mysql_db
+    # Red interna
     networks:
       - mynetwork
+    # Comando al iniciar el contenedor
     command: sh -c './wait-for mysql_db:3306 -- mvn spring-boot:run'
   mysql_db:
     image: "mysql:8.0"
@@ -23,6 +30,7 @@ services:
       MYSQL_DATABASE: gaticketdb
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypass
+      MYSQL_ROOT_PASSWORD: root
     networks:
       - mynetwork
 
