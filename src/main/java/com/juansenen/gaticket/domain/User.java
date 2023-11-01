@@ -48,4 +48,8 @@ public class User {
     @OneToMany(mappedBy = "user") // Clave principal
     @JsonIgnore //Evitar serializacion infinita
     private List<Incidences> incidendesUserId;
+
+    @OneToMany(mappedBy = "responsable")
+    @JsonIgnore
+    private List<Incidences> incidencesResponsable;
 }

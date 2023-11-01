@@ -51,4 +51,9 @@ public class Incidences {
     @JoinColumn(name = "user")
     @Schema(description = "The user who reported de incidence")
     private User user; //Clave de la tabla principal
+
+    @ManyToOne
+    @JoinColumn(name = "user_admin_id")
+    @Schema(description = "The administrator user who resolved the incidence")
+    private User responsable;
 }
