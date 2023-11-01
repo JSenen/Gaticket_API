@@ -33,6 +33,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     networks:
       - mynetwork
+    # Para persistencia de los datos, generamos un volumen en el host
+    volumes:
+      - /Users/JSenen/IdeaProjects/gaticket/sql:/var/lib/mysql
 
   apache_php:
     image: php:apache
@@ -43,5 +46,8 @@ services:
     networks:
       - mynetwork
 
+
 networks:
   mynetwork:
+
+

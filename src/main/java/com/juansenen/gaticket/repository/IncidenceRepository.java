@@ -14,4 +14,6 @@ public interface IncidenceRepository extends CrudRepository<Incidences, Long> {
 
     @Query(value = "SELECT * FROM incidences WHERE user = ?",nativeQuery = true)
     List<Incidences> findAllIncidencesUser(long idUser);
+    @Query(value = "SELECT * FROM incidences WHERE device = ?",nativeQuery = true)
+    List<Incidences> findAllIncidencesDevice(long deviceId);
 }

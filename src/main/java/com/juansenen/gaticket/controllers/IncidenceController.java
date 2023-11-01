@@ -43,7 +43,7 @@ public class IncidenceController {
                     content = @Content),
     })
     @GetMapping("/incidences")
-    public ResponseEntity<List<Incidences>> getALl(){
+    public ResponseEntity<List<Incidences>> getALl() {
         logger.info("/incidences getAll()");
         List<Incidences> incidencesList = incidenceService.findAll();
         return ResponseEntity.ok(incidencesList);
@@ -80,6 +80,23 @@ public class IncidenceController {
         logger.info("/incidences/user/{idUser} getAllIncidencesIdUser"+idUser);
         List<Incidences> userIncidences = incidenceService.findByIdUser(idUser);
         return ResponseEntity.ok(userIncidences);
+
+    }
+    @Operation(
+            summary = "Retrieve a incidence by id device",
+            description = "Retrieve a incidence by id device.",
+            tags = { "incidence","device"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Incidences.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
+    @GetMapping("/incidences/device/{deviceId}")
+    public ResponseEntity<List<Incidences>> getAllIncidencesIdDevice(@Parameter(description = "ID of device") @PathVariable("deviceId") long deviceId) throws EntityNotFound {
+        logger.info("/incidences/device/{deviceId} getAllIncidencesIdDevice"+deviceId);
+        List<Incidences> deviceIncidences = incidenceService.findByDevice(deviceId);
+        return ResponseEntity.ok(deviceIncidences);
 
     }
     @Operation(
