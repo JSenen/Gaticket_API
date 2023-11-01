@@ -15,4 +15,8 @@ public interface IncidenceService {
     List<Incidences> findByIdUser(long idUser) throws EntityNotFound;
 
     List<Incidences> findByDevice(long deviceId) throws EntityNotFound;
+
+    List<Incidences> findAllByUserId(long userid) throws EntityNotFound;
+
+    List<Incidences> findAllBydevice(long deviceid) throws EntityNotFound;
 }

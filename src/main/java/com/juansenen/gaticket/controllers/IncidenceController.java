@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,9 +44,24 @@ public class IncidenceController {
                     content = @Content),
     })
     @GetMapping("/incidences")
-    public ResponseEntity<List<Incidences>> getALl() {
-        logger.info("/incidences getAll()");
-        List<Incidences> incidencesList = incidenceService.findAll();
+    public ResponseEntity<List<Incidences>> getAll(@Parameter(description = "User number incidences", required = false)
+            @RequestParam(name = "userid", defaultValue = "0", required = false) long userid,
+            @Parameter(description = "Device number incidences", required = false)
+            @RequestParam(name = "deviceid", defaultValue = "0", required = false) long deviceid) throws EntityNotFound {
+
+        List<Incidences> incidencesList = new ArrayList<>(); // Inicializa la lista vacía
+
+        if (userid != 0) {
+            logger.info("/incidences getAll() userId");
+            incidencesList = incidenceService.findAllByUserId(userid);
+        } else if (deviceid != 0) {
+            logger.info("/incidences getAll() deviceId");
+            incidencesList = incidenceService.findAllBydevice(deviceid);
+        } else {
+            logger.info("/incidences getAll()");
+            incidencesList = incidenceService.findAll();
+        }
+
         return ResponseEntity.ok(incidencesList);
     }
 

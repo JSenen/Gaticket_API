@@ -54,4 +54,19 @@ public class IncidenceServiceImpl implements IncidenceService{
         return incidencesList;
     }
 
+    @Override
+    public List<Incidences> findAllByUserId(long userid) throws EntityNotFound {
+        User userSearch = userRepository.findById(userid).orElseThrow(()->new EntityNotFound("User no found"));
+        List<Incidences> searchIncidencces = incidenceRepository.findAllIncidencesUser(userid);
+        return searchIncidencces;
+
+    }
+
+    @Override
+    public List<Incidences> findAllBydevice(long deviceid) throws EntityNotFound {
+        Device deviceSearch = deviceRepository.findById(deviceid).orElseThrow(()->new EntityNotFound("Device no found"));
+        List<Incidences> searchIncidencces = incidenceRepository.findAllIncidencesDevice(deviceid);
+        return searchIncidencces;
+    }
+
 }
