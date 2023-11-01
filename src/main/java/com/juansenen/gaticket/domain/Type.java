@@ -1,5 +1,6 @@
 package com.juansenen.gaticket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +29,7 @@ public class Type {
     private String typeName;
 
     @OneToMany(mappedBy = "deviceTypeId") // Una relación de un tipo con varios dispositivos
+    @JsonIgnore
     private List<Device> devices;
 
 
