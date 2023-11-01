@@ -40,18 +40,27 @@ public class TypeServiceImpl implements TypeService{
 
     @Override
     public Device updateDeviceType(long idDevice, long idType) {
-
-        //Comprobar Device y Type existen
+        // Comprobar si el dispositivo y el tipo existen
         Optional<Device> deviceOptional = deviceRepository.findById(idDevice);
         Optional<Type> typeOptional = typeRepository.findById(idType);
 
-        //recuperamos el dispositivo
-        Device device = deviceOptional.get();
-        Type newType = typeOptional.get();
-        //guardamos dispositivo con el id de tipo
-        device.setDeviceTypeId(newType);
-        deviceRepository.save(device);
-        return device;
+        if (deviceOptional.isPresent() && typeOptional.isPresent()) {
+            Device device = deviceOptional.get();
+            Type type = typeOptional.get();
 
+            // Agregar el dispositivo a la colección de dispositivos en el tipo
+            List<Device> devices = type.getDevices();
+            devices.add(device);
+            type.setDevices(devices);
+
+            // Actualizar el tipo en la base de datos
+            typeRepository.save(type);
+
+            return device;
+        } else {
+            // Manejar el caso en el que el dispositivo o el tipo no existen
+            // Puedes lanzar una excepción, devolver un mensaje de error, etc.
+        }
+        return null;
     }
 }

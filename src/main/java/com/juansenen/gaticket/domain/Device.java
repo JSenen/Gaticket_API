@@ -54,9 +54,8 @@ public class Device {
     @Schema(description = "Device image in byte array format")
     private byte[] deviceImage;*/ //TODO añadir imagen a tabla externa
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
-    @JsonIgnore
     private Type deviceTypeId;
 
     @OneToMany(mappedBy = "device")

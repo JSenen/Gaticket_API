@@ -42,6 +42,7 @@ public class IncidenceController {
                     schema = @Schema(implementation = Incidences.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid",
                     content = @Content),
+            @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content)
     })
     @GetMapping("/incidences")
     public ResponseEntity<List<Incidences>> getAll(@Parameter(description = "User number incidences", required = false)
@@ -74,6 +75,7 @@ public class IncidenceController {
                     schema = @Schema(implementation = Incidences.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid",
                     content = @Content),
+            @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content)
     })
     @GetMapping("/incidences/{idIncidence}")
     public ResponseEntity<Incidences> getOne(@Parameter(description = "ID of the incidence") @PathVariable("idIncidence") long idIncidence) throws EntityNotFound {

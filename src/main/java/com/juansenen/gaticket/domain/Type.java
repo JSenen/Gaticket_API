@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /** Clase que define los tipos de dispositivos */
 @Data
 @AllArgsConstructor
@@ -24,6 +26,9 @@ public class Type {
     @NotBlank
     @Schema(description = "Type of device", example = "Laptop")
     private String typeName;
+
+    @OneToMany(mappedBy = "deviceTypeId") // Una relación de un tipo con varios dispositivos
+    private List<Device> devices;
 
 
 }
