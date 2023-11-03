@@ -41,11 +41,11 @@ public class Device {
     @Schema(description = "Device model", example = "Acer TravelMate")
     private String deviceModel;
     @Column(name = "device_date_buy")
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "Device date of buy MM/dd/yyyy", example = "10/12/2018")
     private Date deviceDateBuy;
     @Column(name = "device_date_start")
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "Device date begin to work or installed", example = "12/02/2019")
     private Date deviceDateStart;
     /*@Lob //Indica campo grande

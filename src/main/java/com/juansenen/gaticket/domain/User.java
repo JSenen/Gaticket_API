@@ -45,7 +45,7 @@ public class User {
     @JsonIgnore
     private Department userDepartment;
 
-    @OneToMany(mappedBy = "user") // Clave principal
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL) // Clave principal
     @JsonIgnore //Evitar serializacion infinita
     private List<Incidences> incidendesUserId;
 
