@@ -9,6 +9,7 @@ import com.juansenen.gaticket.repository.DepartmentRepository;
 import com.juansenen.gaticket.repository.IncidenceRepository;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,8 +38,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User addOne(User user) {
-        User newUser = userRepository.save(user);
-        return newUser;
+        //La contraseña del usuario se encriptara en la base de datos
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String plainPassword = user.getUserPassword(); //Contraseña texto plano
+        String hashedPassword = passwordEncoder.encode(plainPassword); // Contraseña Hash
+        user.setUserPassword(hashedPassword);
+        return userRepository.save(user);
     }
 
     @Override
