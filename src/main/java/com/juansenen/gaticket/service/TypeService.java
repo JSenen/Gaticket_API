@@ -14,4 +14,6 @@ public interface TypeService {
     Type updateOne(long id, Type type) throws EntityNotFound;
 
     Device updateDeviceType(long idDevice, long idType);
+
+    List<Type> findByLetters(String typeName);
 }

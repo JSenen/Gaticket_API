@@ -2,7 +2,6 @@ package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Type;
-import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.TypeService;
@@ -44,9 +43,21 @@ public class TypeController {
                     content = @Content),
     })
     @GetMapping("/types")
-    public ResponseEntity<List<Type>> getAll(){
-        logger.info("/types getAll()");
-        return ResponseEntity.ok(typeService.findAll());
+    public ResponseEntity<List<Type>> getAll(
+            @Parameter(description = "Search name including letters. Can make real-time request", required = false)
+            @RequestParam(name = "query", defaultValue = "", required = false) String typeName) {
+
+        List<Type> searchResults;
+
+        if (!typeName.isEmpty()) {
+            logger.info("/types getAll() find by letter");
+            searchResults = typeService.findByLetters(typeName);
+        } else {
+            logger.info("/types getAll()");
+            searchResults = typeService.findAll();
+        }
+
+        return ResponseEntity.ok(searchResults);
     }
     @Operation(
             summary = "Save a device",

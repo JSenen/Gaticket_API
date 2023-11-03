@@ -8,6 +8,7 @@ import com.juansenen.gaticket.repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,5 +51,16 @@ public class TypeServiceImpl implements TypeService{
         deviceRepository.save(updatedDevice);
 
         return updatedDevice;
+    }
+
+    @Override
+    public List<Type> findByLetters(String typeName) {
+        List<Type> searchResults = typeRepository.findTypeByteToByte('%' + typeName + '%');
+
+        if (searchResults == null || searchResults.isEmpty()) {
+            return Collections.emptyList(); // Devuelve una lista vacía si no hay resultados
+        }
+
+        return searchResults;
     }
 }
