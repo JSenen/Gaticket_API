@@ -1,8 +1,10 @@
 package com.juansenen.gaticket.service;
 
+import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Incidences;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
+import com.juansenen.gaticket.repository.DeviceRepository;
 import com.juansenen.gaticket.repository.IncidenceRepository;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class IncidenceServiceImpl implements IncidenceService{
     private IncidenceRepository incidenceRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     @Override
     public List<Incidences> findAll() {
@@ -42,4 +46,27 @@ public class IncidenceServiceImpl implements IncidenceService{
         List<Incidences> incidencesList = incidenceRepository.findAllIncidencesUser(idUser);
         return incidencesList;
     }
+
+    @Override
+    public List<Incidences> findByDevice(long deviceId) throws EntityNotFound {
+        Device devicesearch = deviceRepository.findById(deviceId).orElseThrow(()->new EntityNotFound("Device no found"));
+        List<Incidences> incidencesList = incidenceRepository.findAllIncidencesDevice(deviceId);
+        return incidencesList;
+    }
+
+    @Override
+    public List<Incidences> findAllByUserId(long userid) throws EntityNotFound {
+        User userSearch = userRepository.findById(userid).orElseThrow(()->new EntityNotFound("User no found"));
+        List<Incidences> searchIncidencces = incidenceRepository.findAllIncidencesUser(userid);
+        return searchIncidencces;
+
+    }
+
+    @Override
+    public List<Incidences> findAllBydevice(long deviceid) throws EntityNotFound {
+        Device deviceSearch = deviceRepository.findById(deviceid).orElseThrow(()->new EntityNotFound("Device no found"));
+        List<Incidences> searchIncidencces = incidenceRepository.findAllIncidencesDevice(deviceid);
+        return searchIncidencces;
+    }
+
 }

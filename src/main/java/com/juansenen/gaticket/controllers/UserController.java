@@ -46,9 +46,15 @@ public class UserController {
                     content = @Content),
     })
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAll(){
+    public ResponseEntity<List<User>> getAll(@Parameter(description = "TIP of a user", required = false)@RequestParam(name = "userTip", defaultValue = "", required = false) String userTip){
         logger.info("UserController getAll()");
-        return ResponseEntity.ok(userService.findAll());
+        //Comprobar si se ha añadido tip como Request Param
+        if (userTip.isEmpty()){
+            logger.info("/user getAll()");
+            return ResponseEntity.ok(userService.findAll());
+        }
+        logger.info("/user getAll() tip number");
+        return ResponseEntity.ok(userService.searchByTipNumber(userTip));
     }
     @Operation(
             summary = "Add a new user",
@@ -101,6 +107,7 @@ public class UserController {
             tags = { "user", "department"})
     @PostMapping("/user/{iduser}/{departmentId}")
     public ResponseEntity<Department> addDepToUSer (@Parameter(description = "ID of User search") @PathVariable("iduser") long id, @Parameter(description = "ID of Department search")@PathVariable("departmentId") long departmentId) throws EntityNotFound {
+        logger.info("/user/"+id+"/"+departmentId);
         Department departmetUser = userService.addDepart(id,departmentId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(departmetUser);
     }

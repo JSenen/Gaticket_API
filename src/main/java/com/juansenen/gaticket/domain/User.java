@@ -38,14 +38,18 @@ public class User {
     @Column(name = "user_rol")
     @NotBlank
     @Schema(description = "User rol permision on the API", example = "usuario")
-    private String userRol = "usuario";
+    private String userRol;
 
     @ManyToOne
     @JoinColumn(name = "userDepartmentId") // Nombre de la columna que hace referencia
     @JsonIgnore
     private Department userDepartment;
 
-    @OneToMany(mappedBy = "user") // Clave principal
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL) // Clave principal
     @JsonIgnore //Evitar serializacion infinita
     private List<Incidences> incidendesUserId;
+
+    @OneToMany(mappedBy = "responsable")
+    @JsonIgnore
+    private List<Incidences> incidencesResponsable;
 }

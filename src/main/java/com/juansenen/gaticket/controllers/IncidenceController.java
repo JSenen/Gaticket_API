@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,11 +42,27 @@ public class IncidenceController {
                     schema = @Schema(implementation = Incidences.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid",
                     content = @Content),
+            @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content)
     })
     @GetMapping("/incidences")
-    public ResponseEntity<List<Incidences>> getALl(){
-        logger.info("/incidences getAll()");
-        List<Incidences> incidencesList = incidenceService.findAll();
+    public ResponseEntity<List<Incidences>> getAll(@Parameter(description = "User number incidences", required = false)
+            @RequestParam(name = "userid", defaultValue = "0", required = false) long userid,
+            @Parameter(description = "Device number incidences", required = false)
+            @RequestParam(name = "deviceid", defaultValue = "0", required = false) long deviceid) throws EntityNotFound {
+
+        List<Incidences> incidencesList = new ArrayList<>(); // Inicializa la lista vacía
+
+        if (userid != 0) {
+            logger.info("/incidences getAll() userId");
+            incidencesList = incidenceService.findAllByUserId(userid);
+        } else if (deviceid != 0) {
+            logger.info("/incidences getAll() deviceId");
+            incidencesList = incidenceService.findAllBydevice(deviceid);
+        } else {
+            logger.info("/incidences getAll()");
+            incidencesList = incidenceService.findAll();
+        }
+
         return ResponseEntity.ok(incidencesList);
     }
 
@@ -58,6 +75,7 @@ public class IncidenceController {
                     schema = @Schema(implementation = Incidences.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid",
                     content = @Content),
+            @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content)
     })
     @GetMapping("/incidences/{idIncidence}")
     public ResponseEntity<Incidences> getOne(@Parameter(description = "ID of the incidence") @PathVariable("idIncidence") long idIncidence) throws EntityNotFound {
@@ -80,6 +98,23 @@ public class IncidenceController {
         logger.info("/incidences/user/{idUser} getAllIncidencesIdUser"+idUser);
         List<Incidences> userIncidences = incidenceService.findByIdUser(idUser);
         return ResponseEntity.ok(userIncidences);
+
+    }
+    @Operation(
+            summary = "Retrieve a incidence by id device",
+            description = "Retrieve a incidence by id device.",
+            tags = { "incidence","device"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Incidences.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
+    @GetMapping("/incidences/device/{deviceId}")
+    public ResponseEntity<List<Incidences>> getAllIncidencesIdDevice(@Parameter(description = "ID of device") @PathVariable("deviceId") long deviceId) throws EntityNotFound {
+        logger.info("/incidences/device/{deviceId} getAllIncidencesIdDevice"+deviceId);
+        List<Incidences> deviceIncidences = incidenceService.findByDevice(deviceId);
+        return ResponseEntity.ok(deviceIncidences);
 
     }
     @Operation(
