@@ -2,6 +2,7 @@ package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
+import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.NetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,5 +81,17 @@ public class NetController {
                                                @Parameter(description = "Id of a device")@PathVariable("idDevice") long idDevice){
         Device addDeviceNet = deviceService.addNetToDevice(idNet, idDevice);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(addDeviceNet);
+    }
+
+    @Operation(
+            summary = "Free a net by Id",
+            description = "Free a type by Id",
+            tags = { "net"})
+    @DeleteMapping("/net/{idNet}")
+    public ResponseEntity<Void> deteleIp(@Parameter(description = "Id of the net ip")@PathVariable("idNet") long idNet) throws EntityNotFound {
+        logger.info("/net/{idNet} deleteIp()");
+        netService.eraseIp(idNet);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -118,7 +118,7 @@ public class TypeController {
             description = "Delete a type by Id",
             tags = { "type"})
     @DeleteMapping("/type/{idType}")
-    public ResponseEntity<Void> deleteType(@PathVariable("idType") long idType) throws EntityNotFound{
+    public ResponseEntity<Void> deleteType(@Parameter(description = "Id of type")@PathVariable("idType") long idType) throws EntityNotFound{
         logger.info("/type/{idType}");
         typeService.eraseType(idType);
 

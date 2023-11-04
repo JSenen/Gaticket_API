@@ -23,4 +23,6 @@ public interface DeviceRepository extends CrudRepository<Device, Long> {
 
     @Query(value = "SELECT * FROM device WHERE net_id = ?",nativeQuery = true)
     List<Device> findByIp(long ipDevice);
+
+
 }

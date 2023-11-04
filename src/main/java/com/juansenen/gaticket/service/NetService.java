@@ -10,4 +10,6 @@ public interface NetService {
     Net addOne(Net net);
 
     long findByNetIp(String ipDevice);
+
+    void eraseIp(long idNet);
 }
