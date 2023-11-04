@@ -26,4 +26,11 @@ public class NetServiceImpl implements NetService{
         Net newNet = netRepository.save(net);
         return newNet;
     }
+
+    @Override
+    public long findByNetIp(String ipDevice) {
+        long netId = netRepository.findByNetString(ipDevice).getNetId();
+
+        return netId;
+    }
 }

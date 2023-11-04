@@ -8,4 +8,6 @@ public interface NetService {
     List<Net> findAll();
 
     Net addOne(Net net);
+
+    long findByNetIp(String ipDevice);
 }

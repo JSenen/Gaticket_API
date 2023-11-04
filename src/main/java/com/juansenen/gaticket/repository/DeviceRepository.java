@@ -18,4 +18,9 @@ public interface DeviceRepository extends CrudRepository<Device, Long> {
 
     @Query(value = "SELECT * FROM device WHERE device_serialnumber = ?",nativeQuery = true)
     List<Device> findBySerialNumber(String serialNumber);
+    @Query(value = "SELECT * FROM device WHERE type_id = ?",nativeQuery = true)
+    List<Device> findByDeviceTypeId(long idType);
+
+    @Query(value = "SELECT * FROM device WHERE net_id = ?",nativeQuery = true)
+    List<Device> findByIp(long ipDevice);
 }

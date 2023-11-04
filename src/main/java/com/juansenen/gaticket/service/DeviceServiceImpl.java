@@ -80,4 +80,16 @@ public class DeviceServiceImpl implements DeviceService {
         return  devices;
     }
 
+    @Override
+    public List<Device> searchByType(long idType) {
+        List<Device> devices = deviceRepository.findByDeviceTypeId(idType);
+        return devices;
+    }
+
+    @Override
+    public List<Device> findByIp(long ipDevice) {
+        List<Device> devices = deviceRepository.findByIp(ipDevice);
+        return  devices;
+    }
+
 }

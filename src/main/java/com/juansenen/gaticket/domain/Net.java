@@ -31,5 +31,8 @@ public class Net {
     @Column(name = "net_gateway")
     @Schema(description = "Gateway number", example = "10.52.2.1")
     private String netGateWay;
+    @Column(name = "net_status")
+    @Schema(description = "Status of the IP", example = "engaged")
+    private boolean netStatus;
 
 }

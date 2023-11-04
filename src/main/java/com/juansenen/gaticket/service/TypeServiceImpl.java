@@ -63,4 +63,17 @@ public class TypeServiceImpl implements TypeService{
 
         return searchResults;
     }
+
+    @Override
+    public void eraseType(long idType) {
+        Optional<Type> typeSearch = typeRepository.findById(idType);
+        //Buscamos los dispositivos con ese tipo para poner el tipo a nulo.
+        // Obtén los dispositivos relacionados a este tipo y establece la referencia en nulo
+        List<Device> dispositivos = deviceRepository.findByDeviceTypeId(idType);
+        for (Device dispositivo : dispositivos) {
+            dispositivo.setDeviceTypeId(null);
+            deviceRepository.save(dispositivo);
+        }
+        typeRepository.deleteById(idType);
+    }
 }

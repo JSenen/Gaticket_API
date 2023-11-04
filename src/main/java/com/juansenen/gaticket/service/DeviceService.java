@@ -18,4 +18,8 @@ public interface DeviceService {
     Device getOne(long idDevice) throws EntityNotFound;
 
     List<Device> searchBySerialNumber(String serialNumber);
+
+    List<Device> searchByType(long idType);
+
+    List<Device> findByIp(long ipDevice);
 }

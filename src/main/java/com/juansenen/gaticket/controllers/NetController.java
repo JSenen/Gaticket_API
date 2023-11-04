@@ -2,7 +2,6 @@ package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
-import com.juansenen.gaticket.domain.Type;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.NetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +60,7 @@ public class NetController {
     @PostMapping("/net")
     public ResponseEntity<Net> addOne(@RequestBody Net net){
         logger.info("/net addOne()");
-        Net newNet = netService.addOne(net);
+        netService.addOne(net);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(net);
     }
     @Operation(

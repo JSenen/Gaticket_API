@@ -3,6 +3,7 @@ package com.juansenen.gaticket.controllers;
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
+import com.juansenen.gaticket.service.NetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,6 +29,8 @@ public class DeviceController {
 
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private NetService netService;
 
     @Operation(
             summary = "Retrieve all devices",
@@ -40,16 +43,27 @@ public class DeviceController {
                     content = @Content),
     })
     @GetMapping("/device")
-    public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber){
+    public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber,
+                                                @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "ideviceIp", defaultValue = "", required = false) String ipDevice){
         logger.info("/device getAll()");
-        //Comprobar si se ha añadido serial number como Request Param
-        if (serialNumber.isEmpty()){
-            logger.info("/device getAll() no serial number");
-            return ResponseEntity.ok(deviceService.findAll());
+
+        if (!serialNumber.isEmpty()) {
+            logger.info("/device getAll() search by serial number");
+            // Buscar por número de serie
+            List<Device> devices = deviceService.searchBySerialNumber(serialNumber);
+            return ResponseEntity.ok(devices);
+        } else if (!ipDevice.isEmpty()) {
+            logger.info("/device getAll() search by IP");
+            // Buscar por dirección IP
+            long netId = netService.findByNetIp(ipDevice);
+            List<Device> devices = deviceService.findByIp(netId);
+            return ResponseEntity.ok(devices);
+        } else {
+            // Si no se proporciona ningún parámetro de solicitud, devuelve todos los dispositivos.
+            logger.info("/device getAll() no parameters provided, returning all devices");
+            List<Device> devices = deviceService.findAll();
+            return ResponseEntity.ok(devices);
         }
-        //Buscar por numero de serie
-        List<Device> deviceList = deviceService.findAll();
-        return ResponseEntity.ok(deviceService.searchBySerialNumber(serialNumber));
     }
     @Operation(
             summary = "Retrieve a device by his id number",

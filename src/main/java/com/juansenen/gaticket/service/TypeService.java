@@ -16,4 +16,6 @@ public interface TypeService {
     Device updateDeviceType(long idDevice, long idType);
 
     List<Type> findByLetters(String typeName);
+
+    void eraseType(long idType);
 }
