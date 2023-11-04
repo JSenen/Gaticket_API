@@ -50,4 +50,11 @@ public class NetServiceImpl implements NetService{
         }
         netRepository.deleteById(idNet);
     }
+
+    @Override
+    public String findDepartmentByIp(long idNet) {
+        Optional<Net> net = netRepository.findById(idNet);
+        String departmentName = netRepository.findDepartByNetId(idNet).toString();
+        return departmentName;
+    }
 }

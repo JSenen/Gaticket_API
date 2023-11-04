@@ -12,4 +12,6 @@ public interface NetService {
     long findByNetIp(String ipDevice);
 
     void eraseIp(long idNet);
+
+    String findDepartmentByIp(long idNet);
 }

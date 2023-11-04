@@ -47,6 +47,22 @@ public class NetController {
         return ResponseEntity.ok(netList);
     }
     @Operation(
+            summary = "Retrieve all network data",
+            description = "Get all data about network.",
+            tags = { "type"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Net.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
+    @GetMapping("/net/department/{idNet}")
+    public ResponseEntity<String> getDepartmentByIp(@Parameter(description = "Id of net") @PathVariable("idNet") long idNet){
+        logger.info("/net getDepartmentByIp()");
+        String departmentName = netService.findDepartmentByIp(idNet).toString();
+        return ResponseEntity.ok(departmentName);
+    }
+    @Operation(
             summary = "Save a new net data",
             description = "Save anew net data.",
             tags = { "type"})
