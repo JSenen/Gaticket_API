@@ -132,7 +132,7 @@ public class DeviceController {
     @Operation(
             summary = "Delete a device by Id",
             description = "Delete a device by Id",
-            tags = { "type"})
+            tags = { "device"})
     @DeleteMapping("/device/{idDevice}")
     public ResponseEntity<Void> deleteDevice(@Parameter(description = "Id of device")@PathVariable("idDevice") long idDevice) throws EntityNotFound{
         logger.info("/device/{idDevice} deleteDevice()");
