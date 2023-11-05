@@ -2,6 +2,8 @@ package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
+import com.juansenen.gaticket.domain.User;
+import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DeviceRepository;
 import com.juansenen.gaticket.repository.NetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,23 @@ public class NetServiceImpl implements NetService{
         Optional<Net> net = netRepository.findById(idNet);
         String departmentName = netRepository.findDepartByNetId(idNet).toString();
         return departmentName;
+    }
+
+    @Override
+    public Net updateStatusIp(long idNet, Net netBody) throws EntityNotFound {
+        //Buscamos la IP
+        Net updateIp = netRepository.findById(idNet)
+                .orElseThrow(() -> new EntityNotFound("IP not found"));
+        //Cambiamos estado de la IP
+        updateIp.setNetStatus(netBody.isNetStatus());
+        //Buscamos dispositivo con la IP
+        long deviceId = netRepository.findDeviceWithIp(idNet);
+        Optional<Device> deviceToChange = deviceRepository.findById(deviceId);
+        Device device = deviceToChange.get();
+        //Establecer IP del dispositivo como nulo
+        device.setNet(null);
+        deviceRepository.save(device);
+        netRepository.save(updateIp);
+        return updateIp;
     }
 }

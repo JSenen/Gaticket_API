@@ -1,5 +1,6 @@
 package com.juansenen.gaticket.repository;
 
+import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -18,4 +19,7 @@ public interface NetRepository extends CrudRepository<Net, Long> {
 
     @Query(value = "SELECT d.department_name FROM department d JOIN device dev ON d.department_id = dev.department JOIN net n ON dev.net_id = n.net_id WHERE n.net_id = :idNet", nativeQuery = true)
     List<String> findDepartByNetId(@Param("idNet") long idNet);
+
+    @Query(value = "SELECT device_id FROM device WHERE net_id =:idNet",nativeQuery = true)
+    long findDeviceWithIp(@Param("idNet") long idNet);
 }

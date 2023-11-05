@@ -97,8 +97,16 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public void eraseDevice(long idDevice) {
+        //Buscar dispositivo
         Optional<Device> deviceSearch = deviceRepository.findById(idDevice);
-
+        Device deviceToDelte = deviceSearch.get();
+        //Buscar IP del dispositivo
+        long netId = deviceToDelte.getNet().getNetId();
+        Optional<Net> netToFree = netRepository.findById(netId);
+        //Liberar Ip del dispositivo
+        Net freenet = netToFree.get();
+        freenet.setNetStatus(false);
+        netRepository.save(freenet);
         deviceRepository.deleteById(idDevice);
     }
 

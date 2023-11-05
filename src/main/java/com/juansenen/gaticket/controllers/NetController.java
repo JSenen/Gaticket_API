@@ -2,6 +2,7 @@ package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
+import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.NetService;
@@ -33,7 +34,7 @@ public class NetController {
     @Operation(
             summary = "Retrieve all network data",
             description = "Get all data about network.",
-            tags = { "type"})
+            tags = { "net"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Net.class)) }),
@@ -49,7 +50,7 @@ public class NetController {
     @Operation(
             summary = "Retrieve all network data",
             description = "Get all data about network.",
-            tags = { "type"})
+            tags = { "net"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Net.class)) }),
@@ -65,7 +66,7 @@ public class NetController {
     @Operation(
             summary = "Save a new net data",
             description = "Save anew net data.",
-            tags = { "type"})
+            tags = { "net"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Net.class)) }),
@@ -83,7 +84,7 @@ public class NetController {
     @Operation(
             summary = "Assing a new net data to a device",
             description = "Assing net data to a device.",
-            tags = { "type"})
+            tags = { "net"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Net.class)) }),
@@ -110,4 +111,14 @@ public class NetController {
 
         return ResponseEntity.noContent().build();
     }
+    @Operation(
+            summary = "Update status of net ip",
+            description = "Update status of net ip",
+            tags = { "net"})
+    @PatchMapping("/net/{idNet}")
+    public ResponseEntity<Net> updateNet(@Parameter(description = "Id of the net ip") @PathVariable("idNet") long idNet, @RequestBody Net netBody) throws EntityNotFound {
+        Net updateIp = netService.updateStatusIp(idNet,netBody);
+        return ResponseEntity.status((HttpStatus.ACCEPTED)).body(updateIp);
+    }
+
 }
