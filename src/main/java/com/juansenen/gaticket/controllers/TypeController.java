@@ -60,6 +60,22 @@ public class TypeController {
         return ResponseEntity.ok(searchResults);
     }
     @Operation(
+            summary = "Retrieve a types by Id",
+            description = "Get a type of device by Id.",
+            tags = { "type"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Type.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
+    @GetMapping("/types/{idType}")
+    public ResponseEntity<Type> searchById (@Parameter(description = "Id of type") @PathVariable("idType") long idType) {
+        Type type =typeService.findByIdType(idType);
+        return ResponseEntity.ok(type);
+    }
+
+    @Operation(
             summary = "Save a device",
             description = "Save a device on Data Base",
             tags = { "type"})

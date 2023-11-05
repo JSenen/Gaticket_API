@@ -28,7 +28,7 @@ public class Type {
     @Schema(description = "Type of device", example = "Laptop")
     private String typeName;
 
-    @OneToMany(mappedBy = "deviceTypeId") // Una relación de un tipo con varios dispositivos
+    @OneToMany(mappedBy = "deviceType")
     @JsonIgnore
     private List<Device> devices;
 

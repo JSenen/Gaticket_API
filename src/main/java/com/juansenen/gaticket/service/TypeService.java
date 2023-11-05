@@ -20,4 +20,6 @@ public interface TypeService {
     void eraseType(long idType);
 
     long findByTypeName(String typeName);
+
+    Type findByIdType(long idType);
 }

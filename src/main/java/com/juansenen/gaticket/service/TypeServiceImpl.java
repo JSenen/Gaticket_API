@@ -47,7 +47,7 @@ public class TypeServiceImpl implements TypeService{
         Device updatedDevice = changeDevice.get();
         Type searchType = asignedType.get();
 
-        updatedDevice.setDeviceTypeId(searchType);
+        updatedDevice.setDeviceType(searchType);
         deviceRepository.save(updatedDevice);
 
         return updatedDevice;
@@ -71,7 +71,7 @@ public class TypeServiceImpl implements TypeService{
         // Obtén los dispositivos relacionados a este tipo y establece la referencia en nulo
         List<Device> dispositivos = deviceRepository.findByDeviceTypeId(idType);
         for (Device dispositivo : dispositivos) {
-            dispositivo.setDeviceTypeId(null);
+            dispositivo.setDeviceType(null);
             deviceRepository.save(dispositivo);
         }
         typeRepository.deleteById(idType);
@@ -81,5 +81,11 @@ public class TypeServiceImpl implements TypeService{
     public long findByTypeName(String typeName) {
         long typesearch = typeRepository.findByName(typeName);
         return typesearch;
+    }
+
+    @Override
+    public Type findByIdType(long idType) {
+        Optional<Type> searchType = typeRepository.findById(idType);
+        return searchType.get();
     }
 }
