@@ -12,4 +12,7 @@ public interface TypeRepository extends CrudRepository<Type, Long> {
 
     @Query(value = "SELECT * FROM types WHERE type_type LIKE ?1", nativeQuery = true)
     List<Type> findTypeByteToByte(String typeName);
+
+    @Query(value = "SELECT type_id FROM types WHERE type_type = ?1",nativeQuery = true)
+    long findByName(String typeName);
 }

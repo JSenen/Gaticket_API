@@ -110,4 +110,10 @@ public class DeviceServiceImpl implements DeviceService {
         deviceRepository.deleteById(idDevice);
     }
 
+    @Override
+    public List<Device> findByType(long typeName) {
+        List<Device> devices = deviceRepository.searchByType(typeName);
+        return devices;
+    }
+
 }

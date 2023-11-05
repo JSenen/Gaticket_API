@@ -18,4 +18,6 @@ public interface TypeService {
     List<Type> findByLetters(String typeName);
 
     void eraseType(long idType);
+
+    long findByTypeName(String typeName);
 }

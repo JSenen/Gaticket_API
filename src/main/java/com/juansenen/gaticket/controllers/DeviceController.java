@@ -1,9 +1,11 @@
 package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
+import com.juansenen.gaticket.domain.Type;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.NetService;
+import com.juansenen.gaticket.service.TypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +33,8 @@ public class DeviceController {
     private DeviceService deviceService;
     @Autowired
     private NetService netService;
+    @Autowired
+    private TypeService typeService;
 
     @Operation(
             summary = "Retrieve all devices",
@@ -44,7 +48,9 @@ public class DeviceController {
     })
     @GetMapping("/device")
     public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber,
-                                                @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "ideviceIp", defaultValue = "", required = false) String ipDevice){
+                                                @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "ideviceIp", defaultValue = "", required = false) String ipDevice,
+                                                @Parameter(description = "Type name", required = false)@RequestParam(name = "typeName", defaultValue = "", required = false) String typeName)
+    {
         logger.info("/device getAll()");
 
         if (!serialNumber.isEmpty()) {
@@ -58,7 +64,13 @@ public class DeviceController {
             long netId = netService.findByNetIp(ipDevice);
             List<Device> devices = deviceService.findByIp(netId);
             return ResponseEntity.ok(devices);
-        } else {
+        } else if (!typeName.isEmpty()){
+            logger.info("/device getAll() search by type Name");
+            // Buscar por nombre del tipo
+            long typeOfDevice = typeService.findByTypeName(typeName);
+            List<Device> devices = deviceService.findByType(typeOfDevice);
+            return ResponseEntity.ok(devices);
+        }else{
             // Si no se proporciona ningún parámetro de solicitud, devuelve todos los dispositivos.
             logger.info("/device getAll() no parameters provided, returning all devices");
             List<Device> devices = deviceService.findAll();
