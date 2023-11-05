@@ -25,4 +25,5 @@ public interface DeviceRepository extends CrudRepository<Device, Long> {
     List<Device> findByIp(long ipDevice);
 
 
+    void deleteById(long idDevice);
 }

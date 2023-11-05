@@ -117,4 +117,15 @@ public class DeviceController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(deviceDepartment);
     }
 
+    @Operation(
+            summary = "Delete a device by Id",
+            description = "Delete a device by Id",
+            tags = { "type"})
+    @DeleteMapping("/device/{idDevice}")
+    public ResponseEntity<Void> deleteDevice(@Parameter(description = "Id of device")@PathVariable("idDevice") long idDevice) throws EntityNotFound{
+        logger.info("/device/{idDevice} deleteDevice()");
+        deviceService.eraseDevice(idDevice);
+
+        return ResponseEntity.noContent().build();
+    }
 }

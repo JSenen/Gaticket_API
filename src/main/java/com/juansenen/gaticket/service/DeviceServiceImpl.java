@@ -3,6 +3,7 @@ package com.juansenen.gaticket.service;
 import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
+import com.juansenen.gaticket.domain.Type;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
 import com.juansenen.gaticket.repository.DeviceRepository;
@@ -90,6 +91,13 @@ public class DeviceServiceImpl implements DeviceService {
     public List<Device> findByIp(long ipDevice) {
         List<Device> devices = deviceRepository.findByIp(ipDevice);
         return  devices;
+    }
+
+    @Override
+    public void eraseDevice(long idDevice) {
+        Optional<Device> deviceSearch = deviceRepository.findById(idDevice);
+
+        deviceRepository.deleteById(idDevice);
     }
 
 }

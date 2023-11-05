@@ -22,4 +22,6 @@ public interface DeviceService {
     List<Device> searchByType(long idType);
 
     List<Device> findByIp(long ipDevice);
+
+    void eraseDevice(long idDevice);
 }
