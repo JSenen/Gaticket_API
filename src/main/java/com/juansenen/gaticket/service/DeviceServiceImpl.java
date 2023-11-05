@@ -64,7 +64,9 @@ public class DeviceServiceImpl implements DeviceService {
         Net searchNet = asignedNet.get();
 
         updatedDevice.setNet(searchNet);
+        searchNet.setNetStatus(true);
         deviceRepository.save(updatedDevice);
+        netRepository.save(searchNet);
 
         return updatedDevice;
     }
