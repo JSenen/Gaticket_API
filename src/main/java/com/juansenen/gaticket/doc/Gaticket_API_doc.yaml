@@ -1,645 +1,2712 @@
 openapi: 3.0.1
 info:
-  title: GATICKET-API
-  description: API description in Markdown.
-  version: 1.0.0
+  title: OpenAPI definition
+  version: v0
 servers:
-  - url: 'http://localhost:8080/gaticket/'
+  - url: http://localhost:8080
+    description: Generated server url
 tags:
-  - name: users
-  - name: devices
-  - name: types
+  - name: incidence
+    description: This controller contains all the endpoints that can manage incidences
+  - name: user
+    description: This controller contains all the endpoints that can manage author user
+      information
+  - name: department
+    description: This controller contains all the endpoints that can manage users with
+      the departments
   - name: net
-  - name: incidences
-  - name: departments
+    description: This controller contains all the endpoints that can manage net
+  - name: device
+    description: This controller contains all the endpoints that can manage users with
+      the device
+  - name: type
+    description: This controller contains all the endpoints that can manage types of
+      devices
 paths:
-  /users:
-    get:
-      tags:
-        - users
-      summary: Get all users on Data Base
-      description: List of all users on Data Base
-      operationId: getAllUsers
-      responses:
-        '200':
-          description: Se devuelve un listado de todos los usuarios en la base de datos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Users'
-              examples:
-                User1:
-                  $ref: '#/components/examples/User1'
-    post:
-      tags:
-        - users
-      summary: Add one user to data base
-      description: Add one user
-      operationId: postUser
-      requestBody:
-        $ref: '#/components/requestBodies/postUser'
-      responses:
-        '201':
-          description: The new user it is add to the database
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Users'
-              examples:
-                User1:
-                  $ref: '#/components/examples/User1'
-
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /users/{id}:
-    parameters:
-      - $ref: '#/components/parameters/id'
-    get:
-      tags:
-        - users
-      summary: Get user by Id
-      description: Find a user by the id
-      operationId: getUserById
-      responses:
-        '200':
-          description: Se devuelve el usuario buscado por el Id
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Users'
-              examples:
-                User1:
-                  $ref: '#/components/examples/User1'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    put:
-      tags:
-        - users
-      summary: Update a user by Id
-      description: Update a user by Id
-      operationId: updateUserById
-      requestBody:
-        $ref: '#/components/requestBodies/postUser'
-      responses:
-        '202':
-          description: Se acepta la modificacion completa y devuelve el cuerpo de la linea completo
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Accepted'
-              examples:
-                PutUser1:
-                  $ref: '#/components/examples/User2'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    delete:
-      tags:
-        - users
-      summary: Delete a user, search by his Id
-      description: Delete a user, search by his Id
-      operationId: deleteUserById
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /departments:
     get:
       tags:
-        - departments
-      summary: Get all departments on data base
-      description: Get all departments on data base
-      operationId: getAllDepartments
+        - department-entity-controller
+        - department
+      summary: Retrieve all departments
+      description: Get all departments on the data base.
+      operationId: getCollectionResource-department-get_1_1
       responses:
-        200:
-          description: Se devuelve listado completo de los departamentos en la base de datos
+        "404":
+          description: Not Found
           content:
-            application/json:
+            application/hal+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Departments'
-              examples:
-                DepartmentList:
-                  $ref: '#/components/examples/Department1'
-        500:
-          $ref: '#/components/responses/InternalServerError'
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDepartment'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDepartment'
+            text/uri-list:
+              schema:
+                type: string
     post:
       tags:
-        - departments
-      summary: Add one department to data base
-      operationId: AddDepartment
+        - department-entity-controller
+        - department
+      summary: Save a new department
+      description: 'Save one department '
+      operationId: postCollectionResource-department-post_1
       requestBody:
-        $ref: '#/components/requestBodies/postDepartment'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
       responses:
-        201:
-          description: New department add to data base
+        "404":
+          description: Not Found
           content:
-            application/json:
+            application/hal+json:
               schema:
-                $ref: '#/components/schemas/Departments'
-              examples:
-                Department1:
-                  $ref: '#/components/examples/Department1'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-        400:
-          $ref: '#/components/responses/BadRequest'
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
   /departments/{id}:
-    parameters:
-      - $ref: '#/components/parameters/id'
     get:
       tags:
-        - departments
-      summary: Get department on data base by Id
-      description: Get department on data base by Id
-      operationId: getDepartmentById
-      responses:
-        200:
-          description: Se devuelve departamento buscado por el Id
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Departments'
-              examples:
-                DepartmentList:
-                  $ref: '#/components/examples/Department1'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-    put:
-      tags:
-        - departments
-      summary: Update a department by Id
-      description: Update a department by Id
-      operationId: updateDepartmentById
-      requestBody:
-        $ref: '#/components/requestBodies/postDepartment'
-      responses:
-        '202':
-          description: Se acepta la modificacion completa y devuelve el cuerpo de la linea completo
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Accepted'
-              examples:
-                PutUser1:
-                  $ref: '#/components/examples/Department2'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    delete:
-      tags:
-        - departments
-      summary: Erase a department by Id
-      operationId: deleteDepartmentId
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-
-
-  /devices:
-    get:
-      tags:
-        - devices
-      summary: Get all devices on Data Base
-      description: List of all devices on data base
-      operationId: findAllDevices
-      responses:
-        '200':
-          description: Se devuelve un listado con todos los dispositivos de la base de datos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Devices'
-              examples:
-                Line1:
-                  $ref: '#/components/examples/AllDevices'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /devices/findByMac/{mac}:
-    get:
-      tags:
-        - devices
-      summary: Get device by mac
-      description: Get devices typing his nic mac
-      operationId: findDeviceByMac
+        - department-entity-controller
+        - department
+      summary: Retrieve a department by Id
+      description: Get one department knowing his Id.
+      operationId: getItemResource-department-get_1
       parameters:
-        - $ref: '#/components/parameters/mac'
-      responses:
-        '200':
-          description: Show a device search by the mac of his nic
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Devices'
-              examples:
-                Device:
-                  $ref: '#/components/examples/Device1'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /devices/findBySerialNumber/{sn}:
-    get:
-      tags:
-        - devices
-      summary: Get device by Serial Number
-      description: Ahow device with serial number
-      operationId: findDevicesBySerialNumber
-      parameters:
-        - name: serial_number
-          in: query
-          description: Unique Idetification serial number
+        - name: id
+          in: path
+          description: ID of department search
           required: true
           schema:
             type: string
       responses:
-        '200':
-          description: Se devuelve los datos del dispositivo seleccionado por el cliente.
+        "404":
+          description: Not found
+          content: {}
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+    put:
+      tags:
+        - department-entity-controller
+        - department
+      summary: Update a department by Id
+      description: Update one department knowing his Id.
+      operationId: putItemResource-department-put_1
+      parameters:
+        - name: id
+          in: path
+          description: Department Id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      responses:
+        "404":
+          description: Not found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        "204":
+          description: No Content
+        "202":
+          description: Accepted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Devices'
-              examples:
-                Device1:
-                  $ref: '#/components/examples/Device1'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /device:
-    post:
-      tags:
-        - devices
-      description: "Add a new device to data base"
-      operationId: addDevice
-      requestBody:
-        $ref: '#/components/requestBodies/postDevice'
-      responses:
-        '201':
-          description: The new device it is add to the database
-          content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Devices'
-                examples:
-                  example1:
-                    $ref: '#/components/examples/Device1'
-
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /device/{sn}:
+                $ref: '#/components/schemas/Department'
     delete:
       tags:
-        - devices
-      description: Delete a device search by his serial number
-      operationId: deleteDevice
+        - department-entity-controller
+        - department
+      summary: Delete a department by Id
+      description: Delete one department knowing his Id.
+      operationId: deleteItemResource-department-delete_1
       parameters:
-        - $ref: '#/components/parameters/sn'
+        - name: id
+          in: path
+          description: Id of the department to erase
+          required: true
+          schema:
+            type: string
       responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    put:
-      parameters:
-        - $ref: '#/components/parameters/sn'
+        "404":
+          description: Not found
+          content: {}
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "204":
+          description: No Content
+        "201":
+          description: Created
+    patch:
       tags:
-        - devices
-      summary: Update one device search by serial number
-      operationId: putDevicebySerialNumber
+        - department-entity-controller
+      description: patch-department
+      operationId: patchItemResource-department-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
-        $ref: '#/components/requestBodies/postDevice'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentRequestBody'
+        required: true
       responses:
-        '202':
-          description: Se acepta la modificacion completa y devuelve el cuerpo completo del dispositivo
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        "204":
+          description: No Content
+
+  /devices:
+    get:
+      tags:
+        - device-entity-controller
+      description: get-device
+      operationId: getCollectionResource-device-get_1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDevice'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDevice'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - device-entity-controller
+      description: create-device
+      operationId: postCollectionResource-device-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDevice'
+
+  /devices/{id}:
+    get:
+      tags:
+        - device-entity-controller
+      description: get-device
+      operationId: getItemResource-device-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDevice'
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - device-entity-controller
+      description: update-device
+      operationId: putItemResource-device-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDevice'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDevice'
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - device-entity-controller
+      description: delete-device
+      operationId: deleteItemResource-device-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+        - device-entity-controller
+      description: patch-device
+      operationId: patchItemResource-device-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDevice'
+        "204":
+          description: No Content
+
+  /devices/{id}/net:
+    get:
+      tags:
+        - device-property-reference-controller
+      description: get-net-by-device-Id
+      operationId: followPropertyReference-device-get_2_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - device-property-reference-controller
+      description: update-net-by-device-Id
+      operationId: createPropertyReference-device-put_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - device-property-reference-controller
+      description: delete-net-by-device-Id
+      operationId: deletePropertyReference-device-delete_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+        - device-property-reference-controller
+      description: patch-net-by-device-Id
+      operationId: createPropertyReference-device-patch_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "204":
+          description: No Content
+
+  /incidenceses:
+    get:
+      tags:
+        - incidences-entity-controller
+      description: get-incidences
+      operationId: getCollectionResource-incidences-get_1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelIncidences'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelIncidences'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - incidences-entity-controller
+      description: create-incidences
+      operationId: postCollectionResource-incidences-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidencesRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelIncidences'
+  /incidenceses/{id}:
+    get:
+      tags:
+        - incidences-entity-controller
+      description: get-incidences
+      operationId: getItemResource-incidences-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelIncidences'
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - incidences-entity-controller
+      description: update-incidences
+      operationId: putItemResource-incidences-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidencesRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelIncidences'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelIncidences'
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - incidences-entity-controller
+      description: delete-incidences
+      operationId: deleteItemResource-incidences-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+        - incidences-entity-controller
+      description: patch-incidences
+      operationId: patchItemResource-incidences-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidencesRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelIncidences'
+        "204":
+          description: No Content
+  /nets:
+    get:
+      tags:
+        - net-entity-controller
+      description: get-net
+      operationId: getCollectionResource-net-get_1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelNet'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelNet'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - net-entity-controller
+      description: create-net
+      operationId: postCollectionResource-net-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+
+  /nets/{id}:
+    get:
+      tags:
+        - net-entity-controller
+      description: get-net
+      operationId: getItemResource-net-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - net-entity-controller
+      description: update-net
+      operationId: putItemResource-net-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - net-entity-controller
+      description: delete-net
+      operationId: deleteItemResource-net-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+        - net-entity-controller
+      description: patch-net
+      operationId: patchItemResource-net-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelNet'
+        "204":
+          description: No Content
+
+  /types:
+    get:
+      tags:
+        - type
+        - type-entity-controller
+      summary: Retrieve all types of device
+      description: Get all types of device on the data base.
+      operationId: getCollectionResource-type-get_1_1
+      parameters:
+        - name: query
+          in: query
+          description: Search name including letters. Can make real-time request
+          required: false
+          schema:
+            type: string
+            default: ""
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelType'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelType'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - type
+        - type-entity-controller
+      summary: Save a device
+      description: Save a device on Data Base
+      operationId: postCollectionResource-type-post_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Type'
+        required: true
+      responses:
+        "404":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelType'
+        "200":
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/Accepted'
-              examples:
-                PutDevice:
-                  $ref: '#/components/examples/Device1'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFoundException'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+                $ref: '#/components/schemas/Type'
 
+  /types/{id}:
+    get:
+      tags:
+        - type-entity-controller
+      description: get-type
+      operationId: getItemResource-type-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelType'
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - type-entity-controller
+      description: update-type
+      operationId: putItemResource-type-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelType'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelType'
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - type-entity-controller
+      description: delete-type
+      operationId: deleteItemResource-type-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+        - type-entity-controller
+      description: patch-type
+      operationId: patchItemResource-type-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelType'
+        "204":
+          description: No Content
+  /users:
+    get:
+      tags:
+        - user-entity-controller
+        - user
+      summary: Retrieve all users
+      description: Get all Users on the data base.
+      operationId: getCollectionResource-user-get_1_1
+      parameters:
+        - name: userTip
+          in: query
+          description: TIP of a user
+          required: false
+          schema:
+            type: string
+            default: ""
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelUser'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelUser'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - user-entity-controller
+        - user
+      summary: Add a new user
+      description: Add a new user on the data base. By default "usuario" is the rol
+        assigned
+      operationId: postCollectionResource-user-post_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelUser'
+
+  /users/{id}:
+    get:
+      tags:
+        - user-entity-controller
+        - user
+      summary: Retrieve a user by his ID number
+      description: Get a user on the data base by his ID number.
+      operationId: getItemResource-user-get_1
+      parameters:
+        - name: id
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: string
+      responses:
+        "404":
+          description: User not found
+          content: {}
+        "400":
+          description: Invalid id supplied
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: Found user
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelUser'
+    put:
+      tags:
+        - user-entity-controller
+      description: update-user
+      operationId: putItemResource-user-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelUser'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelUser'
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - user-entity-controller
+      description: delete-user
+      operationId: deleteItemResource-user-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+        - user-entity-controller
+      description: patch-user
+      operationId: patchItemResource-user-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelUser'
+        "204":
+          description: No Content
+  /user/{id}:
+    put:
+      tags:
+        - user
+      summary: Update a user information
+      description: Update the information of a user
+      operationId: modUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - user
+      summary: Delete a user
+      description: Add a user search by his ID on a Department by his Id
+      operationId: delUser
+      parameters:
+        - name: id
+          in: path
+          description: Id of user
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+  /type/{idType}:
+    put:
+      tags:
+        - type
+      summary: Update a type of possible devices
+      description: Update the name of a type.
+      operationId: modOne
+      parameters:
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Type'
+        required: true
+      responses:
+        "404":
+          description: Bad Request
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+    delete:
+      tags:
+        - type
+      summary: Delete a type by Id
+      description: Delete a type by Id
+      operationId: deleteType
+      parameters:
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+  /user/{iduser}/{departmentId}:
+    post:
+      tags:
+        - department
+        - user
+      summary: Add a user on a Department
+      description: Add a user search by his ID on a Department by his Id
+      operationId: addDepToUSer
+      parameters:
+        - name: iduser
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: departmentId
+          in: path
+          description: ID of Department search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Department'
+  /net:
+    get:
+      tags:
+        - net
+      summary: Retrieve all network data
+      description: Get all data about network.
+      operationId: getAll
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+    post:
+      tags:
+        - net
+      summary: Save a new net data
+      description: Save anew net data.
+      operationId: addOne
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Net'
+        required: true
+      responses:
+        "404":
+          description: Bad Request
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /net/{idNet}/{idDevice}:
+    post:
+      tags:
+        - net
+      summary: Assing a new net data to a device
+      description: Assing net data to a device.
+      operationId: addDeviceNet
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of net
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idDevice
+          in: path
+          description: Id of a device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Bad Request
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /incidence/{idUser}:
+    post:
+      tags:
+        - incidence
+        - user
+      summary: Save a incidence by a user
+      description: Save a incidence by a user.
+      operationId: addOne_1
+      parameters:
+        - name: idUser
+          in: path
+          description: ID of user who save incidence
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Incidences'
+        required: true
+      responses:
+        "404":
+          description: Bad request
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /device:
+    get:
+      tags:
+        - device
+      summary: Retrieve all devices
+      description: Get all devices on the data base.
+      operationId: getAll_2
+      parameters:
+        - name: deviceSerial
+          in: query
+          description: Serial number of device
+          required: false
+          schema:
+            type: string
+            default: ""
+        - name: ideviceIp
+          in: query
+          description: Ip  of device
+          required: false
+          schema:
+            type: string
+            default: ""
+        - name: typeName
+          in: query
+          description: Type name
+          required: false
+          schema:
+            type: string
+            default: ""
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+    post:
+      tags:
+        - device
+      summary: Save a new device
+      description: Save a new Device.
+      operationId: addOne_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+        required: true
+      responses:
+        "400":
+          description: La dirección MAC debe tener exactamente 12 caracteres
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+  /device/{idDevice}/{idType}:
+    post:
+      tags:
+        - type
+        - device
+      summary: Set a type to a device
+      description: Set a type to a device.
+      operationId: addTypeDevice
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id of device
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Bad Request
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+  /department/{idDevice}/{idDepartment}:
+    post:
+      tags:
+        - device
+      summary: Assing a new device to a department
+      description: Assing a device to a department.
+      operationId: addDeviceToDepartment
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id device
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idDepartment
+          in: path
+          description: Id department
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+  /user/{iduser}:
+    patch:
+      tags:
+        - user
+      summary: Update rol of a user
+      description: Update rol of a user search by his Id
+      operationId: updateUserRol
+      parameters:
+        - name: iduser
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /net/{idNet}:
+    delete:
+      tags:
+        - net
+      summary: Free a net by Id
+      description: Free a type by Id
+      operationId: deteleIp
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of the net ip
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+    patch:
+      tags:
+        - net
+      summary: Update status of net ip
+      description: Update status of net ip
+      operationId: updateNet
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of the net ip
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Net'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /types/{idType}:
+    get:
+      tags:
+        - type
+      summary: Retrieve a types by Id
+      description: Get a type of device by Id.
+      operationId: searchById
+      parameters:
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+  /net/department/{idNet}:
+    get:
+      tags:
+        - net
+      summary: Retrieve all network data
+      description: Get all data about network.
+      operationId: getDepartmentByIp
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of net
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /incidences:
+    get:
+      tags:
+        - incidence
+      summary: Retrieve all incidences
+      description: Get all incidences on the data base.
+      operationId: getAll_1
+      parameters:
+        - name: userid
+          in: query
+          description: User number incidences
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: deviceid
+          in: query
+          description: Device number incidences
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+      responses:
+        "404":
+          description: Resource not found
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences/{idIncidence}:
+    get:
+      tags:
+        - incidence
+      summary: Retrieve a incidence by his Id number
+      description: Retrieve a incidence by his Id number.
+      operationId: getOne
+      parameters:
+        - name: idIncidence
+          in: path
+          description: ID of the incidence
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Resource not found
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences/user/{idUser}:
+    get:
+      tags:
+        - incidence
+        - user
+      summary: Retrieve a incidence by id User
+      description: Retrieve a incidence by id User.
+      operationId: getAllIncidencesIdUser
+      parameters:
+        - name: idUser
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences/device/{deviceId}:
+    get:
+      tags:
+        - incidence
+        - device
+      summary: Retrieve a incidence by id device
+      description: Retrieve a incidence by id device.
+      operationId: getAllIncidencesIdDevice
+      parameters:
+        - name: deviceId
+          in: path
+          description: ID of device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /device/{idDevice}:
+    get:
+      tags:
+        - device
+      summary: Retrieve a device by his id number
+      description: Retrieve a device by his id number.
+      operationId: getDeviceById
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+    delete:
+      tags:
+        - device
+      summary: Delete a device by Id
+      description: Delete a device by Id
+      operationId: deleteDevice
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id of device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+  /department/{iduser}:
+    get:
+      tags:
+        - department
+        - user
+      summary: Retrieve a department by Id user
+      description: Get one department knowing id of a user.
+      operationId: findDepartUser
+      parameters:
+        - name: iduser
+          in: path
+          description: ID of user search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: Not found
+          content: {}
+        "400":
+          description: Invalid
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
 components:
-  # Parametros que se usan mucho
-  parameters:
-    id:
-      name: id
-      in: path
-      description: Id of a entity
-      required: true
-      schema:
-        type: integer
-        example: 2
-    sn:
-      name: sn
-      in: path
-      description: Serial Number
-      required: true
-      schema:
-        type: string
-        example: CZC6758B
-    mac:
-      name: mac
-      in: path
-      description: MAC of the device
-      required: true
-      schema:
-        type: string
-  # Ejemplos
-  examples:
-    Department1:
-      summary: Ejemplo departamento
-      value:
-        departemtId: 1
-        departmentName: Grocery,
-        departmentPhone: 483-754-4078,
-        departmentMail: Jameson.Huel73@yahoo.com,
-        departmentCity: South Augustus
-    Department2:
-      summary: Ejemplo departamento
-      value:
-        departemtId: 1
-        departmentName: Shoes,
-        departmentPhone: 407-995-8626,
-        departmentMail": Una.Dickens56@hotmail.com,
-        departmentCity": Cormierside",
-    User1:
-      summary: Ejemplo usuario
-      value:
-        userId: 2
-        userMail: pruebas@gmail.com
-        userPassword: 11111
-        userTip: B22222B
-        userRol: usuario
-    User2:
-      summary: Ejemplo usuario
-      value:
-        userId: 2
-        userMail: modifcyuser@gmail.com
-        userPassword: 22222
-        userTip: F4567G
-        userRol: usuario
-    Device1:
-      summary: Ejemplo dispositivo
-      value:
-          deviceId: 23
-          device_hd: 240
-          device_ram: 32
-          device_mac: '05:67:BF:65:AD'
-          device_serial: 'FGH435T'
-          device_model: 'HP ElitePro'
-          device_datebuy: 12/04/2013
-          device_datestart: 03/12/2013
-    AllDevices:
-      summary: Ejemplo array de dispositivos
-      value:
-        - deviceId: 23
-          device_hd: 240
-          device_ram: 32
-          device_mac: '05:67:BF:65:AD'
-          device_serial: 'FGH435T'
-          device_model: 'HP ElitePro'
-          device_datebuy: 12/04/2013
-          device_datestart: 03/12/2013
-        - deviceId: 243
-          device_hd: 500
-          device_ram: 16
-          device_mac: '12:12:BF:65:E5'
-          device_serial: 'CZC6757'
-          device_model: 'Travel Mate'
-          device_datebuy: 01/11/2020
-          device_datestart: 30/09/2023
-
-
   schemas:
-    Devices:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+    AbstractJsonSchemaPropertyObject:
+      type: object
+      properties:
+        title:
+          type: string
+        readOnly:
+          type: boolean
+    Item:
+      type: object
+      properties:
+        type:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+    JsonSchema:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+        definitions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        type:
+          type: string
+        $schema:
+          type: string
+    Links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Link'
+    RepresentationModelObject:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    User:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: UserId
+          format: int64
+          readOnly: true
+          example: 2
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+      description: User information
+    EntityModelUser:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelUser:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelUser'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Device:
       type: object
       properties:
         deviceId:
           type: integer
+          description: DeviceId
           format: int64
+          readOnly: true
           example: 12
-        device_hd:
+        deviceHd:
           type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+        deviceType:
+          $ref: '#/components/schemas/Type'
+        net:
+          $ref: '#/components/schemas/Net'
+      description: All class of devices
+    Incidences:
+      type: object
+      properties:
+        incidencesId:
+          type: integer
+          description: incidenceId
           format: int64
-          example: 250
-        device_ram:
-          type: integer
-          format: int64
-          example: 16
-        device_mac:
+          readOnly: true
+          example: 12
+        incidenceCommit:
           type: string
-          example: '84:32:34:CB:DF:45'
-        device_serial:
+          description: Description
+          example: My computer has began to go slowly. And I can´t see mp4 videos
+        incidenceStatus:
           type: string
-          example: 'KBC456CD'
-        device_model:
+          description: Incidence status
+          example: Active
+        incidenceDate:
           type: string
-          example: 'EliteBook'
-        device_datebuy:
+          description: Incidence date start
+          format: date-time
+        incidenceDateFinish:
+          type: string
+          description: Incidence date fix it
+          format: date-time
+        incidenceTheme:
+          type: string
+          description: Incidence theme
+          example: Computer damage
+        adminId:
           type: integer
-          format: date
-          example: 12/04/2013
-        device_datestart:
-          type: integer
-          format: date
-          example: 12/06/2014
+          description: Admin ID who fix incidence
+          format: int32
+        device:
+          $ref: '#/components/schemas/Device'
+        user:
+          $ref: '#/components/schemas/User'
+        responsable:
+          $ref: '#/components/schemas/User'
     Net:
       type: object
       properties:
         netId:
           type: integer
+          description: netId
           format: int64
-          example: 4
-        net:
+          readOnly: true
+          example: 8
+        netIp:
           type: string
-          example: '10.52.2.12'
-    Departments:
-      type: object
-      properties:
-        departmentId:
-          type: integer
-          format: int64
-          example: 23
-        department_name:
+          description: IP
+          example: 10.53.3.456
+        netMask:
           type: string
-          example: 'Apoyo Logistico'
-        department_phone:
+          description: Mask of network
+          example: 255.255.255.0
+        netCdir:
           type: string
-          example: '07000148'
-        department_mail:
+          description: CDIR number
+          example: "24"
+        netGateWay:
           type: string
-          format: email
-          example: 'alogistico@gmail.com'
-        department_city:
-          type: string
-          example: 'Barcelona'
-    Users:
-      type: object
-      properties:
-        userId:
-          type: integer
-          format: int64
-          example: 45
-        user_mail:
-          type: string
-          format: email
-          example: 'pepito@gmail.com'
-        user_password:
-          type: string
-          format: password
-          example: '1234pepito'
-        user_rol:
-          type: string
-          example: 'usuario'
-    Incidences:
-      type: object
-      properties:
-        incidenceId:
-          type: integer
-          format: int64
-          example: 56
-        incidence_status:
+          description: Gateway number
+          example: 10.52.2.1
+        netStatus:
           type: boolean
-          example: true
-    Types:
+          description: Status of the IP
+          example: false
+      description: Network information of a device
+    Type:
+      required:
+        - typeName
       type: object
       properties:
         typeId:
           type: integer
+          description: TypeId
           format: int64
-          example: 43
-        type:
+          readOnly: true
+          example: 4
+        typeName:
           type: string
-          example: 'Ordenador sobremesa'
-    BadRequest:
+          description: Type of device
+          example: Laptop
+      description: Type of device information
+    EntityModelIncidences:
+      type: object
       properties:
-        errorCode:
-          type: number
-          format: int32
-          example: 404
-        message:
+        incidenceCommit:
           type: string
-          example: Bad Request
-    NotFound:
-      properties:
-        errorCode:
-          type: number
+          description: Description
+          example: My computer has began to go slowly. And I can´t see mp4 videos
+        incidenceStatus:
+          type: string
+          description: Incidence status
+          example: Active
+        incidenceDate:
+          type: string
+          description: Incidence date start
+          format: date-time
+        incidenceDateFinish:
+          type: string
+          description: Incidence date fix it
+          format: date-time
+        incidenceTheme:
+          type: string
+          description: Incidence theme
+          example: Computer damage
+        adminId:
+          type: integer
+          description: Admin ID who fix incidence
           format: int32
-          example: 404
-    ErrorResponse:
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelIncidences:
+      type: object
       properties:
-        errorCode:
-          type: number
+        _embedded:
+          type: object
+          properties:
+            incidenceses:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelIncidences'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelObject:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            objects:
+              type: array
+              items:
+                type: object
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelDevice:
+      type: object
+      properties:
+        deviceHd:
+          type: integer
+          description: Device HD capacity
           format: int32
           example: 500
-        message:
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
           type: string
-          example: Validation error
-
-  responses:
-    BadRequest:
-      description: Solicitud realizada por el cliente no pudo ser procesada debido a un error en la solicitud. Esto podría deberse a una solicitud malformada, a la ausencia de información requerida en la solicitud o a una solicitud que no cumple con los requisitos del servidor.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/BadRequest'
-          example:
-            errorCode: 400
-            message: 'Bad Request'
-    NotFoundException:
-      description: El servidor no pudo encontrar el recurso solicitado. Es decir, el servidor no puede encontrar la linea  que se está buscando.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/NotFound'
-          example:
-            errorCode: 404
-            message: 'Object not found'
-    InternalServerError:
-      description: se ha producido un error interno en el servidor al procesar la solicitud del cliente
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            errorCode: 500
-            message: "Internal server error"
-    NoContent:
-      description: Solicitud de eliminación se ha procesado correctamente, pero no hay contenido que devolver en la respuesta.
-    Accepted:
-      description: Modificacion aceptada correctamente
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Devices'
-
-  requestBodies:
-    postUser:
-      description: Data from a new user
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Users'
-    postDepartment:
-      description: Datsa from a new department
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Departments'
-    postDevice:
-      description: Data for a new Device
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Devices'
-
-
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelNet:
+      type: object
+      properties:
+        netIp:
+          type: string
+          description: IP
+          example: 10.53.3.456
+        netMask:
+          type: string
+          description: Mask of network
+          example: 255.255.255.0
+        netCdir:
+          type: string
+          description: CDIR number
+          example: "24"
+        netGateWay:
+          type: string
+          description: Gateway number
+          example: 10.52.2.1
+        netStatus:
+          type: boolean
+          description: Status of the IP
+          example: false
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelNet:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            nets:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelNet'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelType:
+      required:
+        - typeName
+      type: object
+      properties:
+        typeName:
+          type: string
+          description: Type of device
+          example: Laptop
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelType:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            types:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelType'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelDevice:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            devices:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelDevice'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Department:
+      type: object
+      properties:
+        departemtId:
+          type: integer
+          description: DepartmentId
+          format: int64
+          readOnly: true
+          example: 6
+        departmentName:
+          type: string
+          description: Department name
+          example: sales
+        departmentPhone:
+          type: string
+          description: Department contact phone
+          example: "0700047"
+        departmentMail:
+          type: string
+          description: Department contact mail
+          example: sales@megacompany.com
+        departmentCity:
+          type: string
+          description: City where it is the department
+          example: Zaragoza
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        userList:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+      description: Departments inside de company
+    EntityModelDepartment:
+      type: object
+      properties:
+        departmentName:
+          type: string
+          description: Department name
+          example: sales
+        departmentPhone:
+          type: string
+          description: Department contact phone
+          example: "0700047"
+        departmentMail:
+          type: string
+          description: Department contact mail
+          example: sales@megacompany.com
+        departmentCity:
+          type: string
+          description: City where it is the department
+          example: Zaragoza
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelDepartment:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            departments:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelDevice:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            devices:
+              type: array
+              items:
+                $ref: '#/components/schemas/DeviceResponse'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelUser:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserResponse'
+        _links:
+          $ref: '#/components/schemas/Links'
+    DepartmentRequestBody:
+      type: object
+      properties:
+        departemtId:
+          type: integer
+          description: DepartmentId
+          format: int64
+          readOnly: true
+          example: 6
+        departmentName:
+          type: string
+          description: Department name
+          example: sales
+        departmentPhone:
+          type: string
+          description: Department contact phone
+          example: "0700047"
+        departmentMail:
+          type: string
+          description: Department contact mail
+          example: sales@megacompany.com
+        departmentCity:
+          type: string
+          description: City where it is the department
+          example: Zaragoza
+        devices:
+          type: array
+          items:
+            type: string
+        userList:
+          type: array
+          items:
+            type: string
+      description: Departments inside de company
+    DeviceRequestBody:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          description: DeviceId
+          format: int64
+          readOnly: true
+          example: 12
+        deviceHd:
+          type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+        deviceType:
+          type: string
+        net:
+          type: string
+      description: All class of devices
+    NetRequestBody:
+      type: object
+      properties:
+        netId:
+          type: integer
+          description: netId
+          format: int64
+          readOnly: true
+          example: 8
+        netIp:
+          type: string
+          description: IP
+          example: 10.53.3.456
+        netMask:
+          type: string
+          description: Mask of network
+          example: 255.255.255.0
+        netCdir:
+          type: string
+          description: CDIR number
+          example: "24"
+        netGateWay:
+          type: string
+          description: Gateway number
+          example: 10.52.2.1
+        netStatus:
+          type: boolean
+          description: Status of the IP
+          example: false
+      description: Network information of a device
+    TypeRequestBody:
+      required:
+        - typeName
+      type: object
+      properties:
+        typeId:
+          type: integer
+          description: TypeId
+          format: int64
+          readOnly: true
+          example: 4
+        typeName:
+          type: string
+          description: Type of device
+          example: Laptop
+      description: Type of device information
+    UserRequestBody:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: UserId
+          format: int64
+          readOnly: true
+          example: 2
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+      description: User information
+    DeviceResponse:
+      type: object
+      properties:
+        deviceHd:
+          type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+      description: All class of devices
+    UserResponse:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+      description: User information
+    IncidencesRequestBody:
+      type: object
+      properties:
+        incidencesId:
+          type: integer
+          description: incidenceId
+          format: int64
+          readOnly: true
+          example: 12
+        incidenceCommit:
+          type: string
+          description: Description
+          example: My computer has began to go slowly. And I can´t see mp4 videos
+        incidenceStatus:
+          type: string
+          description: Incidence status
+          example: Active
+        incidenceDate:
+          type: string
+          description: Incidence date start
+          format: date-time
+        incidenceDateFinish:
+          type: string
+          description: Incidence date fix it
+          format: date-time
+        incidenceTheme:
+          type: string
+          description: Incidence theme
+          example: Computer damage
+        adminId:
+          type: integer
+          description: Admin ID who fix incidence
+          format: int32
+        device:
+          type: string
+        user:
+          type: string
+        responsable:
+          type: string
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        hreflang:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        deprecation:
+          type: string
+        profile:
+          type: string
+        name:
+          type: string
+        templated:
+          type: boolean
