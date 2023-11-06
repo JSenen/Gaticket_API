@@ -102,7 +102,7 @@ public class DeviceController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Device.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid",
+            @ApiResponse(responseCode = "400", description = "La dirección MAC debe tener exactamente 12 caracteres",
                     content = @Content),
             @ApiResponse(responseCode = "404",description = "Bad Request",
                     content = @Content )
