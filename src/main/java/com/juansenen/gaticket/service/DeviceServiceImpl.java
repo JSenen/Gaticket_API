@@ -45,7 +45,17 @@ public class DeviceServiceImpl implements DeviceService {
     // Método para formatear la dirección MAC con dos puntos
     private String formatearDireccionMac(String direccionMac) {
         if (direccionMac != null) {
-            direccionMac = direccionMac.replaceAll("(.{2})", "$1:").substring(0, 17);
+            // Comprobar si la dirección MAC ya tiene ":". Si no los tiene, lod agregamos
+            if (!direccionMac.contains(":")) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < direccionMac.length(); i += 2) {
+                    sb.append(direccionMac.substring(i, i + 2));
+                    if (i + 2 < direccionMac.length()) {
+                        sb.append(":");
+                    }
+                }
+                direccionMac = sb.toString();
+            }
         }
         return direccionMac;
     }
