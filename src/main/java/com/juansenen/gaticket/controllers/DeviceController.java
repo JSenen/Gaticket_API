@@ -13,11 +13,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -105,7 +108,7 @@ public class DeviceController {
                     content = @Content )
     })
     @PostMapping("/device")
-    public ResponseEntity<Device> addOne(@RequestBody Device device){
+    public ResponseEntity<Device> addOne(@Valid @RequestBody Device device){
         logger.info("/device addOne()");
         Device newDevice = deviceService.addOne(device);
         return ResponseEntity.status(HttpStatus.CREATED).body(newDevice);
@@ -139,5 +142,16 @@ public class DeviceController {
         deviceService.eraseDevice(idDevice);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // Manejo de excepciones de validación 400
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        StringBuilder errorMessage = new StringBuilder();
+        for (FieldError fieldError : fieldErrors) {
+            errorMessage.append(fieldError.getDefaultMessage()).append("\n");
+        }
+        return ResponseEntity.badRequest().body(errorMessage.toString());
     }
 }

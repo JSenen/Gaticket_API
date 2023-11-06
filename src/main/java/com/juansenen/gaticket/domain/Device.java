@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class Device {
     private int deviceRam;
     @Column(name = "device_mac")
     @Schema(description = "Device mac identification", example = "13:BG:45:89:99:AC")
+    @Size(min = 17, max = 17, message = "La dirección MAC debe tener exactamente 12 caracteres")
     private String deviceMac;
     @Column(name = "device_serialnumber")
     @Schema(description = "Device serial number", example = "CXV5678D")

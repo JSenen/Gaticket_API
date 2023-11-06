@@ -34,8 +34,20 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public Device addOne(Device device) {
+        // Formatear la dirección MAC antes de guardarla
+        String formattedMac = formatearDireccionMac(device.getDeviceMac());
+        device.setDeviceMac(formattedMac);
+
         Device newDevice = deviceRepository.save(device);
         return newDevice;
+    }
+
+    // Método para formatear la dirección MAC con dos puntos
+    private String formatearDireccionMac(String direccionMac) {
+        if (direccionMac != null) {
+            direccionMac = direccionMac.replaceAll("(.{2})", "$1:").substring(0, 17);
+        }
+        return direccionMac;
     }
 
     @Override
