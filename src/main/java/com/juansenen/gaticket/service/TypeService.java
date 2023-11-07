@@ -19,7 +19,7 @@ public interface TypeService {
 
     void eraseType(long idType);
 
-    long findByTypeName(String typeName);
+    long findByMac(String typeName);
 
     Type findByIdType(long idType);
 }

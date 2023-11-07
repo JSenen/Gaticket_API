@@ -3,7 +3,6 @@ package com.juansenen.gaticket.service;
 import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Net;
-import com.juansenen.gaticket.domain.Type;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
 import com.juansenen.gaticket.repository.DeviceRepository;
@@ -146,9 +145,20 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<Device> findByType(long typeName) {
-        List<Device> devices = deviceRepository.searchByType(typeName);
+    public List<Device> findByMac(String mac) {
+        List<Device> devices = deviceRepository.searchByMac(mac);
         return devices;
+    }
+
+    @Override
+    public void addDevice(Device device) {
+        deviceRepository.save(device);
+    }
+
+    @Override
+    public Device findById(long deviceId) {
+        Optional<Device> device = deviceRepository.findById(deviceId);
+        return device.get();
     }
 
 }

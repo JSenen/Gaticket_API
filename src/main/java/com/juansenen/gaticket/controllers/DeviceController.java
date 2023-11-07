@@ -1,7 +1,6 @@
 package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
-import com.juansenen.gaticket.domain.Type;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.NetService;
@@ -51,8 +50,8 @@ public class DeviceController {
     })
     @GetMapping("/device")
     public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber,
-                                                @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "ideviceIp", defaultValue = "", required = false) String ipDevice,
-                                                @Parameter(description = "Type name", required = false)@RequestParam(name = "typeName", defaultValue = "", required = false) String typeName)
+                                                @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "deviceIp", defaultValue = "", required = false) String ipDevice,
+                                                @Parameter(description = "MAC of Device", required = false)@RequestParam(name = "mac", defaultValue = "", required = false) String mac)
     {
         logger.info("/device getAll()");
 
@@ -67,11 +66,10 @@ public class DeviceController {
             long netId = netService.findByNetIp(ipDevice);
             List<Device> devices = deviceService.findByIp(netId);
             return ResponseEntity.ok(devices);
-        } else if (!typeName.isEmpty()){
-            logger.info("/device getAll() search by type Name");
-            // Buscar por nombre del tipo
-            long typeOfDevice = typeService.findByTypeName(typeName);
-            List<Device> devices = deviceService.findByType(typeOfDevice);
+        } else if (!mac.isEmpty()){
+            logger.info("/device getAll() search by MAC");
+            // Buscar por mac
+            List<Device> devices = deviceService.findByMac(mac);
             return ResponseEntity.ok(devices);
         }else{
             // Si no se proporciona ningún parámetro de solicitud, devuelve todos los dispositivos.

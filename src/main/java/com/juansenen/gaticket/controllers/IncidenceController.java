@@ -1,8 +1,10 @@
 package com.juansenen.gaticket.controllers;
 
+import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Incidences;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
+import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.IncidenceService;
 import com.juansenen.gaticket.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +34,8 @@ public class IncidenceController {
     private IncidenceService incidenceService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DeviceService deviceService;
 
     @Operation(
             summary = "Retrieve all incidences",
@@ -129,27 +133,38 @@ public class IncidenceController {
             @ApiResponse(responseCode = "404", description = "Bad request", content = @Content)
     })
     @PostMapping("/incidence/{idUser}")
-    public ResponseEntity<Incidences> addOne(@Parameter(description = "ID of user who save incidence") @PathVariable("idUser") long idUser, @RequestBody Incidences incidence) throws EntityNotFound {
+    public ResponseEntity<Incidences> addOne(@PathVariable("idUser") long idUser, @RequestBody Incidences incidence) throws EntityNotFound {
         try {
-            //Obtener el usuario correspondiente
+            // Obtener el usuario correspondiente
             logger.info("/incidences/{idUser} addOne()");
             User userIncidence = userService.findById(idUser);
 
-            //Asociar la incidencia con el usuario
-            incidence.setUser(userIncidence);
+            // Obtener los datos del dispositivo desde la incidencia
+            Device device = incidence.getDevice();
 
-            // Guardamos la incidencia en la base de datos
+            // Si el dispositivo no es nulo, buscarlo o agregarlo a la base de datos
+            if (device != null) {
+                // Si el dispositivo ya tiene un ID, asumimos que está en la base de datos
+                device = deviceService.findById(device.getDeviceId());
+            } else {
+                // Si el dispositivo no tiene un ID, lo agregamos a la base de datos
+                deviceService.addDevice(device);
+            }
+
+            // Asociar la incidencia con el usuario y el dispositivo (si existe)
+            incidence.setUser(userIncidence);
+            incidence.setDevice(device);
+
+            // Guardar la incidencia en la base de datos
             incidenceService.addIncidence(incidence);
 
-            //Devolver una respuesta exitosa
+            // Devolver una respuesta exitosa
             return ResponseEntity.status(HttpStatus.CREATED).body(incidence);
         } catch (EntityNotFound ex) {
             // Manejo de excepciones en caso de que el usuario no se encuentre
-            logger.error("/incidence/{idUser} addOne() USER NO FOUND");
+            logger.error("/incidence/{idUser} addOne() USER NOT FOUND");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
-
 
 }

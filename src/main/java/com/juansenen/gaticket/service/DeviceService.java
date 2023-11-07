@@ -25,5 +25,9 @@ public interface DeviceService {
 
     void eraseDevice(long idDevice);
 
-    List<Device> findByType(long typeId);
+    List<Device> findByMac(String mac);
+
+    void addDevice(Device device);
+
+    Device findById(long deviceId);
 }

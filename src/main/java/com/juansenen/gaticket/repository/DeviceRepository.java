@@ -26,6 +26,6 @@ public interface DeviceRepository extends CrudRepository<Device, Long> {
 
 
     void deleteById(long idDevice);
-    @Query(value = "SELECT * FROM device WHERE type_id = ?",nativeQuery = true)
-    List<Device> searchByType(long typeName);
+    @Query(value = "SELECT * FROM device WHERE device_mac = ?",nativeQuery = true)
+    List<Device> searchByMac(String typeName);
 }

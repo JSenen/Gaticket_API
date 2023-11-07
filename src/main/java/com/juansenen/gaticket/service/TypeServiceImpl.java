@@ -78,7 +78,7 @@ public class TypeServiceImpl implements TypeService{
     }
 
     @Override
-    public long findByTypeName(String typeName) {
+    public long findByMac(String typeName) {
         long typesearch = typeRepository.findByName(typeName);
         return typesearch;
     }
