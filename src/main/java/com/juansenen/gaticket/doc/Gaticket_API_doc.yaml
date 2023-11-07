@@ -1,10 +1,13 @@
 openapi: 3.0.1
 info:
-  title: OpenAPI definition
-  version: v0
-servers:
-  - url: http://localhost:8080
-    description: Generated server url
+  title: GATICKET API
+  version: "1.0.0"
+  description: API diseñada para el control y consulta de la web app Gaticket. Gestor de incidencias técnicas, al cual pueden conectarse los usuarios para poder comunicar al equipo de Tecnologias de la Información de la empresa las incidencias surgidas en sus equipos; y por otra parte los administradores pueden recibirlas, gestionarlas y llevar un control sobre la base de datos de los dispositivos a su cargo.
+
+    Para poder realizar un monitoreo y control de la API, se ha incuido la libreria spring-doc actuator. Accesible en el siguiente link
+
+    [API actuator](http://localhost:8080/actuator)
+
 tags:
   - name: incidence
     description: This controller contains all the endpoints that can manage incidences
@@ -22,11 +25,13 @@ tags:
   - name: type
     description: This controller contains all the endpoints that can manage types of
       devices
+
+servers:
+  - url: http:/localhost:8080
 paths:
   /departments:
     get:
       tags:
-        - department-entity-controller
         - department
       summary: Retrieve all departments
       description: Get all departments on the data base.
@@ -58,7 +63,6 @@ paths:
                 type: string
     post:
       tags:
-        - department-entity-controller
         - department
       summary: Save a new department
       description: 'Save one department '
@@ -91,7 +95,7 @@ paths:
   /departments/{id}:
     get:
       tags:
-        - department-entity-controller
+
         - department
       summary: Retrieve a department by Id
       description: Get one department knowing his Id.
@@ -121,7 +125,6 @@ paths:
                 $ref: '#/components/schemas/EntityModelDepartment'
     put:
       tags:
-        - department-entity-controller
         - department
       summary: Update a department by Id
       description: Update one department knowing his Id.
@@ -174,7 +177,7 @@ paths:
                 $ref: '#/components/schemas/Department'
     delete:
       tags:
-        - department-entity-controller
+
         - department
       summary: Delete a department by Id
       description: Delete one department knowing his Id.
@@ -200,75 +203,12 @@ paths:
           description: No Content
         "201":
           description: Created
-    patch:
-      tags:
-        - department-entity-controller
-      description: patch-department
-      operationId: patchItemResource-department-patch
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DepartmentRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelDepartment'
-        "204":
-          description: No Content
 
-  /devices:
-    get:
-      tags:
-        - device-entity-controller
-      description: get-device
-      operationId: getCollectionResource-device-get_1
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/CollectionModelEntityModelDevice'
-            application/x-spring-data-compact+json:
-              schema:
-                $ref: '#/components/schemas/CollectionModelEntityModelDevice'
-            text/uri-list:
-              schema:
-                type: string
-    post:
-      tags:
-        - device-entity-controller
-      description: create-device
-      operationId: postCollectionResource-device-post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeviceRequestBody'
-        required: true
-      responses:
-        "201":
-          description: Created
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelDevice'
 
   /devices/{id}:
     get:
       tags:
-        - device-entity-controller
+        - device
       description: get-device
       operationId: getItemResource-device-get
       parameters:
@@ -288,7 +228,7 @@ paths:
           description: Not Found
     put:
       tags:
-        - device-entity-controller
+        - device
       description: update-device
       operationId: putItemResource-device-put
       parameters:
@@ -320,7 +260,7 @@ paths:
           description: No Content
     delete:
       tags:
-        - device-entity-controller
+        - device
       description: delete-device
       operationId: deleteItemResource-device-delete
       parameters:
@@ -336,7 +276,7 @@ paths:
           description: Not Found
     patch:
       tags:
-        - device-entity-controller
+        - device
       description: patch-device
       operationId: patchItemResource-device-patch
       parameters:
@@ -364,7 +304,7 @@ paths:
   /devices/{id}/net:
     get:
       tags:
-        - device-property-reference-controller
+        - device
       description: get-net-by-device-Id
       operationId: followPropertyReference-device-get_2_1
       parameters:
@@ -387,7 +327,7 @@ paths:
           description: Not Found
     put:
       tags:
-        - device-property-reference-controller
+        - device
       description: update-net-by-device-Id
       operationId: createPropertyReference-device-put_1
       parameters:
@@ -425,7 +365,7 @@ paths:
           description: No Content
     delete:
       tags:
-        - device-property-reference-controller
+        - device
       description: delete-net-by-device-Id
       operationId: deletePropertyReference-device-delete_1
       parameters:
@@ -441,7 +381,7 @@ paths:
           description: Not Found
     patch:
       tags:
-        - device-property-reference-controller
+        - device
       description: patch-net-by-device-Id
       operationId: createPropertyReference-device-patch_1
       parameters:
@@ -475,7 +415,7 @@ paths:
   /incidenceses:
     get:
       tags:
-        - incidences-entity-controller
+        - incidences
       description: get-incidences
       operationId: getCollectionResource-incidences-get_1
       responses:
@@ -493,7 +433,7 @@ paths:
                 type: string
     post:
       tags:
-        - incidences-entity-controller
+        - incidences
       description: create-incidences
       operationId: postCollectionResource-incidences-post
       requestBody:
@@ -512,7 +452,7 @@ paths:
   /incidenceses/{id}:
     get:
       tags:
-        - incidences-entity-controller
+        - incidences
       description: get-incidences
       operationId: getItemResource-incidences-get
       parameters:
@@ -532,7 +472,7 @@ paths:
           description: Not Found
     put:
       tags:
-        - incidences-entity-controller
+        - incidences
       description: update-incidences
       operationId: putItemResource-incidences-put
       parameters:
@@ -564,7 +504,7 @@ paths:
           description: No Content
     delete:
       tags:
-        - incidences-entity-controller
+        - incidences
       description: delete-incidences
       operationId: deleteItemResource-incidences-delete
       parameters:
@@ -580,7 +520,7 @@ paths:
           description: Not Found
     patch:
       tags:
-        - incidences-entity-controller
+        - incidences
       description: patch-incidences
       operationId: patchItemResource-incidences-patch
       parameters:
@@ -607,7 +547,7 @@ paths:
   /nets:
     get:
       tags:
-        - net-entity-controller
+        - net
       description: get-net
       operationId: getCollectionResource-net-get_1
       responses:
@@ -625,7 +565,7 @@ paths:
                 type: string
     post:
       tags:
-        - net-entity-controller
+        - net
       description: create-net
       operationId: postCollectionResource-net-post
       requestBody:
@@ -642,107 +582,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/EntityModelNet'
 
-  /nets/{id}:
-    get:
-      tags:
-        - net-entity-controller
-      description: get-net
-      operationId: getItemResource-net-get
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelNet'
-        "404":
-          description: Not Found
-    put:
-      tags:
-        - net-entity-controller
-      description: update-net
-      operationId: putItemResource-net-put
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NetRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelNet'
-        "201":
-          description: Created
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelNet'
-        "204":
-          description: No Content
-    delete:
-      tags:
-        - net-entity-controller
-      description: delete-net
-      operationId: deleteItemResource-net-delete
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "204":
-          description: No Content
-        "404":
-          description: Not Found
-    patch:
-      tags:
-        - net-entity-controller
-      description: patch-net
-      operationId: patchItemResource-net-patch
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NetRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelNet'
-        "204":
-          description: No Content
+
 
   /types:
     get:
       tags:
         - type
-        - type-entity-controller
+
       summary: Retrieve all types of device
       description: Get all types of device on the data base.
       operationId: getCollectionResource-type-get_1_1
@@ -782,7 +628,6 @@ paths:
     post:
       tags:
         - type
-        - type-entity-controller
       summary: Save a device
       description: Save a device on Data Base
       operationId: postCollectionResource-type-post_1
@@ -818,105 +663,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Type'
 
-  /types/{id}:
-    get:
-      tags:
-        - type-entity-controller
-      description: get-type
-      operationId: getItemResource-type-get
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelType'
-        "404":
-          description: Not Found
-    put:
-      tags:
-        - type-entity-controller
-      description: update-type
-      operationId: putItemResource-type-put
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TypeRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelType'
-        "201":
-          description: Created
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelType'
-        "204":
-          description: No Content
-    delete:
-      tags:
-        - type-entity-controller
-      description: delete-type
-      operationId: deleteItemResource-type-delete
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "204":
-          description: No Content
-        "404":
-          description: Not Found
-    patch:
-      tags:
-        - type-entity-controller
-      description: patch-type
-      operationId: patchItemResource-type-patch
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TypeRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelType'
-        "204":
-          description: No Content
+
   /users:
     get:
       tags:
-        - user-entity-controller
+
         - user
       summary: Retrieve all users
       description: Get all Users on the data base.
@@ -956,7 +707,7 @@ paths:
                 type: string
     post:
       tags:
-        - user-entity-controller
+
         - user
       summary: Add a new user
       description: Add a new user on the data base. By default "usuario" is the rol
@@ -991,7 +742,7 @@ paths:
   /users/{id}:
     get:
       tags:
-        - user-entity-controller
+
         - user
       summary: Retrieve a user by his ID number
       description: Get a user on the data base by his ID number.
@@ -1019,80 +770,8 @@ paths:
             application/hal+json:
               schema:
                 $ref: '#/components/schemas/EntityModelUser'
-    put:
-      tags:
-        - user-entity-controller
-      description: update-user
-      operationId: putItemResource-user-put
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelUser'
-        "201":
-          description: Created
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelUser'
-        "204":
-          description: No Content
-    delete:
-      tags:
-        - user-entity-controller
-      description: delete-user
-      operationId: deleteItemResource-user-delete
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "204":
-          description: No Content
-        "404":
-          description: Not Found
-    patch:
-      tags:
-        - user-entity-controller
-      description: patch-user
-      operationId: patchItemResource-user-patch
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRequestBody'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/EntityModelUser'
-        "204":
-          description: No Content
+
+
   /user/{id}:
     put:
       tags:
