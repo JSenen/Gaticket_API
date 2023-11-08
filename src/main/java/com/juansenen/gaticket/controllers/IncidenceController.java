@@ -142,13 +142,12 @@ public class IncidenceController {
             // Obtener los datos del dispositivo desde la incidencia
             Device device = incidence.getDevice();
 
-            // Si el dispositivo no es nulo, buscarlo o agregarlo a la base de datos
-            if (device != null) {
-                // Si el dispositivo ya tiene un ID, asumimos que está en la base de datos
+            // Si el dispositivo no es nulo y tiene un ID, intentar buscarlo en la base de datos
+            if (device != null && device.getDeviceId() > 0) {
                 device = deviceService.findById(device.getDeviceId());
             } else {
-                // Si el dispositivo no tiene un ID, lo agregamos a la base de datos
-                deviceService.addDevice(device);
+                // El dispositivo no se proporcionó o no tiene un ID válido
+                // No se agrega un dispositivo en este punto, ya que podría no ser necesari
             }
 
             // Asociar la incidencia con el usuario y el dispositivo (si existe)
@@ -166,5 +165,4 @@ public class IncidenceController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }

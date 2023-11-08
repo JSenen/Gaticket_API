@@ -2,10 +2,12 @@ package com.juansenen.gaticket.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 
@@ -43,7 +45,7 @@ public class Incidences {
     private Integer adminId;
 
     @ManyToOne
-    @JoinColumn(name = "device")
+    @JoinColumn(name = "device", nullable = true)
     @Schema(description = "The associated device")
     private Device device;
 
