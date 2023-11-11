@@ -52,4 +52,8 @@ public class User {
     @OneToMany(mappedBy = "responsable")
     @JsonIgnore
     private List<Incidences> incidencesResponsable;
+
+    @OneToMany(mappedBy = "emisorMessage",cascade = CascadeType.ALL) // Clave principal
+    @JsonIgnore //Evitar serializacion infinita
+    private List<Messages> emisorMessagesList;
 }

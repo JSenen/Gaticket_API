@@ -1,6 +1,7 @@
 package com.juansenen.gaticket.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -58,4 +60,8 @@ public class Incidences {
     @JoinColumn(name = "user_admin_id")
     @Schema(description = "The administrator user who resolved the incidence")
     private User responsable;
+
+    @OneToMany(mappedBy = "incidenciaMessage",cascade = CascadeType.ALL) // Clave principal
+    @JsonIgnore //Evitar serializacion infinita
+    private List<Messages> messagesList;
 }

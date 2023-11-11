@@ -168,4 +168,15 @@ public class IncidenceController {
         }
     }
 
+    @Operation(
+            summary = "Update status of a incident",
+            description = "Update status of a incident search by his Id",
+            tags = { "user"})
+    @PatchMapping("/incidence/{idIncidence}")
+    public ResponseEntity<Incidences> updateIncidenceStatus(@Parameter(description = "ID of incidence search") @PathVariable("idIncidence") long idIncidence, @RequestBody Incidences incidence) throws EntityNotFound{
+        logger.info("/incidences/{idIncidence} patch()");
+        Incidences incidenceUpdate = incidenceService.changeStatusIncidence(idIncidence, incidence);
+        return ResponseEntity.status((HttpStatus.ACCEPTED)).body(incidenceUpdate);
+    }
+
 }

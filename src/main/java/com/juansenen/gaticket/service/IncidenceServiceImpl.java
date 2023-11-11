@@ -69,4 +69,15 @@ public class IncidenceServiceImpl implements IncidenceService{
         return searchIncidencces;
     }
 
+    @Override
+    public Incidences changeStatusIncidence(long idIncidence, Incidences incidence) throws EntityNotFound {
+        Incidences updateIncidence = incidenceRepository.findById(idIncidence).orElseThrow(()->new EntityNotFound("Incidence not found"));
+        String status = updateIncidence.getIncidenceStatus();
+        if (status.equals("active")) {
+            updateIncidence.setIncidenceStatus("process");
+        }
+        incidenceRepository.save(updateIncidence);
+        return updateIncidence;
+    }
+
 }
