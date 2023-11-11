@@ -14,7 +14,7 @@ public interface DeviceRepository extends CrudRepository<Device, Long> {
     List<Device> findAll();
 
     @Override
-    Optional<Device> findById(Long aLong);
+    Optional<Device> findById(Long idDevice);
 
     @Query(value = "SELECT * FROM device WHERE device_serialnumber = ?",nativeQuery = true)
     List<Device> findBySerialNumber(String serialNumber);

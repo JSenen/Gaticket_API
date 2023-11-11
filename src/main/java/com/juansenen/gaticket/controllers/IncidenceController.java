@@ -140,19 +140,21 @@ public class IncidenceController {
             User userIncidence = userService.findById(idUser);
 
             // Obtener los datos del dispositivo desde la incidencia
-            Device device = incidence.getDevice();
+            Device deviceIncidence = incidence.getDevice();
 
             // Si el dispositivo no es nulo y tiene un ID, intentar buscarlo en la base de datos
-            if (device != null && device.getDeviceId() > 0) {
-                device = deviceService.findById(device.getDeviceId());
+            if (deviceIncidence != null && deviceIncidence.getDeviceId() > 0) {
+                long deviceId = deviceIncidence.getDeviceId();
+                Device deviceSearch = deviceService.findById(deviceId);
+                incidence.setDevice(deviceSearch);
             } else {
-                // El dispositivo no se proporcionó o no tiene un ID válido
-                // No se agrega un dispositivo en este punto, ya que podría no ser necesari
+                deviceIncidence = null;
+                incidence.setDevice(deviceIncidence);
             }
 
             // Asociar la incidencia con el usuario y el dispositivo (si existe)
             incidence.setUser(userIncidence);
-            incidence.setDevice(device);
+
 
             // Guardar la incidencia en la base de datos
             incidenceService.addIncidence(incidence);
@@ -165,4 +167,5 @@ public class IncidenceController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }

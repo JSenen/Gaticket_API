@@ -56,20 +56,20 @@ public class DeviceController {
         logger.info("/device getAll()");
 
         if (!serialNumber.isEmpty()) {
-            logger.info("/device getAll() search by serial number");
             // Buscar por número de serie
             List<Device> devices = deviceService.searchBySerialNumber(serialNumber);
+            logger.info("/device getAll() search by serial number = "+serialNumber);
             return ResponseEntity.ok(devices);
         } else if (!ipDevice.isEmpty()) {
-            logger.info("/device getAll() search by IP");
             // Buscar por dirección IP
             long netId = netService.findByNetIp(ipDevice);
             List<Device> devices = deviceService.findByIp(netId);
+            logger.info("/device getAll() search by IP="+netId);
             return ResponseEntity.ok(devices);
         } else if (!mac.isEmpty()){
-            logger.info("/device getAll() search by MAC");
             // Buscar por mac
             List<Device> devices = deviceService.findByMac(mac);
+            logger.info("/device getAll() search by MAC = "+mac);
             return ResponseEntity.ok(devices);
         }else{
             // Si no se proporciona ningún parámetro de solicitud, devuelve todos los dispositivos.

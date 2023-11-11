@@ -22,7 +22,7 @@ public class Incidences {
     @Column(name = "incidence_id")
     @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "incidenceId", example = "12")
     private long incidencesId;
-    @Column(name = "incidence_commit")
+    @Column(name = "incidence_commit", columnDefinition = "LONGTEXT", length = Integer.MAX_VALUE)
     @Lob//LongText para textos largos en MySQL
     @Schema(description = "Description", example = "My computer has began to go slowly. And I can´t see mp4 videos")
     private String incidenceCommit;
