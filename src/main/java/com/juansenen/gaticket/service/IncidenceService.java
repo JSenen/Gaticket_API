@@ -21,4 +21,6 @@ public interface IncidenceService {
     List<Incidences> findAllBydevice(long deviceid) throws EntityNotFound;
 
     Incidences changeStatusIncidence(long idIncidence, Incidences incidence) throws EntityNotFound;
+
+    Incidences changeAdminIncidence(long idIncidence, Incidences incidence) throws EntityNotFound;
 }

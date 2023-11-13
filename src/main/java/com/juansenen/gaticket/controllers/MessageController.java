@@ -52,6 +52,7 @@ public class MessageController {
     })
     @GetMapping("/messages")
     public ResponseEntity<List<Messages>> getAllMenssages(){
+        logger.info("/imessages");
         List<Messages> messagesList = messageService.getAll();
         return ResponseEntity.ok(messagesList);
     }
@@ -69,6 +70,7 @@ public class MessageController {
     })
     @GetMapping("/messages/{idIncidence}")
     public ResponseEntity<List<Messages>> getAllMenssagesIncidence(@Parameter(description = "ID of the incidence")@PathVariable("idIncidence") long idIncidence) throws EntityNotFound {
+        logger.info("/messages/{idIncidence}");
         List<Messages> messagesList = messageService.getAllById(idIncidence);
         return ResponseEntity.ok(messagesList);
     }
@@ -88,6 +90,7 @@ public class MessageController {
     public ResponseEntity<Messages> saveMessage(@Parameter(description = "ID of the incidence")@PathVariable("idIncidence") long idIncidence,
                                                 @Parameter(description = "ID of who send message")@PathVariable("idEmisor") long idEmisor,
                                                 @RequestBody Messages message) throws EntityNotFound {
+        logger.info("/messages/{idIncidence}/{idEmisor");
         Incidences incidenceSearch = incidenceService.findById(idIncidence);
         User userSearch = userService.findById(idEmisor);
         message.setIncidenciaMessage(incidenceSearch);

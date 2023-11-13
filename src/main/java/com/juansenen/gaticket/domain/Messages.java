@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +23,9 @@ public class Messages {
     @Lob//LongText para textos largos en MySQL
     @Schema(description = "Description", example = "You should restart the computer every day")
     private String messageCommit;
+    @Column(name = "time_message")
+    @Schema(description = "Time of message", example = "2023-11-10T14:30:00")
+    private LocalDateTime timeMessage;
 
     @ManyToOne
     @JoinColumn(name = "incidencia_id")

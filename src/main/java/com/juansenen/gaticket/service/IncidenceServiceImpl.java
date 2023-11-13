@@ -80,4 +80,13 @@ public class IncidenceServiceImpl implements IncidenceService{
         return updateIncidence;
     }
 
+    @Override
+    public Incidences changeAdminIncidence(long idIncidence, Incidences newIncidence) throws EntityNotFound {
+        Incidences updateIncidence = incidenceRepository.findById(idIncidence).orElseThrow(()->new EntityNotFound("Incidence not found"));
+        int adminId = newIncidence.getAdminId();
+        updateIncidence.setAdminId(adminId);
+        incidenceRepository.save(updateIncidence);
+        return updateIncidence;
+    }
+
 }
