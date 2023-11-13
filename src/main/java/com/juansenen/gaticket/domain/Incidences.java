@@ -45,6 +45,10 @@ public class Incidences {
     @Column(name = "incidence_adminid")
     @Schema(description = "Admin ID who fix incidence", example = "A58656F")
     private Integer adminId;
+    @Column(name = "incidence_solution", columnDefinition = "LONGTEXT", length = Integer.MAX_VALUE)
+    @Lob
+    @Schema(description = "Solution to incidence", example = "User must to restar the computer and admin must to change assigned IP")
+    private String incidenceSolution;
 
     @ManyToOne
     @JoinColumn(name = "device", nullable = true)
