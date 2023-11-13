@@ -188,5 +188,15 @@ public class IncidenceController {
         Incidences incidenceUpdate = incidenceService.changeAdminIncidence(idIncidence, newIncidence);
         return ResponseEntity.status((HttpStatus.ACCEPTED)).body(incidenceUpdate);
     }
+    @Operation(
+            summary = "Delete a incidence by Id",
+            description = "Delete a incidence by Id",
+            tags = { "icidence"})
+    @DeleteMapping("/incidence/{idIncidence}")
+    private ResponseEntity<Void> deleteIncidence(@PathVariable("idIncidence") long idIncidence) throws EntityNotFound {
+        logger.info("/incidences/{idIncidence} delete()");
+        incidenceService.deleteIncidence(idIncidence);
+        return ResponseEntity.noContent().build();
+    }
 
 }

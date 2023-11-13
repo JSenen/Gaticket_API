@@ -1,8 +1,6 @@
 package com.juansenen.gaticket.service;
 
 import com.juansenen.gaticket.domain.Department;
-import com.juansenen.gaticket.domain.Incidences;
-import com.juansenen.gaticket.domain.IncidencesHistory;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,21 +67,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(long id) throws EntityNotFound {
-        //Buscamos las incidencias del usuario a eliminar
-        List<Incidences> incidencesList = incidenceRepository.findAllIncidencesUser(id);
-        //Las grabamos en la tabla history
-        List<IncidencesHistory> incidencesHistoryList = new ArrayList<>();
-        for (Incidences incidence:incidencesList) {
-            IncidencesHistory history = new IncidencesHistory();
-            history.setHistoryTheme(incidence.getIncidenceTheme());
-            history.setHistoryCommit(incidence.getIncidenceCommit());
-            history.setHistoryTip(incidence.getUser().getUserTip());
-            history.setHistoryDeviceSerial(incidence.getDevice().getDeviceSerial());
-            history.setHistoryAdmin(incidence.getAdminId().toString());
-            history.setHistoryDateFinish(incidence.getIncidenceDateFinish());
-
-            incidencesHistoryList.add(history);
-        }
+        User user = userRepository.findById(id).orElseThrow(()->new EntityNotFound("User not found"));
         userRepository.deleteById(id);
     }
 

@@ -34,15 +34,16 @@ public class IncidencesHistory {
     @Schema(description = "Commit of the history incidence", example = "Cada cierto tiempo el pc se reinica sin previo aviso")
     private String historyCommit;
     @Column(name = "history_date")
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "Date when history incidence was fixit", example = "10/10/2023")
     private Date historyDateFinish;
-    @Column(name = "history_device")
-    @Schema(description = "Device of the history incidence", example = "CZC45678F")
-    private String historyDeviceSerial;
     @Column(name = "historyAdmin")
     @Schema(description = "Admin who solved incidence", example = "A58656F")
     private String historyAdmin;
+    @Column(name = "history_solution", columnDefinition = "LONGTEXT", length = Integer.MAX_VALUE)
+    @Lob
+    @Schema(description = "Solution to incidence", example = "User must to restar the computer and admin must to change assigned IP")
+    private String historySolution;
 
 
 

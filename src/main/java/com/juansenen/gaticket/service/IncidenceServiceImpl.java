@@ -89,4 +89,12 @@ public class IncidenceServiceImpl implements IncidenceService{
         return updateIncidence;
     }
 
+    @Override
+    public void deleteIncidence(long idIncidence) throws EntityNotFound {
+
+        Incidences incidenceToDel = incidenceRepository.findById(idIncidence).orElseThrow(()->new EntityNotFound(("Incidence not found")));
+
+        incidenceRepository.delete(incidenceToDel);
+    }
+
 }

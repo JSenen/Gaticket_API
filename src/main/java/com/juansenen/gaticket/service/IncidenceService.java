@@ -23,4 +23,6 @@ public interface IncidenceService {
     Incidences changeStatusIncidence(long idIncidence, Incidences incidence) throws EntityNotFound;
 
     Incidences changeAdminIncidence(long idIncidence, Incidences incidence) throws EntityNotFound;
+
+    void deleteIncidence(long idIncidence) throws EntityNotFound;
 }
