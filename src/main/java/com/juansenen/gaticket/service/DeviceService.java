@@ -30,4 +30,6 @@ public interface DeviceService {
     void addDevice(Device device);
 
     Device findById(long deviceId);
+
+    List<Device> findByType(long typeName);
 }

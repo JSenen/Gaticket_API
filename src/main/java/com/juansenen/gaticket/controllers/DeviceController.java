@@ -51,7 +51,8 @@ public class DeviceController {
     @GetMapping("/device")
     public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber,
                                                 @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "deviceIp", defaultValue = "", required = false) String ipDevice,
-                                                @Parameter(description = "MAC of Device", required = false)@RequestParam(name = "mac", defaultValue = "", required = false) String mac)
+                                                @Parameter(description = "MAC of Device", required = false)@RequestParam(name = "mac", defaultValue = "", required = false) String mac,
+                                                @Parameter(description = "Type of Device", required = false)@RequestParam(name = "typeId", defaultValue = "", required = false) long typeId)
     {
         logger.info("/device getAll()");
 
@@ -66,10 +67,15 @@ public class DeviceController {
             List<Device> devices = deviceService.findByIp(netId);
             logger.info("/device getAll() search by IP="+netId);
             return ResponseEntity.ok(devices);
-        } else if (!mac.isEmpty()){
+        } else if (!mac.isEmpty()) {
             // Buscar por mac
             List<Device> devices = deviceService.findByMac(mac);
-            logger.info("/device getAll() search by MAC = "+mac);
+            logger.info("/device getAll() search by MAC = " + mac);
+            return ResponseEntity.ok(devices);
+        }else if (typeId > 0){
+            //Buscar por tipo
+            List<Device> devices = deviceService.findByType(typeId);
+            logger.info("/device getAll() search bytype = " + typeId);
             return ResponseEntity.ok(devices);
         }else{
             // Si no se proporciona ningún parámetro de solicitud, devuelve todos los dispositivos.

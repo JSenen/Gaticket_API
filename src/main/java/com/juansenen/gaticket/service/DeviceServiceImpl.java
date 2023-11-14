@@ -161,4 +161,10 @@ public class DeviceServiceImpl implements DeviceService {
         return device.get();
     }
 
+    @Override
+    public List<Device> findByType(long typeId) {
+        List<Device> devices = deviceRepository.findByType(typeId);
+        return devices;
+    }
+
 }
