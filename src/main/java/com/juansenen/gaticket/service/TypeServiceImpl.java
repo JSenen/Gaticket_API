@@ -8,6 +8,7 @@ import com.juansenen.gaticket.repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,18 +41,51 @@ public class TypeServiceImpl implements TypeService{
 
     @Override
     public Device updateDeviceType(long idDevice, long idType) {
+        Optional<Device> changeDevice = deviceRepository.findById(idDevice);
+        Optional<Type> asignedType = typeRepository.findById(idType);
 
-        //Comprobar Device y Type existen
-        Optional<Device> deviceOptional = deviceRepository.findById(idDevice);
-        Optional<Type> typeOptional = typeRepository.findById(idType);
+        Device updatedDevice = changeDevice.get();
+        Type searchType = asignedType.get();
 
-        //recuperamos el dispositivo
-        Device device = deviceOptional.get();
-        Type newType = typeOptional.get();
-        //guardamos dispositivo con el id de tipo
-        device.setDeviceTypeId(newType);
-        deviceRepository.save(device);
-        return device;
+        updatedDevice.setDeviceType(searchType);
+        deviceRepository.save(updatedDevice);
 
+        return updatedDevice;
+    }
+
+    @Override
+    public List<Type> findByLetters(String typeName) {
+        List<Type> searchResults = typeRepository.findTypeByteToByte('%' + typeName + '%');
+
+        if (searchResults == null || searchResults.isEmpty()) {
+            return Collections.emptyList(); // Devuelve una lista vacía si no hay resultados
+        }
+
+        return searchResults;
+    }
+
+    @Override
+    public void eraseType(long idType) {
+        Optional<Type> typeSearch = typeRepository.findById(idType);
+        //Buscamos los dispositivos con ese tipo para poner el tipo a nulo.
+        // Obtén los dispositivos relacionados a este tipo y establece la referencia en nulo
+        List<Device> dispositivos = deviceRepository.findByDeviceTypeId(idType);
+        for (Device dispositivo : dispositivos) {
+            dispositivo.setDeviceType(null);
+            deviceRepository.save(dispositivo);
+        }
+        typeRepository.deleteById(idType);
+    }
+
+    @Override
+    public long findByMac(String typeName) {
+        long typesearch = typeRepository.findByName(typeName);
+        return typesearch;
+    }
+
+    @Override
+    public Type findByIdType(long idType) {
+        Optional<Type> searchType = typeRepository.findById(idType);
+        return searchType.get();
     }
 }

@@ -4,8 +4,10 @@ import com.juansenen.gaticket.domain.Department;
 import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.repository.DepartmentRepository;
+import com.juansenen.gaticket.repository.IncidenceRepository;
 import com.juansenen.gaticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,10 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private IncidenceRepository incidenceRepository;
+    @Autowired
     private DepartmentRepository departmentRepository;
+
     @Override
     public List<User> findAll() {
         List<User> userList = userRepository.findAll();
@@ -30,8 +35,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User addOne(User user) {
-        User newUser = userRepository.save(user);
-        return newUser;
+        //La contraseña del usuario se encriptara en la base de datos
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String plainPassword = user.getUserPassword(); //Contraseña texto plano
+        String hashedPassword = passwordEncoder.encode(plainPassword); // Contraseña Hash
+        user.setUserPassword(hashedPassword);
+        return userRepository.save(user);
     }
 
     @Override
@@ -58,6 +67,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(long id) throws EntityNotFound {
+        User user = userRepository.findById(id).orElseThrow(()->new EntityNotFound("User not found"));
         userRepository.deleteById(id);
     }
 
@@ -83,5 +93,11 @@ public class UserServiceImpl implements UserService{
         user.setUserDepartment(department);
         userRepository.save(user);
         return department;
+    }
+
+    @Override
+    public List<User> searchByTipNumber(String userTip) {
+        List<User> usersList = userRepository.findByUserTip(userTip);
+        return  usersList;
     }
 }

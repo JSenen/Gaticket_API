@@ -33,8 +33,30 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public Device addOne(Device device) {
+        // Formatear la dirección MAC antes de guardarla
+        String formattedMac = formatearDireccionMac(device.getDeviceMac());
+        device.setDeviceMac(formattedMac);
+
         Device newDevice = deviceRepository.save(device);
         return newDevice;
+    }
+
+    // Método para formatear la dirección MAC con dos puntos
+    private String formatearDireccionMac(String direccionMac) {
+        if (direccionMac != null) {
+            // Comprobar si la dirección MAC ya tiene ":". Si no los tiene, lod agregamos
+            if (!direccionMac.contains(":")) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < direccionMac.length(); i += 2) {
+                    sb.append(direccionMac.substring(i, i + 2));
+                    if (i + 2 < direccionMac.length()) {
+                        sb.append(":");
+                    }
+                }
+                direccionMac = sb.toString();
+            }
+        }
+        return direccionMac;
     }
 
     @Override
@@ -63,7 +85,9 @@ public class DeviceServiceImpl implements DeviceService {
         Net searchNet = asignedNet.get();
 
         updatedDevice.setNet(searchNet);
+        searchNet.setNetStatus(true);
         deviceRepository.save(updatedDevice);
+        netRepository.save(searchNet);
 
         return updatedDevice;
     }
@@ -78,6 +102,69 @@ public class DeviceServiceImpl implements DeviceService {
     public List<Device> searchBySerialNumber(String serialNumber) {
         List<Device> devices = deviceRepository.findBySerialNumber(serialNumber);
         return  devices;
+    }
+
+    @Override
+    public List<Device> searchByType(long idType) {
+        List<Device> devices = deviceRepository.findByDeviceTypeId(idType);
+        return devices;
+    }
+
+    @Override
+    public List<Device> findByIp(long ipDevice) {
+        List<Device> devices = deviceRepository.findByIp(ipDevice);
+        return  devices;
+    }
+
+    @Override
+    public void eraseDevice(long idDevice) {
+        // Buscar dispositivo
+        Optional<Device> deviceSearch = deviceRepository.findById(idDevice);
+
+        if (deviceSearch.isPresent()) {
+            Device deviceToDelete = deviceSearch.get();
+
+            // Verificar si el dispositivo tiene una relación con una Net
+            Net net = deviceToDelete.getNet();
+
+            if (net != null) {
+                // Si el dispositivo tiene una relación con una Net, liberar la IP
+                long netId = net.getNetId();
+                Optional<Net> netToFree = netRepository.findById(netId);
+
+                if (netToFree.isPresent()) {
+                    Net freeNet = netToFree.get();
+                    freeNet.setNetStatus(false);
+                    netRepository.save(freeNet);
+                }
+            }
+
+            // Eliminar el dispositivo
+            deviceRepository.deleteById(idDevice);
+        }
+    }
+
+    @Override
+    public List<Device> findByMac(String mac) {
+        List<Device> devices = deviceRepository.searchByMac(mac);
+        return devices;
+    }
+
+    @Override
+    public void addDevice(Device device) {
+        deviceRepository.save(device);
+    }
+
+    @Override
+    public Device findById(long deviceId) {
+        Optional<Device> device = deviceRepository.findById(deviceId);
+        return device.get();
+    }
+
+    @Override
+    public List<Device> findByType(long typeId) {
+        List<Device> devices = deviceRepository.findByType(typeId);
+        return devices;
     }
 
 }

@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,9 +45,15 @@ public class UserController {
                     content = @Content),
     })
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAll(){
+    public ResponseEntity<List<User>> getAll(@Parameter(description = "TIP of a user", required = false)@RequestParam(name = "userTip", defaultValue = "", required = false) String userTip){
         logger.info("UserController getAll()");
-        return ResponseEntity.ok(userService.findAll());
+        //Comprobar si se ha añadido tip como Request Param
+        if (userTip.isEmpty()){
+            logger.info("/user getAll()");
+            return ResponseEntity.ok(userService.findAll());
+        }
+        logger.info("/user getAll() tip number");
+        return ResponseEntity.ok(userService.searchByTipNumber(userTip));
     }
     @Operation(
             summary = "Add a new user",
@@ -57,11 +62,6 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody @Valid User user) throws EntityNotFound {
         logger.info("UserController addUser()");
-        //La contraseña del usuario se encriptara en la base de datos
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String plainPassword = user.getUserPassword();
-        String hashedPassword = passwordEncoder.encode(plainPassword);
-        user.setUserPassword(hashedPassword);
         User newUser = userService.addOne(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
@@ -101,6 +101,7 @@ public class UserController {
             tags = { "user", "department"})
     @PostMapping("/user/{iduser}/{departmentId}")
     public ResponseEntity<Department> addDepToUSer (@Parameter(description = "ID of User search") @PathVariable("iduser") long id, @Parameter(description = "ID of Department search")@PathVariable("departmentId") long departmentId) throws EntityNotFound {
+        logger.info("/user/"+id+"/"+departmentId);
         Department departmetUser = userService.addDepart(id,departmentId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(departmetUser);
     }

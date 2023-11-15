@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice /** Manejador global de excepciones */
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -15,6 +16,7 @@ public class GlobalExceptionHandler {
     /** ExceptionHandler(MethodArgumentNotValidException.class)
      * especifica que este método manejará excepciones de validación de tipo */
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorMessage> handleValidationException(MethodArgumentNotValidException ex) {
         // Lógica para manejar excepciones de validación y responder con un código de estado 400
         ErrorMessage errorMessage = new ErrorMessage(400, "Bad Request");

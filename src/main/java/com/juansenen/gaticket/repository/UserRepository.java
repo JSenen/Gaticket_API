@@ -1,6 +1,8 @@
 package com.juansenen.gaticket.repository;
 
+import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +18,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     List<User> findAll();
     Optional<User> findById(long id);
+
+    @Query(value = "SELECT * FROM users WHERE user_tip = ?",nativeQuery = true)
+    List<User> findByUserTip(String serialNumber);
 
 }

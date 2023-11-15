@@ -2,7 +2,6 @@ package com.juansenen.gaticket.controllers;
 
 import com.juansenen.gaticket.domain.Device;
 import com.juansenen.gaticket.domain.Type;
-import com.juansenen.gaticket.domain.User;
 import com.juansenen.gaticket.exception.EntityNotFound;
 import com.juansenen.gaticket.service.DeviceService;
 import com.juansenen.gaticket.service.TypeService;
@@ -44,10 +43,38 @@ public class TypeController {
                     content = @Content),
     })
     @GetMapping("/types")
-    public ResponseEntity<List<Type>> getAll(){
-        logger.info("/types getAll()");
-        return ResponseEntity.ok(typeService.findAll());
+    public ResponseEntity<List<Type>> getAll(
+            @Parameter(description = "Search name including letters. Can make real-time request", required = false)
+            @RequestParam(name = "query", defaultValue = "", required = false) String typeName) {
+
+        List<Type> searchResults;
+
+        if (!typeName.isEmpty()) {
+            logger.info("/types getAll() find by letter");
+            searchResults = typeService.findByLetters(typeName);
+        } else {
+            logger.info("/types getAll()");
+            searchResults = typeService.findAll();
+        }
+
+        return ResponseEntity.ok(searchResults);
     }
+    @Operation(
+            summary = "Retrieve a types by Id",
+            description = "Get a type of device by Id.",
+            tags = { "type"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Type.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid",
+                    content = @Content),
+    })
+    @GetMapping("/types/{idType}")
+    public ResponseEntity<Type> searchById (@Parameter(description = "Id of type") @PathVariable("idType") long idType) {
+        Type type =typeService.findByIdType(idType);
+        return ResponseEntity.ok(type);
+    }
+
     @Operation(
             summary = "Save a device",
             description = "Save a device on Data Base",
@@ -101,6 +128,17 @@ public class TypeController {
         logger.info("/device/{idDevice}/{idType} addTypeDevice");
         Device updateDevice = typeService.updateDeviceType(idDevice, idType);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateDevice);
+    }
+    @Operation(
+            summary = "Delete a type by Id",
+            description = "Delete a type by Id",
+            tags = { "type"})
+    @DeleteMapping("/type/{idType}")
+    public ResponseEntity<Void> deleteType(@Parameter(description = "Id of type")@PathVariable("idType") long idType) throws EntityNotFound{
+        logger.info("/type/{idType}");
+        typeService.eraseType(idType);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

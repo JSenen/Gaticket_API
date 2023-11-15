@@ -1,13 +1,17 @@
 package com.juansenen.gaticket.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +24,7 @@ public class Incidences {
     @Column(name = "incidence_id")
     @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "incidenceId", example = "12")
     private long incidencesId;
-    @Column(name = "incidence_commit")
+    @Column(name = "incidence_commit", columnDefinition = "LONGTEXT", length = Integer.MAX_VALUE)
     @Lob//LongText para textos largos en MySQL
     @Schema(description = "Description", example = "My computer has began to go slowly. And I can´t see mp4 videos")
     private String incidenceCommit;
@@ -43,7 +47,7 @@ public class Incidences {
     private Integer adminId;
 
     @ManyToOne
-    @JoinColumn(name = "device")
+    @JoinColumn(name = "device", nullable = true)
     @Schema(description = "The associated device")
     private Device device;
 
@@ -51,4 +55,13 @@ public class Incidences {
     @JoinColumn(name = "user")
     @Schema(description = "The user who reported de incidence")
     private User user; //Clave de la tabla principal
+
+    @ManyToOne
+    @JoinColumn(name = "user_admin_id")
+    @Schema(description = "The administrator user who resolved the incidence")
+    private User responsable;
+
+    @OneToMany(mappedBy = "incidenciaMessage",cascade = CascadeType.ALL) // Clave principal
+    @JsonIgnore //Evitar serializacion infinita
+    private List<Messages> messagesList;
 }
