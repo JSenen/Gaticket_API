@@ -52,7 +52,7 @@ public class DeviceController {
     public ResponseEntity<List<Device>> getAll( @Parameter(description = "Serial number of device", required = false)@RequestParam(name = "deviceSerial", defaultValue = "", required = false) String serialNumber,
                                                 @Parameter(description = "Ip  of device", required = false)@RequestParam(name = "deviceIp", defaultValue = "", required = false) String ipDevice,
                                                 @Parameter(description = "MAC of Device", required = false)@RequestParam(name = "mac", defaultValue = "", required = false) String mac,
-                                                @Parameter(description = "Type of Device", required = false)@RequestParam(name = "typeId", defaultValue = "", required = false) long typeId)
+                                                @Parameter(description = "Type of Device", required = false)@RequestParam(name = "typeId", defaultValue = "0", required = false) long typeId)
     {
         logger.info("/device getAll()");
 
