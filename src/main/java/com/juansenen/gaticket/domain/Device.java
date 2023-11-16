@@ -56,20 +56,25 @@ public class Device {
     @Schema(description = "Device image in byte array format")
     private byte[] deviceImage;*/ //TODO añadir imagen a tabla externa
 
+    /**
+     * Relaciones con el resto de entidades
+     *
+     * CascadeType.REMOVE eliminará las relaciones con el resto de entidades
+     */
     @ManyToOne
     @JoinColumn(name = "type_id") // Nombre de la columna que hace referencia a Type
     private Type deviceType;
 
-    @OneToMany(mappedBy = "device")
+    @OneToMany(mappedBy = "device", cascade =CascadeType.REMOVE)
     @JsonIgnore
     private List<Incidences> incidencesList;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "department")
     @JsonIgnore
     private Department department;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "net_id") // Nombre de la columna que hace referencia a la red
     private Net net; // Relación OneToOne con una red
 
