@@ -493,7 +493,6 @@ paths:
   /user/{iduser}/{departmentId}:
     post:
       tags:
-        - department
         - user
       summary: Add a user on a Department
       description: Add a user search by his ID on a Department by his Id
@@ -660,7 +659,6 @@ paths:
     post:
       tags:
         - incidence
-        - user
       summary: Save a incidence by a user
       description: Save a incidence by a user.
       operationId: addOne_1
@@ -820,7 +818,6 @@ paths:
   /device/{idDevice}/{idType}:
     post:
       tags:
-        - type
         - device
       summary: Set a type to a device
       description: Set a type to a device.
@@ -1028,7 +1025,6 @@ paths:
           description: OK
     patch:
       tags:
-        - user
         - incidence
       summary: Update status of a incident
       description: Update status of a incident search by his Id
@@ -1069,7 +1065,6 @@ paths:
   /incidence/admin/{idIncidence}:
     patch:
       tags:
-        - user
         - incidence
       summary: Update admin of a incident
       description: Update admin of a incident search by incident Id
@@ -1291,7 +1286,6 @@ paths:
     get:
       tags:
         - incidence
-        - user
       summary: Retrieve a incidence by id User
       description: Retrieve a incidence by id User.
       operationId: getAllIncidencesIdUser
@@ -1323,7 +1317,6 @@ paths:
     get:
       tags:
         - incidence
-        - device
       summary: Retrieve a incidence by id device
       description: Retrieve a incidence by id device.
       operationId: getAllIncidencesIdDevice
@@ -1415,7 +1408,6 @@ paths:
     get:
       tags:
         - department
-        - user
       summary: Retrieve a department by Id user
       description: Get one department knowing id of a user.
       operationId: findDepartUser
