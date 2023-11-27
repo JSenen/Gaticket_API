@@ -171,17 +171,18 @@ public class IncidenceController {
     @Operation(
             summary = "Update status of a incident",
             description = "Update status of a incident search by his Id",
-            tags = { "user"})
+            tags = { "incidence"})
     @PatchMapping("/incidence/{idIncidence}")
     public ResponseEntity<Incidences> updateIncidenceStatus(@Parameter(description = "ID of incidence search") @PathVariable("idIncidence") long idIncidence, @RequestBody Incidences incidence) throws EntityNotFound{
         logger.info("/incidences/{idIncidence} patch()");
+        logger.info("/incidences/{idIncidence} patch() BODY" + incidence.getIncidenceStatus());
         Incidences incidenceUpdate = incidenceService.changeStatusIncidence(idIncidence, incidence);
         return ResponseEntity.status((HttpStatus.ACCEPTED)).body(incidenceUpdate);
     }
     @Operation(
             summary = "Update admin of a incident",
             description = "Update admin of a incident search by incident Id",
-            tags = { "user"})
+            tags = { "incidence"})
     @PatchMapping("/incidence/admin/{idIncidence}")
     public ResponseEntity<Incidences> updateAdminIncident(@Parameter(description = "ID of incidence search") @PathVariable("idIncidence") long idIncidence, @RequestBody Incidences newIncidence) throws EntityNotFound{
         logger.info("/incidences/{idIncidence} patch()");
