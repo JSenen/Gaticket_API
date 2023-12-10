@@ -1,0 +1,85 @@
+@startuml (id = SERVICES)
+interface DepartmentService {
+    + findAll(): List<Department>
+    + addOne(department: Department): Department
+    + findById(id: long): Department
+    + updateDepartment(id: long, department: Department): Department
+    + deleteDepartment(id: long): void
+    + findByUser(id: long): Department
+  }
+interface DeviceService {
+  List<Device> findAll();
+
+    + addOne(device: Device): Device
+    + addDeviceDepartment(idDevice: long, idDepartment: long): Device
+    + addNetToDevice(idNet: long, idDevice: long): Device
+    + getOne(idDevice: long): Device
+    + searchBySerialNumber(serialNumber: String):List<Device>
+    + searchByType(idType: long): List<Device>
+    + findByIp(ipDevice: long): List<Device> ;
+    + eraseDevice(idDevice: long): void
+    + findByMac(: String): List<Device>
+    + addDevice(device: Device): void
+    + findById(deviceId: long): Device
+    + findByType(typeName: long): List<Device>
+    }
+ interface IncidenceService {
+    + findAll(): List<Incidences>
+    + addIncidence(incidence: Incidences): Incidences
+    + findById(idIncidence: long): Incidences
+    + findByIdUser(idUser: long): List<Incidences>
+    + findByDevice(deviceId: long): List<Incidences>
+    + findAllByUserId(userid: long): List<Incidences>
+    + findAllBydevice(deviceid: long): List<Incidences>
+    + changeStatusIncidence(idIncidence: long, incidence: Incidences): Incidences
+    + changeAdminIncidence(idIncidence: long, incidence: Incidences): Incidences
+    + deleteIncidence(idIncidence: long): void
+  }
+  interface MessageService {
+      + getAll(): List<Messages>
+      + saveOne(message: Messages): Messages
+      + getAllById(idIncidence: long): List<Messages>
+    }
+  interface NetService {
+      + findAll(): List<Net>
+      + addOne(net: Net): Net
+      + findByNetIp(ipDevice: String): long
+      + eraseIp(idNet: long): void
+      + findDepartmentByIp(idNet: long): String
+      + updateStatusIp(idNet: long, netBody: Net): Net
+    }
+   interface TypeService {
+      + findAll(): List<Type>
+      + addOne(newType: Type): Type
+      + updateOne(id: long, type: Type): Type
+      + updateDeviceType(idDevice: long, idType: long): Device
+      + findByLetters(typeName: String): List<Type>
+      + eraseType(idType: long): void
+      + findByMac(typeName: String): long
+      + findByIdType(idType: long): Type
+    }
+    interface IncidencesHistoryService {
+        + findAll(): List<IncidencesHistory>
+        + saveOne(incidencesHistory: IncidencesHistory): IncidencesHistory
+      }
+ interface UserService {
+    + findAll(): List<User>
+    + addOne(user: User): User
+    + findById(id: long): User
+    + updateUser(id: long, user: User): User
+    + deleteUser(id: long): void
+    + updateRolUser(id: long, user: User): User
+    + addDepart(id: long, departmentId: long): Department
+    + searchByTipNumber(userTip: String): List<User>
+  }
+
+  interface NetService {
+      +  findAll(): List<Net>
+      + addOne(net: Net): Net
+      + findByNetIp(ipDevice: String): long
+      + eraseIp(idNet: long): void
+      + findDepartmentByIp(idNet: long): String
+      + updateStatusIp(idNet: long, netBody: Net): Net
+  }
+
+@enduml

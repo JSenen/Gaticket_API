@@ -1,0 +1,9 @@
+@startuml
+
+!include Controllers.puml
+!include Services.puml
+!include Repository.puml
+!include Relations.puml
+!include Clases.puml
+
+@enduml

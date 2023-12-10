@@ -1,0 +1,95 @@
+@startuml (id = CONTROLLERS)
+
+class UserController {
+  - userService: UserService
+  - departmentService: DepartmentService
+
+  + getAll(userTip: String): ResponseEntity<List<User>>
+  + addUser(user: User): ResponseEntity<User>
+  + findOne(id: long): ResponseEntity<User>
+  + modUser(id: long, user: User): ResponseEntity<User>
+  + addDepToUSer(id: long, departmentId: long): ResponseEntity<Department>
+  + delUser(id: long): ResponseEntity<Void>
+  + updateUserRol(iduser: long, user: User): ResponseEntity<User>
+}
+
+class TypeController {
+  - typeService: TypeService
+  - deviceService: DeviceService
+
+  + getAll(typeName: String): ResponseEntity<List<Type>>
+  + searchById(idType: long): ResponseEntity<Type>
+  + addOne(newType: Type): ResponseEntity<Type>
+  + modOne(id: long, type: Type): ResponseEntity<Type>
+  + addTypeDevice(idDevice: long, idType: long): ResponseEntity<Device>
+  + deleteType(idType: long): ResponseEntity<Void>
+}
+class NetController {
+  - netService: NetService
+  - deviceService: DeviceService
+
+  + getAll(): ResponseEntity<List<Net>>
+  + getDepartmentByIp(idNet: long): ResponseEntity<String>
+  + addOne(net: Net): ResponseEntity<Net>
+  + addDeviceNet(idNet: long, idDevice: long): ResponseEntity<Device>
+  + deteleIp(idNet: long): ResponseEntity<Void>
+  + updateNet(idNet: long, netBody: Net): ResponseEntity<Net>
+}
+class MessageController {
+
+    - messageService: MessageService
+    - incidenceService: IncidenceService
+    - userService: UserService
+    - deviceService: DeviceService
+
+    + getAllMenssages(): ResponseEntity<List<Messages>>
+    + getAllMenssagesIncidence(idIncidence: long): ResponseEntity<List<Messages>>
+    + saveMessage(idIncidence: long, idEmisor: long, message: Messages): ResponseEntity<Messages>
+  }
+  class IncidenceController {
+
+      - incidenceService: IncidenceService
+      - userService: UserService
+      - deviceService: DeviceService
+
+      + getAll(userid: long, deviceid: long): ResponseEntity<List<Incidences>>
+      + getOne(idIncidence: long): ResponseEntity<Incidences>
+      + getAllIncidencesIdUser(idUser: long): ResponseEntity<List<Incidences>>
+      + getAllIncidencesIdDevice(deviceId: long): ResponseEntity<List<Incidences>>
+      + addOne(idUser: long, incidence: Incidences): ResponseEntity<Incidences>
+      + updateIncidenceStatus(idIncidence: long, incidence: Incidences): ResponseEntity<Incidences>
+      + updateAdminIncident(idIncidence: long, newIncidence: Incidences): ResponseEntity<Incidences>
+      + deleteIncidence(idIncidence: long): ResponseEntity<Void>
+    }
+class DeviceController {
+    - deviceService: DeviceService
+    - netService: NetService
+    - typeService: TypeService
+
+    + getAll(serialNumber: String, ipDevice: String, mac: String, typeId: long): ResponseEntity<List<Device>>
+    + getDeviceById(idDevice: long): ResponseEntity<Device>
+    + addOne(device: Device): ResponseEntity<Device>
+    + addDeviceToDepartment(idDevice: long, idDepartment: long): ResponseEntity<Device>
+    + deleteDevice(idDevice: long): ResponseEntity<Void>
+    + handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<String>
+  }
+  class DepartmentController {
+
+      - departmentService: DepartmentService
+
+      + getAll(): ResponseEntity<List<Department>>
+      + findDepById(id: long): ResponseEntity<Department>
+      + findDepartUser(id: long): ResponseEntity<Department>
+      + addDepartment(department: Department): ResponseEntity<Department>
+      + modDepartment(id: long, department: Department): ResponseEntity<Department>
+      + delDepartment(id: long): ResponseEntity<Void>
+    }
+  class IncidenceHistoryController {
+
+      - incidencesHistoryService: IncidencesHistoryService
+
+      + getAllHistory(): ResponseEntity<List<IncidencesHistory>>
+      + saveToHistory(incidencesHistory: IncidencesHistory): ResponseEntity<IncidencesHistory>
+      }
+
+@enduml

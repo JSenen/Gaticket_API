@@ -1,0 +1,2406 @@
+openapi: 3.0.1
+info:
+  title: GATICKET API
+  version: "1.0.0"
+  description: API diseñada para el control y consulta de la web app Gaticket. Gestor de incidencias técnicas, al cual pueden conectarse los usuarios para poder comunicar al equipo de Tecnologias de la Información de la empresa las incidencias surgidas en sus equipos; y por otra parte los administradores pueden recibirlas, gestionarlas y llevar un control sobre la base de datos de los dispositivos a su cargo.
+
+    Para poder realizar un monitoreo y control de la API, se ha incuido la libreria spring-doc actuator. Accesible en el siguiente link
+
+    Todos los endppoints de actuator [API actuator](http://localhost:8080/actuator)
+    endpoints de metricas [API actuator](http://localhost:8080/actuator/metrics)
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: incidence
+    description: This controller contains all the endpoints that can manage incidences
+  - name: user
+    description: This controller contains all the endpoints that can manage author user
+      information
+  - name: department
+    description: This controller contains all the endpoints that can manage users with
+      the departments
+  - name: incidenceHistory
+    description: This controller contains all hisotry of incidences fix it
+  - name: net
+    description: This controller contains all the endpoints that can manage net
+  - name: device
+    description: This controller contains all the endpoints that can manage users with
+      the device
+  - name: type
+    description: This controller contains all the endpoints that can manage types of
+      devices
+  - name: messages
+    description: This controller contains all the endpoints that can manage messages
+      between admin and users
+paths:
+  /departments:
+    get:
+      tags:
+        - department
+      summary: Retrieve all departments
+      description: Get all departments on the data base.
+      operationId: getCollectionResource-department-get_1_1
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDepartment'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDepartment'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - department
+      summary: Save a new department
+      description: 'Save one department '
+      operationId: postCollectionResource-department-post_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+  /departments/{id}:
+    get:
+      tags:
+        - department
+      summary: Retrieve a department by Id
+      description: Get one department knowing his Id.
+      operationId: getItemResource-department-get_1
+      parameters:
+        - name: id
+          in: path
+          description: ID of department search
+          required: true
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not found
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+    put:
+      tags:
+        - department
+      summary: Update a department by Id
+      description: Update one department knowing his Id.
+      operationId: putItemResource-department-put_1
+      parameters:
+        - name: id
+          in: path
+          description: Department Id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        "204":
+          description: No Content
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+    delete:
+      tags:
+        - department
+      summary: Delete a department by Id
+      description: Delete one department knowing his Id.
+      operationId: deleteItemResource-department-delete_1
+      parameters:
+        - name: id
+          in: path
+          description: Id of the department to erase
+          required: true
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not found
+          content: {}
+        "204":
+          description: No Content
+        "201":
+          description: Created
+
+  /types:
+    get:
+      tags:
+        - type
+      summary: Retrieve all types of device
+      description: Get all types of device on the data base.
+      operationId: getCollectionResource-type-get_1_1
+      parameters:
+        - name: query
+          in: query
+          description: Search name including letters. Can make real-time request
+          required: false
+          schema:
+            type: string
+            default: ""
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelType'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelType'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - type
+      summary: Save a device
+      description: Save a device on Data Base
+      operationId: postCollectionResource-type-post_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Type'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelType'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+
+  /users:
+    get:
+      tags:
+        - user
+      summary: Retrieve all users
+      description: Get all Users on the data base.
+      operationId: getCollectionResource-user-get_1_1
+      parameters:
+        - name: userTip
+          in: query
+          description: TIP of a user
+          required: false
+          schema:
+            type: string
+            default: ""
+      responses:
+        "400":
+          description: Invalid
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelUser'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelUser'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+        - user
+      summary: Add a new user
+      description: Add a new user on the data base. By default "usuario" is the rol
+        assigned
+      operationId: postCollectionResource-user-post_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelUser'
+
+  /user/{id}:
+    put:
+      tags:
+        - user
+      summary: Update a user information
+      description: Update the information of a user
+      operationId: modUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - user
+      summary: Delete a user
+      description: Add a user search by his ID on a Department by his Id
+      operationId: delUser
+      parameters:
+        - name: id
+          in: path
+          description: Id of user
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+  /type/{idType}:
+    put:
+      tags:
+        - type
+      summary: Update a type of possible devices
+      description: Update the name of a type.
+      operationId: modOne
+      parameters:
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Type'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+    delete:
+      tags:
+        - type
+      summary: Delete a type by Id
+      description: Delete a type by Id
+      operationId: deleteType
+      parameters:
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+  /user/{iduser}/{departmentId}:
+    post:
+      tags:
+        - user
+      summary: Add a user on a Department
+      description: Add a user search by his ID on a Department by his Id
+      operationId: addDepToUSer
+      parameters:
+        - name: iduser
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: departmentId
+          in: path
+          description: ID of Department search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Department'
+  /net:
+    get:
+      tags:
+        - net
+      summary: Retrieve all network data
+      description: Get all data about network.
+      operationId: getAll
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+    post:
+      tags:
+        - net
+      summary: Save a new net data
+      description: Save anew net data.
+      operationId: addOne
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Net'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /net/{idNet}/{idDevice}:
+    post:
+      tags:
+        - net
+      summary: Assing a new net data to a device
+      description: Assing net data to a device.
+      operationId: addDeviceNet
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of net
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idDevice
+          in: path
+          description: Id of a device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /messages/{idIncidence}/{idEmisor}:
+    post:
+      tags:
+        - messages
+      summary: Save a new message on a Incidence
+      description: Save a new message on a Incidence.
+      operationId: saveMessage
+      parameters:
+        - name: idIncidence
+          in: path
+          description: ID of the incidence
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idEmisor
+          in: path
+          description: ID of who send message
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Messages'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /incidence/{idUser}:
+    post:
+      tags:
+        - incidence
+      summary: Save a incidence by a user
+      description: Save a incidence by a user.
+      operationId: addOne_1
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Incidences'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /history:
+    get:
+      tags:
+        - incidenceHistory
+      summary: Retrieve all incidences history
+      description: Get all incidences saved like history on data base.
+      operationId: getAllHistory
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Resource not found
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+        "500":
+          description: Server error
+    post:
+      tags:
+        - incidenceHistory
+      summary: Save a incidence solution to history
+      description: Save a incidence solution to history
+      operationId: saveToHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidencesHistory'
+        required: true
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+        "500":
+          description: Server error
+  /device:
+    get:
+      tags:
+        - device
+      summary: Retrieve all devices
+      description: Get all devices on the data base.
+      operationId: getAll_2
+      parameters:
+        - name: deviceSerial
+          in: query
+          description: Serial number of device
+          required: false
+          schema:
+            type: string
+            default: ""
+        - name: deviceIp
+          in: query
+          description: Ip  of device
+          required: false
+          schema:
+            type: string
+            default: ""
+        - name: mac
+          in: query
+          description: MAC of Device
+          required: false
+          schema:
+            type: string
+            default: ""
+        - name: typeId
+          in: query
+          description: Type of Device
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+    post:
+      tags:
+        - device
+      summary: Save a new device
+      description: Save a new Device.
+      operationId: addOne_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+        required: true
+      responses:
+        "400":
+          description: La dirección MAC debe tener exactamente 12 caracteres
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+  /device/{idDevice}/{idType}:
+    post:
+      tags:
+        - device
+      summary: Set a type to a device
+      description: Set a type to a device.
+      operationId: addTypeDevice
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id of device
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+  /department/{idDevice}/{idDepartment}:
+    post:
+      tags:
+        - device
+      summary: Assing a new device to a department
+      description: Assing a device to a department.
+      operationId: addDeviceToDepartment
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id device
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idDepartment
+          in: path
+          description: Id department
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Bad Request
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+  /user/{iduser}:
+    patch:
+      tags:
+        - user
+      summary: Update rol of a user
+      description: Update rol of a user search by his Id
+      operationId: updateUserRol
+      parameters:
+        - name: iduser
+          in: path
+          description: ID of User search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /net/{idNet}:
+    delete:
+      tags:
+        - net
+      summary: Free a net by Id
+      description: Free a type by Id
+      operationId: deteleIp
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of the net ip
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+    patch:
+      tags:
+        - net
+      summary: Update status of net ip
+      description: Update status of net ip
+      operationId: updateNet
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of the net ip
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Net'
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /incidence/{idIncidence}:
+    delete:
+      tags:
+        - incidence
+      summary: Delete a incidence by Id
+      description: Delete a incidence by Id
+      operationId: deleteIncidence
+      parameters:
+        - name: idIncidence
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+    patch:
+      tags:
+        - incidence
+      summary: Update status of a incident
+      description: Update status of a incident search by his Id
+      operationId: updateIncidenceStatus
+      parameters:
+        - name: idIncidence
+          in: path
+          description: ID of incidence search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Incidences'
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidence/admin/{idIncidence}:
+    patch:
+      tags:
+        - incidence
+      summary: Update admin of a incident
+      description: Update admin of a incident search by incident Id
+      operationId: updateAdminIncident
+      parameters:
+        - name: idIncidence
+          in: path
+          description: ID of incidence search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Incidences'
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /types/{idType}:
+    get:
+      tags:
+        - type
+      summary: Retrieve a types by Id
+      description: Get a type of device by Id.
+      operationId: searchById
+      parameters:
+        - name: idType
+          in: path
+          description: Id of type
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+  /net/department/{idNet}:
+    get:
+      tags:
+        - net
+      summary: Retrieve all network data
+      description: Get all data about network.
+      operationId: getDepartmentByIp
+      parameters:
+        - name: idNet
+          in: path
+          description: Id of net
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Net'
+  /messages:
+    get:
+      tags:
+        - messages
+
+      summary: Retrieve all messages
+      description: Retrieve all messages.
+      operationId: getAllMenssages
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /messages/{idIncidence}:
+    get:
+      tags:
+        - messages
+
+      summary: Retrieve all messages by Id of incidence
+      description: Retrieve all messages by Id of incidence.
+      operationId: getAllMenssagesIncidence
+      parameters:
+        - name: idIncidence
+          in: path
+          description: ID of the incidence
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences:
+    get:
+      tags:
+        - incidence
+      summary: Retrieve all incidences
+      description: Get all incidences on the data base.
+      operationId: getAll_1
+      parameters:
+        - name: userid
+          in: query
+          description: User number incidences
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: deviceid
+          in: query
+          description: Device number incidences
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Resource not found
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences/{idIncidence}:
+    get:
+      tags:
+        - incidence
+      summary: Retrieve a incidence by his Id number
+      description: Retrieve a incidence by his Id number.
+      operationId: getOne
+      parameters:
+        - name: idIncidence
+          in: path
+          description: ID of the incidence
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Resource not found
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences/user/{idUser}:
+    get:
+      tags:
+        - incidence
+      summary: Retrieve a incidence by id User
+      description: Retrieve a incidence by id User.
+      operationId: getAllIncidencesIdUser
+      parameters:
+        - name: idUser
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /incidences/device/{deviceId}:
+    get:
+      tags:
+        - incidence
+      summary: Retrieve a incidence by id device
+      description: Retrieve a incidence by id device.
+      operationId: getAllIncidencesIdDevice
+      parameters:
+        - name: deviceId
+          in: path
+          description: ID of device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidences'
+  /device/{idDevice}:
+    get:
+      tags:
+        - device
+      summary: Retrieve a device by his id number
+      description: Retrieve a device by his id number.
+      operationId: getDeviceById
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+    delete:
+      tags:
+        - device
+      summary: Delete a device by Id
+      description: Delete a device by Id
+      operationId: deleteDevice
+      parameters:
+        - name: idDevice
+          in: path
+          description: Id of device
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        "200":
+          description: OK
+  /department/{iduser}:
+    get:
+      tags:
+        - department
+      summary: Retrieve a department by Id user
+      description: Get one department knowing id of a user.
+      operationId: findDepartUser
+      parameters:
+        - name: iduser
+          in: path
+          description: ID of user search
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "400":
+          description: Invalid
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+components:
+  schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+    AbstractJsonSchemaPropertyObject:
+      type: object
+      properties:
+        title:
+          type: string
+        readOnly:
+          type: boolean
+    Item:
+      type: object
+      properties:
+        type:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+    JsonSchema:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+        definitions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        type:
+          type: string
+        $schema:
+          type: string
+    Links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Link'
+    RepresentationModelObject:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    IncidencesHistory:
+      type: object
+      properties:
+        idhistory:
+          type: integer
+          description: history Id
+          format: int64
+          readOnly: true
+          example: 12
+        historyTip:
+          type: string
+          description: TIP of the user who record incidence
+          example: T45678I
+        historyTheme:
+          type: string
+          description: Theme of the history incidence
+          example: Mi pc se reinicia solo
+        historyCommit:
+          type: string
+          description: Commit of the history incidence
+          example: Cada cierto tiempo el pc se reinica sin previo aviso
+        historyDateFinish:
+          type: string
+          description: Date when history incidence was fixit
+          format: date-time
+        historyAdmin:
+          type: string
+          description: Admin who solved incidence
+          example: A58656F
+        historySolution:
+          type: string
+          description: Solution to incidence
+          example: User must to restar the computer and admin must to change assigned
+            IP
+    EntityModelIncidencesHistory:
+      type: object
+      properties:
+        historyTip:
+          type: string
+          description: TIP of the user who record incidence
+          example: T45678I
+        historyTheme:
+          type: string
+          description: Theme of the history incidence
+          example: Mi pc se reinicia solo
+        historyCommit:
+          type: string
+          description: Commit of the history incidence
+          example: Cada cierto tiempo el pc se reinica sin previo aviso
+        historyDateFinish:
+          type: string
+          description: Date when history incidence was fixit
+          format: date-time
+        historyAdmin:
+          type: string
+          description: Admin who solved incidence
+          example: A58656F
+        historySolution:
+          type: string
+          description: Solution to incidence
+          example: User must to restar the computer and admin must to change assigned
+            IP
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelIncidencesHistory:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            incidencesHistories:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelIncidencesHistory'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Department:
+      type: object
+      properties:
+        departemtId:
+          type: integer
+          description: DepartmentId
+          format: int64
+          readOnly: true
+          example: 6
+        departmentName:
+          type: string
+          description: Department name
+          example: sales
+        departmentPhone:
+          type: string
+          description: Department contact phone
+          example: "0700047"
+        departmentMail:
+          type: string
+          description: Department contact mail
+          example: sales@megacompany.com
+        departmentCity:
+          type: string
+          description: City where it is the department
+          example: Zaragoza
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        userList:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+      description: Departments inside de company
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          description: DeviceId
+          format: int64
+          readOnly: true
+          example: 12
+        deviceHd:
+          type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+        deviceType:
+          $ref: '#/components/schemas/Type'
+        net:
+          $ref: '#/components/schemas/Net'
+      description: All class of devices
+    Net:
+      type: object
+      properties:
+        netId:
+          type: integer
+          description: netId
+          format: int64
+          readOnly: true
+          example: 8
+        netIp:
+          type: string
+          description: IP
+          example: 10.53.3.456
+        netMask:
+          type: string
+          description: Mask of network
+          example: 255.255.255.0
+        netCdir:
+          type: string
+          description: CDIR number
+          example: "24"
+        netGateWay:
+          type: string
+          description: Gateway number
+          example: 10.52.2.1
+        netStatus:
+          type: boolean
+          description: Status of the IP
+          example: false
+      description: Network information of a device
+    Type:
+      required:
+        - typeName
+      type: object
+      properties:
+        typeId:
+          type: integer
+          description: TypeId
+          format: int64
+          readOnly: true
+          example: 4
+        typeName:
+          type: string
+          description: Type of device
+          example: Laptop
+      description: Type of device information
+    User:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: UserId
+          format: int64
+          readOnly: true
+          example: 2
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+      description: User information
+    EntityModelDepartment:
+      type: object
+      properties:
+        departmentName:
+          type: string
+          description: Department name
+          example: sales
+        departmentPhone:
+          type: string
+          description: Department contact phone
+          example: "0700047"
+        departmentMail:
+          type: string
+          description: Department contact mail
+          example: sales@megacompany.com
+        departmentCity:
+          type: string
+          description: City where it is the department
+          example: Zaragoza
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelDepartment:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            departments:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelDepartment'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelDevice:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            devices:
+              type: array
+              items:
+                $ref: '#/components/schemas/DeviceResponse'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelObject:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            objects:
+              type: array
+              items:
+                type: object
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelUser:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserResponse'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Incidences:
+      type: object
+      properties:
+        incidencesId:
+          type: integer
+          description: incidenceId
+          format: int64
+          readOnly: true
+          example: 12
+        incidenceCommit:
+          type: string
+          description: Description
+          example: My computer has began to go slowly. And I can´t see mp4 videos
+        incidenceStatus:
+          type: string
+          description: Incidence status
+          example: Active
+        incidenceDate:
+          type: string
+          description: Incidence date start
+          format: date-time
+        incidenceDateFinish:
+          type: string
+          description: Incidence date fix it
+          format: date-time
+        incidenceTheme:
+          type: string
+          description: Incidence theme
+          example: Computer damage
+        adminId:
+          type: integer
+          description: Admin ID who fix incidence
+          format: int32
+        device:
+          $ref: '#/components/schemas/Device'
+        user:
+          $ref: '#/components/schemas/User'
+        responsable:
+          $ref: '#/components/schemas/User'
+    EntityModelIncidences:
+      type: object
+      properties:
+        incidenceCommit:
+          type: string
+          description: Description
+          example: My computer has began to go slowly. And I can´t see mp4 videos
+        incidenceStatus:
+          type: string
+          description: Incidence status
+          example: Active
+        incidenceDate:
+          type: string
+          description: Incidence date start
+          format: date-time
+        incidenceDateFinish:
+          type: string
+          description: Incidence date fix it
+          format: date-time
+        incidenceTheme:
+          type: string
+          description: Incidence theme
+          example: Computer damage
+        adminId:
+          type: integer
+          description: Admin ID who fix incidence
+          format: int32
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelIncidences:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            incidenceses:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelIncidences'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelUser:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelDevice:
+      type: object
+      properties:
+        deviceHd:
+          type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelUser:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelUser'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelDevice:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            devices:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelDevice'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelNet:
+      type: object
+      properties:
+        netIp:
+          type: string
+          description: IP
+          example: 10.53.3.456
+        netMask:
+          type: string
+          description: Mask of network
+          example: 255.255.255.0
+        netCdir:
+          type: string
+          description: CDIR number
+          example: "24"
+        netGateWay:
+          type: string
+          description: Gateway number
+          example: 10.52.2.1
+        netStatus:
+          type: boolean
+          description: Status of the IP
+          example: false
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelType:
+      required:
+        - typeName
+      type: object
+      properties:
+        typeName:
+          type: string
+          description: Type of device
+          example: Laptop
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelType:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            types:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelType'
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelNet:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            nets:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelNet'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Messages:
+      type: object
+      properties:
+        idMenssage:
+          type: integer
+          description: MessageId
+          format: int64
+          readOnly: true
+          example: 7
+        messageCommit:
+          type: string
+          description: Description
+          example: You should restart the computer every day
+        timeMessage:
+          type: string
+          description: Time of message
+          format: date-time
+        incidenciaMessage:
+          $ref: '#/components/schemas/Incidences'
+        emisorMessage:
+          $ref: '#/components/schemas/User'
+    EntityModelMessages:
+      type: object
+      properties:
+        messageCommit:
+          type: string
+          description: Description
+          example: You should restart the computer every day
+        timeMessage:
+          type: string
+          description: Time of message
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelEntityModelMessages:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            messageses:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelMessages'
+        _links:
+          $ref: '#/components/schemas/Links'
+    DepartmentRequestBody:
+      type: object
+      properties:
+        departemtId:
+          type: integer
+          description: DepartmentId
+          format: int64
+          readOnly: true
+          example: 6
+        departmentName:
+          type: string
+          description: Department name
+          example: sales
+        departmentPhone:
+          type: string
+          description: Department contact phone
+          example: "0700047"
+        departmentMail:
+          type: string
+          description: Department contact mail
+          example: sales@megacompany.com
+        departmentCity:
+          type: string
+          description: City where it is the department
+          example: Zaragoza
+        devices:
+          type: array
+          items:
+            type: string
+        userList:
+          type: array
+          items:
+            type: string
+      description: Departments inside de company
+    DeviceRequestBody:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          description: DeviceId
+          format: int64
+          readOnly: true
+          example: 12
+        deviceHd:
+          type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+        deviceType:
+          type: string
+        net:
+          type: string
+      description: All class of devices
+    NetRequestBody:
+      type: object
+      properties:
+        netId:
+          type: integer
+          description: netId
+          format: int64
+          readOnly: true
+          example: 8
+        netIp:
+          type: string
+          description: IP
+          example: 10.53.3.456
+        netMask:
+          type: string
+          description: Mask of network
+          example: 255.255.255.0
+        netCdir:
+          type: string
+          description: CDIR number
+          example: "24"
+        netGateWay:
+          type: string
+          description: Gateway number
+          example: 10.52.2.1
+        netStatus:
+          type: boolean
+          description: Status of the IP
+          example: false
+      description: Network information of a device
+    TypeRequestBody:
+      required:
+        - typeName
+      type: object
+      properties:
+        typeId:
+          type: integer
+          description: TypeId
+          format: int64
+          readOnly: true
+          example: 4
+        typeName:
+          type: string
+          description: Type of device
+          example: Laptop
+      description: Type of device information
+    UserRequestBody:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: UserId
+          format: int64
+          readOnly: true
+          example: 2
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+      description: User information
+    DeviceResponse:
+      type: object
+      properties:
+        deviceHd:
+          type: integer
+          description: Device HD capacity
+          format: int32
+          example: 500
+        deviceRam:
+          type: integer
+          description: Device RAM memory installed
+          format: int32
+          example: 32
+        deviceMac:
+          maxLength: 17
+          minLength: 12
+          type: string
+          description: Device mac identification
+          example: 13:BG:45:89:99:AC
+        deviceSerial:
+          type: string
+          description: Device serial number
+          example: CXV5678D
+        deviceModel:
+          type: string
+          description: Device model
+          example: Acer TravelMate
+        deviceDateBuy:
+          type: string
+          description: Device date of buy MM/dd/yyyy
+          format: date-time
+        deviceDateStart:
+          type: string
+          description: Device date begin to work or installed
+          format: date-time
+      description: All class of devices
+    UserResponse:
+      required:
+        - userMail
+        - userPassword
+        - userRol
+        - userTip
+      type: object
+      properties:
+        userMail:
+          type: string
+          description: User email
+          example: juanito@gmail.com
+        userPassword:
+          type: string
+          description: User password
+          example: xXFG7ujka123
+        userTip:
+          type: string
+          description: User personal number identification
+          example: A58656F
+        userRol:
+          type: string
+          description: User rol permision on the API
+          example: usuario
+      description: User information
+    IncidencesHistoryRequestBody:
+      type: object
+      properties:
+        idhistory:
+          type: integer
+          description: history Id
+          format: int64
+          readOnly: true
+          example: 12
+        historyTip:
+          type: string
+          description: TIP of the user who record incidence
+          example: T45678I
+        historyTheme:
+          type: string
+          description: Theme of the history incidence
+          example: Mi pc se reinicia solo
+        historyCommit:
+          type: string
+          description: Commit of the history incidence
+          example: Cada cierto tiempo el pc se reinica sin previo aviso
+        historyDateFinish:
+          type: string
+          description: Date when history incidence was fixit
+          format: date-time
+        historyAdmin:
+          type: string
+          description: Admin who solved incidence
+          example: A58656F
+        historySolution:
+          type: string
+          description: Solution to incidence
+          example: User must to restar the computer and admin must to change assigned
+            IP
+    IncidencesRequestBody:
+      type: object
+      properties:
+        incidencesId:
+          type: integer
+          description: incidenceId
+          format: int64
+          readOnly: true
+          example: 12
+        incidenceCommit:
+          type: string
+          description: Description
+          example: My computer has began to go slowly. And I can´t see mp4 videos
+        incidenceStatus:
+          type: string
+          description: Incidence status
+          example: Active
+        incidenceDate:
+          type: string
+          description: Incidence date start
+          format: date-time
+        incidenceDateFinish:
+          type: string
+          description: Incidence date fix it
+          format: date-time
+        incidenceTheme:
+          type: string
+          description: Incidence theme
+          example: Computer damage
+        adminId:
+          type: integer
+          description: Admin ID who fix incidence
+          format: int32
+        device:
+          type: string
+        user:
+          type: string
+        responsable:
+          type: string
+    MessagesRequestBody:
+      type: object
+      properties:
+        idMenssage:
+          type: integer
+          description: MessageId
+          format: int64
+          readOnly: true
+          example: 7
+        messageCommit:
+          type: string
+          description: Description
+          example: You should restart the computer every day
+        timeMessage:
+          type: string
+          description: Time of message
+          format: date-time
+        incidenciaMessage:
+          type: string
+        emisorMessage:
+          type: string
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        hreflang:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        deprecation:
+          type: string
+        profile:
+          type: string
+        name:
+          type: string
+        templated:
+          type: boolean

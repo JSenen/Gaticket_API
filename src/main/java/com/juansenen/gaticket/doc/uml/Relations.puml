@@ -1,0 +1,97 @@
+@startuml
+
+'User
+UserController --> UserService
+UserController --> DepartmentService
+UserController --> User
+UserController --> Department
+
+UserService --> UserRepository
+UserService --> User
+UserService --> Department
+
+UserRepository --> User
+'Device
+DeviceController --> DeviceService
+DeviceController --> NetService
+DeviceController --> TypeService
+
+DeviceService --> DeviceRepository
+DeviceService --> NetRepository
+DeviceService --> TypeRepository
+DeviceService --> DepartmentRepository
+
+DeviceRepository --> Device
+'Department
+DepartmentController --> DepartmentService
+
+DepartmentService --> DepartmentRepository
+DepartmentService --> UserRepository
+DepartmentService --> Department
+DepartmentService --> User
+
+DepartmentRepository --> Department
+
+'Incidence
+IncidenceController --> IncidenceService
+IncidenceController --> UserService
+IncidenceController --> DeviceService
+
+IncidenceService --> IncidenceRepository
+IncidenceService --> DeviceRepository
+IncidenceService --> UserRepository
+IncidenceService --> Incidence
+IncidenceService --> User
+IncidenceService --> Device
+
+'Message
+MessageController --> MessageService
+MessageController --> IncidenceService
+MessageController --> UserService
+MessageController --> DeviceService
+MessageController --> Message
+MessageController --> User
+MessageController --> Incidence
+
+MessageService --> MessageRepository
+MessageService --> IncidenceRepository
+MessageService --> UserRepository
+MessageService --> Incidence
+MessageService --> Message
+
+'Net
+NetController --> NetService
+NetController --> Net
+NetController --> Device
+
+NetService --> NetRepository
+NetService --> DeviceRepository
+
+NetRepository --> Net
+
+'Type
+TypeController --> TypeService
+TypeController --> Type
+TypeController --> Device
+
+TypeService --> TypeRepository
+TypeService --> DeviceRepository
+
+TypeRepository --> Type
+
+'IncidenceHistory
+IncidenceHistoryController --> IncidenceHistoryService
+IncidenceHistoryController --> Incidence
+
+IncidenceHistoryService --> IncidencesHistoryService
+
+IncidencesHistoryService --> IncidenceHistory
+
+IncidencesHistoryRepository --> IncidenceHistory
+
+
+
+
+
+
+@enduml

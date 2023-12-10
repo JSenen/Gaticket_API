@@ -1,0 +1,46 @@
+@startuml (id = REPOSITORY)
+interface DepartmentRepository {
+    + findAll(): List<Department>
+    + findById(id: long): Department
+    + save(department: Department): Department
+    + deleteById(id: long): void
+  }
+interface DeviceRepository {
+    + findAll(): List<Device>
+    + findById(idDevice: Long): Optional<Device>
+    + findBySerialNumber(serialNumber: String): List<Device>
+    + findByDeviceTypeId(idType: Long): List<Device>
+    + findByIp(ipDevice: Long): List<Device>
+    + deleteById(idDevice: Long): void
+    + searchByMac(typeName: String): List<Device>
+    + findByType(typeId: Long): List<Device>
+  }
+  interface IncidenceRepository {
+    + findAll(): List<Incidences>
+    + findAllIncidencesUser(idUser: Long): List<Incidences>
+    + findAllIncidencesDevice(deviceId: Long): List<Incidences>
+  }
+interface IncidencesHistoryRepository{
+    + findAll(): List<IncidencesHistory>
+}
+ interface NetRepository {
+    + findAll(): List<Net>
+    + findByNetString(ipDevice: String): Net
+    + findDepartByNetId(idNet: Long): List<String>
+    + findDeviceWithIp(idNet: Long): Long
+  }
+  interface TypeRepository {
+      + findAll(): List<Type>
+      + findTypeByteToByte(typeName: String): List<Type>
+      + findByName(typeName: String): Long
+    }
+interface UserRepository {
+    + findAll(): List<User>
+    + findById(id: Long): Optional<User>
+    + findByUserTip(serialNumber: String): List<User>
+  }
+interface MessageRepository {
+    + findAll(): List<Messages>
+    + findByIdOfIncidence(idIncidence: long): List<Messages>
+}
+@enduml

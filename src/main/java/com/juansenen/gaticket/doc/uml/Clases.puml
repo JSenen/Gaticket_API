@@ -1,0 +1,88 @@
+@startuml (id = CLASS)
+
+class User {
+  - userId: long
+  - userMail: String
+  - userPassword: String
+  - userTip: String
+  - userRol: String
+}
+
+class Incidences {
+  - incidencesId: long
+  - incidenceCommit: String
+  - incidenceStatus: String
+  - incidenceDate: Date
+  - incidenceDateFinish: Date
+  - incidenceTheme: String
+  - adminId: Integer
+}
+
+class Department {
+  - departemtId: long
+  - departmentName: String
+  - departmentPhone: String
+  - departmentMail: String
+  - departmentCity: String
+}
+
+class Messages {
+  - idMenssage: long
+  - messageCommit: String
+  - timeMessage: LocalDateTime
+}
+class Type {
+    - typeId: long
+    - typeName: String
+}
+class Net {
+
+    - netId: long
+    - netIp: String
+    - netMask: String
+    - netCdir: String
+    - netGateWay: String
+    - netStatus: boolean
+}
+
+class Device {
+
+    - deviceId: long
+    - deviceHd: int
+    - deviceRam: int
+    - deviceMac: String
+    - deviceSerial: String
+    - deviceModel: String
+    - deviceDateBuy: Date
+    - deviceDateStart: Date
+   }
+ class IncidencesHistory {
+
+    - idhistory: long
+    - historyTip: String
+    - historyTheme: String
+    - historyCommit: String
+    - historyDateFinish: Date
+    - historyAdmin: String
+    - historySolution: String
+}
+
+User "1" --> "many" Incidences : reported
+User "1" --> "many" Incidences : resolved
+User "many" --> "1" Department : belongs to
+Department "1" --> "many" User : has users
+Incidences "1" --> "*" Messages : has messages
+User "1" --> "many" Messages : sent messages
+User "1" --> "many" IncidencesHistory : recorded
+User "1" --> "many" Messages : sent messages
+Department "1" --> "many" Device : has devices
+Type "1" --> "many" Device : has devices
+Device "1" --> "1" Net : has network
+Incidences "1" --> "1" Device : associated device
+Device "1" --> "*" IncidencesHistory : has history
+
+
+@enduml
+
+
+
