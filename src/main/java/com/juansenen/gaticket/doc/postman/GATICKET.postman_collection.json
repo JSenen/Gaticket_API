@@ -1,0 +1,1227 @@
+{
+	"info": {
+		"_postman_id": "9645709f-cbd4-4486-be9e-77101a52a7e9",
+		"name": "GATICKET",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17632514"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/users",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "usertip",
+									"value": "A11111A",
+									"description": "TIP of a user",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/{iduser}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/users/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Genera una letra aleatoria al principio",
+									"var firstLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));",
+									"",
+									"// Genera cinco números aleatorios",
+									"var middleNumbers = '';",
+									"for (var i = 0; i < 5; i++) {",
+									"    middleNumbers += Math.floor(Math.random() * 10);",
+									"}",
+									"",
+									"// Genera una letra aleatoria al final",
+									"var lastLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));",
+									"",
+									"// Combina todo en una cadena",
+									"var randomSequence = firstLetter + middleNumbers + lastLetter;",
+									"",
+									"// Asigna la secuencia aleatoria a la variable",
+									"pm.environment.set(\"randomTIP\", randomSequence);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userMail\":\"{{$randomEmail}}\",\n    \"userPassword\":\"{{$randomPassword}}\",\n    \"userTip\":\"{{randomTIP}}\",\n    \"userRol\":\"usuario\"\n    \n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/users",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{iduser}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userMail\":\"pruebas@gmail.com\",\r\n    \"userPassword\":\"11111\",\r\n    \"userTip\":\"B22222B\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/user/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{iduser}/{idDepartment}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/user/4/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"user",
+								"4",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{iduser}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/user/3",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{iduser}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"userRol\":\"administrador\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/user/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Departments",
+			"item": [
+				{
+					"name": "/departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/departments",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/department/{iduser}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/department/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"department",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/departments/{idDepartment}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/departments/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"departments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/departments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"departmentName\":\"{{$randomDepartment}}\",\r\n    \"departmentPhone\":\"{{$randomPhoneNumber}}\",\r\n    \"departmentMail\":\"{{$randomEmail}}\",\r\n    \"departmentCity\":\"{{$randomCity}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/departments",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/departments/{iddepartment}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"departmentName\":\"{{$randomDepartment}}\",\r\n    \"departmentPhone\":\"{{$randomPhoneNumber}}\",\r\n    \"departmentMail\":\"{{$randomEmail}}\",\r\n    \"departmentCity\":\"{{$randomCity}}\"\r\n\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/departments/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"departments",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/departments /{iddepartment}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/departments/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"departments",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/department/{idDevice}/{idDepartment}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/department/1/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"department",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Devices",
+			"item": [
+				{
+					"name": "/device",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/device",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"device"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12",
+									"description": "Id del dispositivo",
+									"disabled": true
+								},
+								{
+									"key": "ideviceIp",
+									"value": "117.233.180.208",
+									"disabled": true
+								},
+								{
+									"key": "mac",
+									"value": "12:34:56:78:90:12",
+									"disabled": true
+								},
+								{
+									"key": "typeId",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/device/{idDevice}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/device/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"device",
+								"1"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12",
+									"description": "Id del dispositivo",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/device",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var hd = [128,256,500,1,3];",
+									"var ram = [4,8,16,32,64];",
+									"pm.variables.set(\"randomHD\", hd[_.random(hd.length -1)]);",
+									"pm.variables.set(\"randomRAM\", ram[_.random(ram.length -1)]);",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceHd\":{{randomHD}},\n    \"deviceRam\":{{randomRAM}},\n    \"deviceMac\":\"{{$randomMACAddress}}\",\n    \"deviceSerial\":\"{{$randomAlphaNumeric}}\",\n    \"deviceModel\":\"{{$randomProductMaterial}}\",\n    \"deviceDateBuy\":\"01/01/2007\",\n    \"deviceDateStart\":\"02/04/2007\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/device",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"device"
+							],
+							"query": [
+								{
+									"key": "typeid",
+									"value": "1",
+									"description": "tTipo de dispositivo",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/device/{idDevice}/{idType}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/device/1/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"device",
+								"1",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/device/{idDevice}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"typeName\":\"Sobremesa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/device/4",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"device",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Types",
+			"item": [
+				{
+					"name": "/types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/types?query=Mo",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"types"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "Mo",
+									"description": "Busqueda tiiempo real"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/types/{typesId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/types/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/types",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var ty = [\"Sobremesa\",\"Portátil\",\"Impresora\",\"Emisora\",\"Monitor\",\"Servidor\",\"NAS\"];",
+									"",
+									"pm.collectionVariables.set(\"randomType\", ty[_.random(ty.length -1)]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"typeName\":\"{{randomType}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/types",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/type/{idType}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"typeName\":\"Sobremesa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/type/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"type",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/type/{idType}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"typeName\":\"Sobremesa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/type/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"type",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Net",
+			"item": [
+				{
+					"name": "/net",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/net",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"net"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/net/department/{idNet}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/net/department/15",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"net",
+								"department",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/net/{idNet}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/net/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"net",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/net/{idNet}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"netStatus\":{{$randomBoolean}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/net/1/",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"net",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/net",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"netIp\":\"{{$randomIP}}\",\r\n    \"netMask\":\"255.255.255.0\",\r\n    \"netCdir\":\"/24\",\r\n    \"netGateWay\":\"10.52.2.1\",\r\n    \"netStatus\":{{$randomBoolean}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/net",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"net"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/net/{idNet}/{idDevice}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/net/1/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"net",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Incidences",
+			"item": [
+				{
+					"name": "/incidences",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidences?userid=1&deviceid=1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidences"
+							],
+							"query": [
+								{
+									"key": "incidence_date",
+									"value": "12042000",
+									"description": "Fecha de incidencia",
+									"disabled": true
+								},
+								{
+									"key": "incidence_status",
+									"value": "true",
+									"description": "Estado de la incidencia",
+									"disabled": true
+								},
+								{
+									"key": "userid",
+									"value": "1",
+									"description": "Incidencias usuario"
+								},
+								{
+									"key": "deviceid",
+									"value": "1",
+									"description": "Incidencias dispositivo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidences/{idIncidence}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidences/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidences",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidences/user/{idUser}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidences/user/7",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidences",
+								"user",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidences/device/{iddevice}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidences/user/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidences",
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidence/{userId}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"incidenceCommit\":\"El monitor no funciona bien. Al rato de encenderse se apaga solo\",\n    \"incidenceTheme\":\"Daño en monitor\",\n    \"incidenceStatus\":false,\n    \"incidenceDate\":\"02/12/2023\",\n    \"incidenceDateFinish\":\"03/12/2023\",\n    \"device\": {\n        \"deviceId\": 1\n    }\n\n}\n   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidence/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidence",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidence/{idIncidence}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"incidenceStatus\":\"reactivate\"   \n}\n   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidence/2",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidence",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidence/{idIncidence}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n \n    \n\n}\n   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidence/15",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidence",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/incidence/admin/{idIncidence}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n    \"adminId\":1\n    \n\n}\n   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/incidence/admin/{idIncidence}",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"incidence",
+								"admin",
+								"{idIncidence}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "/messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/messages",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/messages/{idIncidence}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/messages/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"messages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/messages/{idIncidence}/{idEmisor}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Obtener la fecha y hora actual en formato ISO 8601",
+									"const currentDateISO = new Date().toISOString();",
+									"",
+									"// Formatear la fecha y hora como \"yyyy-MM-ddTHH:mm:ss\"",
+									"const formattedDate = currentDateISO.slice(0, 19).replace('T', ' ');",
+									"",
+									"// Establecer la variable en el entorno de Postman",
+									"pm.variables.set('formattedDate', formattedDate);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"messageCommit\":\"{{$randomLoremSentences}}\",\n    \"timeMessage\":\"2023-11-11T19:15:01\"\n}\n\n\n\n\n \n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/messages/2/1",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"messages",
+								"2",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "history",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{GATICKET-Host}}/history",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "history",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"historyTip\": \"Q56789F\",\n            \"historyTheme\" : \"Tema de la incidencia history\",\n            \"historyCommit\" : \"Resumen de la incidencia\",\n            \"historyDateFinish\" : \"12/01/2020\",\n            \"historyAdmin\" : \"A58656F\",\n            \"historySolution\" : \"Resetear el pc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GATICKET-Host}}/history",
+							"host": [
+								"{{GATICKET-Host}}"
+							],
+							"path": [
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "GATICKET-Host",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "randomType",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "randomType",
+			"value": ""
+		}
+	]
+}
