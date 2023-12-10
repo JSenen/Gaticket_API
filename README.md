@@ -32,9 +32,9 @@ Por medio de este diseño, se puede conprobar la relacion entre las clases utili
 Puede comprobarse como se ha realizado una arquitectura de capas, separadas entre si, en las que se desarrolla una comunicación
 entre componentes.
 
-* Capa Controller : Define los puntos de acceso y donde se manejan las distintas solicitudes
-* Capa Service: Capa que realiza la lógica de las diferentes peticiones
-* Capa Repository:La cual se comunica con la base de datos. Realizando las distintas peticiones CRUD
+* **Capa Controller** : Define los puntos de acceso y donde se manejan las distintas solicitudes
+* **Capa Service**: Capa que realiza la lógica de las diferentes peticiones
+* **Capa Repository**:La cual se comunica con la base de datos. Realizando las distintas peticiones CRUD
 ![img.png](https://github.com/JSenen/Gaticket_API/blob/develop/src/main/java/com/juansenen/gaticket/doc/uml/Uml.png)
 ***
 
